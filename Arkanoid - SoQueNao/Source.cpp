@@ -5,7 +5,7 @@ using namespace std;
 using namespace sf;
 
 using FrameTime = float;
-
+// david
 // Resolução da janela (1080p ou 720p)
 unsigned int windowWidth{ 1280 }, windowHeight{ 720 }; 
 //unsigned int windowWidth{ 1920 }, windowHeight{ 1080 };
