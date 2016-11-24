@@ -15,7 +15,7 @@ const float paddleWidth{ 85.f }, paddleHeight{ 18.f }, paddleVelocity{ 1.0f };
 
 //const float blockWidth{ 100.f }, blockHeight{ 40.f };
 const float blockWidth{float(round(windowWidth - windowWidth*0.922))}, blockHeight{float(round(windowHeight - windowHeight*0.94))};
-
+// TESTE SYNC
 const int countBlocksX{ 11 }, countBlocksY{ 4 };
 const float ftStep{ 1.f }, ftSlice{ 1.f };
 bool fimjogo = false;
