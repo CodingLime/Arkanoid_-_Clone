@@ -5,7 +5,7 @@ using namespace std;
 using namespace sf;
 
 using FrameTime = float;
-// david
+// david tradução
 // Resolução da janela (1080p ou 720p)
 unsigned int larguraJanela{ 1280 }, alturaJanela{ 720 }; 
 //unsigned int larguraJanela{ 1920 }, alturaJanela{ 1080 };
@@ -14,87 +14,87 @@ float raioBola{ 20.f }, velocidadeBola{ 0.4f };
 const float larguraBarra{ 85.f }, alturaBarra{ 18.f }, velocidadeBarra{ 1.0f };
 
 //const float larguraJanela{ 100.f }, alturaTijolo{ 40.f };
-const float larguraJanela{float(round(larguraJanela - larguraJanela*0.922))}, alturaTijolo{float(round(alturaJanela - alturaJanela*0.94))};
+const float larguraTijolo{float(round(larguraJanela - larguraJanela*0.922))}, alturaTijolo{float(round(alturaJanela - alturaJanela*0.94))};
 // TESTE SYNC
 const int nTijolosX{ 11 }, nTijolosY{ 4 };
 const float ftStep{ 1.f }, ftSlice{ 1.f };
 bool fimjogo = false;
-bool game_pause = false;
-int score = 0;
+bool jogo_pausado = false;
+int pontuação = 0;
 
-class bola
+class Bola
 {
 	public:
-	CircleShape forma;
+	CircleShape forma_bola;
 	Vector2f velocidade{ -velocidadeBola, -velocidadeBola };
 
-	bola(float mX, float mY)
+	Bola(float mX, float mY)
 	{
-		forma.setPosition(mX, mY);
-		forma.setRadius(raioBola);
-		forma.setFillColor(Color::Magenta);
-		forma.setOrigin(raioBola, raioBola);
+		forma_bola.setPosition(mX, mY);
+		forma_bola.setRadius(raioBola);
+		forma_bola.setFillColor(Color::Magenta);
+		forma_bola.setOrigin(raioBola, raioBola);
 	}
 
 	void update(FrameTime mFT)
 	{
-		forma.move(velocidade * mFT);
+		forma_bola.move(velocidade * mFT);
 
-		if (left() < 0)
+		if (esquerda() < 0)
 			velocidade.x = velocidadeBola;
-		else if (right() > larguraJanela)
+		else if (direita() > larguraJanela)
 			velocidade.x = -velocidadeBola;
 
-		if (top() < 0)
+		if (cima() < 0)
 			velocidade.y = velocidadeBola;
-		else if (bottom() > alturaJanela)
+		else if (baixo() > alturaJanela)
 		{
 			//velocidade.y = -velocidadeBola;
 			fimjogo = true;
 		}
 	}
 
-	float x() const noexcept { return forma.getPosition().x; }
-	float y() const noexcept { return forma.getPosition().y; }
-	float left() const noexcept { return x() - forma.getRadius(); }
-	float right() const noexcept { return x() + forma.getRadius(); }
-	float top() const noexcept { return y() - forma.getRadius(); }
-	float bottom() const noexcept { return y() + forma.getRadius(); }
+	float x() const noexcept { return forma_bola.getPosition().x; }
+	float y() const noexcept { return forma_bola.getPosition().y; }
+	float esquerda() const noexcept { return x() - forma_bola.getRadius(); }
+	float direita() const noexcept { return x() + forma_bola.getRadius(); }
+	float cima() const noexcept { return y() - forma_bola.getRadius(); }
+	float baixo() const noexcept { return y() + forma_bola.getRadius(); }
 };
 
-class Rectangle
+class Rectangulo
 {
 	public:
-	RectangleShape forma;
-	float x() const noexcept { return forma.getPosition().x; }
-	float y() const noexcept { return forma.getPosition().y; }
-	float left() const noexcept { return x() - forma.getSize().x / 2.f; }
-	float right() const noexcept { return x() + forma.getSize().x / 2.f; }
-	float top() const noexcept { return y() - forma.getSize().y / 2.f; }
-	float bottom() const noexcept { return y() + forma.getSize().y / 2.f; }
+	RectangleShape forma_req;
+	float x() const noexcept { return forma_req.getPosition().x; }
+	float y() const noexcept { return forma_req.getPosition().y; }
+	float esquerda() const noexcept { return x() - forma_req.getSize().x / 2.f; }
+	float direita() const noexcept { return x() + forma_req.getSize().x / 2.f; }
+	float cima() const noexcept { return y() - forma_req.getSize().y / 2.f; }
+	float baixo() const noexcept { return y() + forma_req.getSize().y / 2.f; }
 };
 
-class Paddle : public Rectangle
+class Barra : public Rectangulo
 {
 	public:
 	Vector2f velocidade;
 
-	Paddle(float mX, float mY)
+	Barra(float mX, float mY)
 	{
-		forma.setPosition(mX, mY);
-		forma.setSize({ larguraBarra, alturaBarra });
-		forma.setFillColor(Color::Red);
-		forma.setOrigin(larguraBarra / 2.f, alturaBarra / 2.f);
+		forma_req.setPosition(mX, mY);
+		forma_req.setSize({ larguraBarra, alturaBarra });
+		forma_req.setFillColor(Color::Red);
+		forma_req.setOrigin(larguraBarra / 2.f, alturaBarra / 2.f);
 	}
 
 	void update(FrameTime mFT)
 	{
-		forma.move(velocidade * mFT);
+		forma_req.move(velocidade * mFT);
 
-		if (Keyboard::isKeyPressed(Keyboard::Key::Left) && left() > 0)
+		if (Keyboard::isKeyPressed(Keyboard::Key::Left) && esquerda() > 0)
 			velocidade.x = -velocidadeBarra;
 		else if (Keyboard::isKeyPressed(Keyboard::Key::Right) &&
-			right() < larguraJanela)
+			direita() < larguraJanela)
 			velocidade.x = velocidadeBarra;
 		else
 			velocidade.x = 0;
@@ -107,60 +107,60 @@ class Paddle : public Rectangle
 	}
 };
 
-class Brick : public Rectangle
+class Tijolo : public Rectangulo
 {
 	public:
-	bool destroyed{ false };
+	bool destruido{ false };
 
-	Brick(float mX, float mY)
+	Tijolo(float mX, float mY)
 	{
-		forma.setPosition(mX, mY);
-		forma.setSize({ larguraJanela, alturaTijolo });
-		forma.setFillColor(sf::Color::Black);
-		forma.setOutlineColor(sf::Color::Magenta);
-		forma.setOutlineThickness(2);
-		forma.setOrigin(larguraJanela / 2.f, alturaTijolo / 2.f);
+		forma_req.setPosition(mX, mY);
+		forma_req.setSize({ larguraTijolo, alturaTijolo });
+		forma_req.setFillColor(sf::Color::Black);
+		forma_req.setOutlineColor(sf::Color::Magenta);
+		forma_req.setOutlineThickness(2);
+		forma_req.setOrigin(larguraTijolo / 2.f, alturaTijolo / 2.f);
 	}
 };
 
 template <class T1, class T2>
-bool isIntersecting(T1& mA, T2& mB) noexcept
+bool Interseção(T1& mA, T2& mB) noexcept
 {
-	return mA.right() >= mB.left() && mA.left() <= mB.right() &&
-		mA.bottom() >= mB.top() && mA.top() <= mB.bottom();
+	return mA.direita() >= mB.esquerda() && mA.esquerda() <= mB.direita() &&
+		mA.baixo() >= mB.cima() && mA.cima() <= mB.baixo();
 }
 
-void testCollision(Paddle& mPaddle, bola& mbola) noexcept
+void testeColisão(Barra& mbarra, Bola& mbola) noexcept
 {
-	if (!isIntersecting(mPaddle, mbola)) return;
+	if (!Interseção(mbarra, mbola)) return;
 
 	mbola.velocidade.y = -velocidadeBola;
-	if (mbola.x() < mPaddle.x())
+	if (mbola.x() < mbarra.x())
 		mbola.velocidade.x = -velocidadeBola;
 	else
 		mbola.velocidade.x = velocidadeBola;
 }
 
-void testCollision(Brick& mBrick, bola& mbola) noexcept
+void testeColisão(Tijolo& mTijolo, Bola& mbola) noexcept
 {
-	if (!isIntersecting(mBrick, mbola)) return;
-	mBrick.destroyed = true;
-	score++;
-	float overlapLeft{ mbola.right() - mBrick.left() };
-	float overlapRight{ mBrick.right() - mbola.left() };
-	float overlapTop{ mbola.bottom() - mBrick.top() };
-	float overlapBottom{ mBrick.bottom() - mbola.top() };
+	if (!Interseção(mTijolo, mbola)) return;
+	mTijolo.destruido = true;
+	pontuação++;
+	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
+	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
+	float sobreporCima{ mbola.baixo() - mTijolo.cima() };
+	float sobreporBaixo{ mTijolo.baixo() - mbola.cima() };
 
-	bool bolaFromLeft(abs(overlapLeft) < abs(overlapRight));
-	bool bolaFromTop(abs(overlapTop) < abs(overlapBottom));
+	bool bolaFromesquerda(abs(sobreporEsquerda) < abs(sobreporDireita));
+	bool bolaFromcima(abs(sobreporCima) < abs(sobreporBaixo));
 
-	float minOverlapX{ bolaFromLeft ? overlapLeft : overlapRight };
-	float minOverlapY{ bolaFromTop ? overlapTop : overlapBottom };
+	float minsobreporX{ bolaFromesquerda ? sobreporEsquerda : sobreporDireita };
+	float minsobreporY{ bolaFromcima ? sobreporCima : sobreporBaixo };
 
-	if (abs(minOverlapX) < abs(minOverlapY))
-		mbola.velocidade.x = bolaFromLeft ? -velocidadeBola : velocidadeBola;
+	if (abs(minsobreporX) < abs(minsobreporY))
+		mbola.velocidade.x = bolaFromesquerda ? -velocidadeBola : velocidadeBola;
 	else
-		mbola.velocidade.y = bolaFromTop ? -velocidadeBola : velocidadeBola;
+		mbola.velocidade.y = bolaFromcima ? -velocidadeBola : velocidadeBola;
 }
 
 // Let's create a class for our game.
@@ -170,12 +170,12 @@ class Game
 	// These members are related to the control of the game.
 	RenderWindow window{ { larguraJanela, alturaJanela }, "Arkanoid - Mais Um Clone ?!?!?!?" };
 	FrameTime lastFt{ 0.f }, currentSlice{ 0.f };
-	bool running{ false };
+	bool executando{ false };
 
 	// These members are game entities.
-	bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 2 };
-	Paddle paddle{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
-	vector<Brick> bricks;
+	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 2 };
+	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
+	vector<Tijolo> Tijolos;
 
 
 
@@ -184,25 +184,25 @@ class Game
 		// On construction, we initialize the window and create
 		// the brick wall. On a more serious implementation, it
 		// would be a good idea to have a `newGame()` method that
-		// can be called at any time to restart the game.
+		// can be called at any time to restart the Jogo.
 
 		window.setFramerateLimit(240);
 
 		for (int iX{ 0 }; iX < nTijolosX; ++iX)
 			for (int iY{ 0 }; iY < nTijolosY; ++iY)
-				bricks.emplace_back((iX + 1) * (larguraJanela + 3) + 22, (iY + 2) * (alturaTijolo + 3));
+				Tijolos.emplace_back((iX + 1) * (larguraTijolo + 3) + 22, (iY + 2) * (alturaTijolo + 3));
 	}
 
-	void run()
+	void correr()
 	{
 		// The `run()` method is used to start the game and
 		// contains the game loop.
 
 		// Instead of using `break` to stop the game, we will
 		// use a boolean variable, `running`.
-		running = true;
+		executando = true;
 
-		while (running)
+		while (executando)
 		{
 			
 
@@ -217,7 +217,7 @@ class Game
 			// the code :)
 			inputPhase();
 
-			if(!game_pause)
+			if(!jogo_pausado)
 			updatePhase();
 			drawPhase();
 
@@ -238,17 +238,17 @@ class Game
 
 	void inputPhase()
 	{
-		Event event;
-		while (window.pollEvent(event))
+		Event evento;
+		while (window.pollEvent(evento))
 		{
-			if (event.type == Event::Closed)
+			if (evento.type == Event::Closed)
 			{
 				window.close();
 				break;
 			}
 		}
 
-		if (Keyboard::isKeyPressed(Keyboard::Key::Escape)) running = false;
+		if (Keyboard::isKeyPressed(Keyboard::Key::Escape)) executando = false;
 		/*if (Keyboard::isKeyPressed(Keyboard::Key::BackSpace)) game_pause = true;
 		{while (game_pause == true)
 		{
@@ -263,16 +263,16 @@ class Game
 		for (; currentSlice >= ftSlice; currentSlice -= ftSlice)
 		{
 			bola.update(ftStep);
-			paddle.update(ftStep);
+			barra.update(ftStep);
 
-			testCollision(paddle, bola);
-			for (auto& brick : bricks) testCollision(brick, bola);
-			bricks.erase(remove_if(begin(bricks), end(bricks),
-				[](const Brick& mBrick)
+			testeColisão(barra, bola);
+			for (auto& Tijolo : Tijolos) testeColisão(Tijolo, bola);
+			Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
+				[](const Tijolo& mTijolo)
 			{
-				return mBrick.destroyed;
+				return mTijolo.destruido;
 			}),
-				end(bricks));
+				end(Tijolos));
 		}
 	}
 
@@ -290,13 +290,13 @@ class Game
 		texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
 		texto.setString("SCORE:");
 		//valor pontuacao
-		Text pontuacao;
-		pontuacao.setFont(font);
-		pontuacao.setFillColor(Color::White);
-		pontuacao.setCharacterSize(35);
-		pontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-		string pont = to_string(score);
-		pontuacao.setString(pont);
+		Text mostraPontuacao;
+		mostraPontuacao.setFont(font);
+		mostraPontuacao.setFillColor(Color::White);
+		mostraPontuacao.setCharacterSize(35);
+		mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+		string pont = to_string(pontuação);
+		mostraPontuacao.setString(pont);
 
 		//Fim do jogo
 		
@@ -310,16 +310,16 @@ class Game
 		fimdoJogo.setString("Perdeste buahaha, carrega 'Espaco' para fechar");
 		if (fimjogo == true)
 		{
-			game_pause = true;
+			jogo_pausado = true;
 			window.clear();
 			window.draw(fimdoJogo);
 	}
 
-		window.draw(bola.forma);
-		window.draw(paddle.forma);
+		window.draw(bola.forma_bola);
+		window.draw(barra.forma_req);
 		window.draw(texto);
-		window.draw(pontuacao);
-		for (auto& brick : bricks) window.draw(brick.forma); // fazer ciclo for "normalmente"
+		window.draw(mostraPontuacao);
+		for (auto& Tijolo : Tijolos) window.draw(Tijolo.forma_req); // fazer ciclo for "normalmente"
 	//	if (fimjogo = true)
 		//	window.draw(fimdojogo);
 		window.display();
@@ -329,6 +329,6 @@ class Game
 int main()
 {	
 	//if (Keyboard::isKeyPressed(Keyboard::Key::P))
-		Game{}.run();
+		Game{}.correr();
 	return 0;
 }
