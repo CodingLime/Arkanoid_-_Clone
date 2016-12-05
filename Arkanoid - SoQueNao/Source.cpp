@@ -5,17 +5,14 @@ using namespace std;
 using namespace sf;
 
 using FrameTime = float;
-// david tradução
-// Resolução da janela (1080p ou 720p)
-unsigned int larguraJanela{ 1280 }, alturaJanela{ 720 }; 
-//unsigned int larguraJanela{ 1920 }, alturaJanela{ 1080 };
+// Resolução da janela consoante resolução do PC do utilizador
+unsigned int larguraJanela{ VideoMode::getDesktopMode().width }, alturaJanela{ VideoMode::getDesktopMode().height };
 
-float raioBola{ 20.f }, velocidadeBola{ 0.4f };
-const float larguraBarra{ 85.f }, alturaBarra{ 18.f }, velocidadeBarra{ 1.0f };
+// Altera consoante resolução da janela
+float raioBola{ 20.f * (alturaJanela * 0,2.f) }, velocidadeBola{ 0.4f * (alturaJanela * 0,2.f) };
+const float larguraBarra{ 100.f * (larguraJanela * 0,03.f) }, alturaBarra{ 18.f * (alturaJanela * 0,02.f) }, velocidadeBarra{ 1.0f * (alturaJanela * 0,01.f) };
 
-//const float larguraJanela{ 100.f }, alturaTijolo{ 40.f };
 const float larguraTijolo{float(round(larguraJanela - larguraJanela*0.922))}, alturaTijolo{float(round(alturaJanela - alturaJanela*0.94))};
-// TESTE SYNC
 const int nTijolosX{ 11 }, nTijolosY{ 4 };
 const float ftStep{ 1.f }, ftSlice{ 1.f };
 bool fimjogo = false;
@@ -163,12 +160,12 @@ void testeColisão(Tijolo& mTijolo, Bola& mbola) noexcept
 		mbola.velocidade.y = bolaFromcima ? -velocidadeBola : velocidadeBola;
 }
 
-// Let's create a class for our game.
+// Classe do Jogo
 class Game
 {
 	public:
 	// These members are related to the control of the game.
-	RenderWindow window{ { larguraJanela, alturaJanela }, "Arkanoid - Mais Um Clone ?!?!?!?" };
+	RenderWindow window{ { larguraJanela, alturaJanela }, "Arkanoid - Mais Um Clone ?!?!?!?", Style::Fullscreen };
 	FrameTime lastFt{ 0.f }, currentSlice{ 0.f };
 	bool executando{ false };
 
@@ -193,33 +190,39 @@ class Game
 				Tijolos.emplace_back((iX + 1) * (larguraTijolo + 3) + 22, (iY + 2) * (alturaTijolo + 3));
 	}
 
-	void correr()
+	void menu()
 	{
-		// The `run()` method is used to start the game and
-		// contains the game loop.
-
-		// Instead of using `break` to stop the game, we will
-		// use a boolean variable, `running`.
-		executando = true;
-
-		while (executando)
-		{
-			
-
 			auto timePoint1(chrono::high_resolution_clock::now());
 
 			window.clear(Color::Black);
 
-			// It's not a bad idea to use methods to make the
-			// code more organized. In this case, I've divided
-			// the game loop in "input", "update" and "draw"
-			// phases. It's one of many possible ways of tidying up
-			// the code :)
-			inputPhase();
+			Text play, bot, score, quit;
+			Font font;
+			font.loadFromFile("black.ttf");
 
-			if(!jogo_pausado)
-			updatePhase();
-			drawPhase();
+			play.setFont(font);
+			play.setCharacterSize(80 * (larguraJanela * 0.001));
+			play.setFillColor(Color::White);
+			play.setPosition(larguraJanela/2 - (larguraJanela * 0.1), alturaJanela/4 + (alturaJanela * 0.01));
+			play.setString("[P]lay");
+
+			bot.setFont(font);
+			bot.setCharacterSize(80 * (larguraJanela * 0.001));
+			bot.setFillColor(Color::White);
+			bot.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela / 2 - (alturaJanela * 0.1));
+			bot.setString("[B]ot - falta");
+
+			score.setFont(font);
+			score.setCharacterSize(80 * (larguraJanela * 0.001));
+			score.setFillColor(Color::White);
+			score.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela - (alturaJanela * 0.46));
+			score.setString("[S]core - falta");
+
+			quit.setFont(font);
+			quit.setCharacterSize(80 * (larguraJanela * 0.001));
+			quit.setFillColor(Color::White);
+			quit.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela  - (alturaJanela * 0.2));
+			quit.setString("[Q]uit");
 
 			auto timePoint2(chrono::high_resolution_clock::now());
 			auto elapsedTime(timePoint2 - timePoint1);
@@ -232,7 +235,51 @@ class Game
 			auto ftSeconds(ft / 1000.f);
 			auto fps(1.f / ftSeconds);
 
-			//window.setTitle("Arkanoid POO");
+			window.draw(play);
+			window.draw(bot);
+			window.draw(score);
+			window.draw(quit);
+			window.display();
+	}
+
+	void correr()
+	{
+		// The `run()` method is used to start the game and
+		// contains the game loop.
+
+		// Instead of using `break` to stop the game, we will
+		// use a boolean variable, `running`.
+		executando = true;
+
+		while (executando)
+		{
+			auto timePoint1(chrono::high_resolution_clock::now());
+
+			window.clear(Color::Black);
+
+			// It's not a bad idea to use methods to make the
+			// code more organized. In this case, I've divided
+			// the game loop in "input", "update" and "draw"
+			// phases. It's one of many possible ways of tidying up
+			// the code :)
+			inputPhase();
+
+			if (jogo_pausado) break;
+
+			updatePhase();
+
+			drawPhase();
+
+			auto timePoint2(chrono::high_resolution_clock::now());
+			auto elapsedTime(timePoint2 - timePoint1);
+			FrameTime ft{ chrono::duration_cast<chrono::duration<float, milli>>(
+				elapsedTime)
+				.count() };
+
+			lastFt = ft;
+
+			auto ftSeconds(ft / 1000.f);
+			auto fps(1.f / ftSeconds);
 		}
 	}
 
@@ -248,14 +295,9 @@ class Game
 			}
 		}
 
-		if (Keyboard::isKeyPressed(Keyboard::Key::Escape)) executando = false;
-		/*if (Keyboard::isKeyPressed(Keyboard::Key::BackSpace)) game_pause = true;
-		{while (game_pause == true)
-		{
-			if (Keyboard::isKeyPressed(Keyboard::Key::P))
-				game_pause = false;
-		}
-		}*/
+		if (Keyboard::isKeyPressed(Keyboard::Key::Q)) executando = false;
+
+
 	}
 	void updatePhase()
 	{
@@ -304,16 +346,16 @@ class Game
 
 		Text fimdoJogo;
 		fimdoJogo.setFont(font);
-		fimdoJogo.setCharacterSize(30);
-		fimdoJogo.setPosition(300,500);
+		fimdoJogo.setCharacterSize(20 * (larguraJanela * 0.001));
+		fimdoJogo.setPosition(alturaJanela/2,larguraJanela/2);
 		fimdoJogo.setFillColor(sf::Color::White);
-		fimdoJogo.setString("Perdeste buahaha, carrega 'Espaco' para fechar");
+		fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 		if (fimjogo == true)
 		{
 			jogo_pausado = true;
 			window.clear();
 			window.draw(fimdoJogo);
-	}
+		}
 
 		window.draw(bola.forma_bola);
 		window.draw(barra.forma_req);
@@ -329,6 +371,15 @@ class Game
 int main()
 {	
 	//if (Keyboard::isKeyPressed(Keyboard::Key::P))
-		Game{}.correr();
+	Game Jogo;
+	Jogo.menu();
+	while(true)
+	{
+		sleep(milliseconds(5));
+		if (Keyboard::isKeyPressed(Keyboard::Key::P)) Jogo.correr();;
+		if (Keyboard::isKeyPressed(Keyboard::Key::Q)) break;
+	}
+	
+	//Jogo.correr();
 	return 0;
 }
