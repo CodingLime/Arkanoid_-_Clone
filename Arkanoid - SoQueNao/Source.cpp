@@ -203,25 +203,32 @@ class Game
 			play.setFont(font);
 			play.setCharacterSize(80 * (larguraJanela * 0.001));
 			play.setFillColor(Color::White);
-			play.setPosition(larguraJanela/2 - (larguraJanela * 0.1), alturaJanela/4 + (alturaJanela * 0.01));
+			play.setPosition(larguraJanela/10, alturaJanela/4 + (alturaJanela * 0.01));
+			//play.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela / 4 + (alturaJanela * 0.01));
 			play.setString("[P]lay");
 
 			bot.setFont(font);
 			bot.setCharacterSize(80 * (larguraJanela * 0.001));
 			bot.setFillColor(Color::White);
-			bot.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela / 2 - (alturaJanela * 0.1));
+			bot.setPosition(larguraJanela / 10, alturaJanela / 2 - (alturaJanela * 0.1));
+			//bot.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela / 2 - (alturaJanela * 0.1));
+
 			bot.setString("[B]ot - falta");
 
 			score.setFont(font);
 			score.setCharacterSize(80 * (larguraJanela * 0.001));
 			score.setFillColor(Color::White);
-			score.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela - (alturaJanela * 0.46));
+			score.setPosition(larguraJanela / 10, alturaJanela - (alturaJanela * 0.46));
+			//score.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela - (alturaJanela * 0.46));
+
 			score.setString("[S]core - falta");
 
 			quit.setFont(font);
 			quit.setCharacterSize(80 * (larguraJanela * 0.001));
 			quit.setFillColor(Color::White);
-			quit.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela  - (alturaJanela * 0.2));
+			quit.setPosition(larguraJanela / 10, alturaJanela  - (alturaJanela * 0.2));
+			//quit.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela - (alturaJanela * 0.2));
+
 			quit.setString("[Q]uit");
 
 			auto timePoint2(chrono::high_resolution_clock::now());
