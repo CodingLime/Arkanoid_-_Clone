@@ -4,6 +4,37 @@
 using namespace std;
 using namespace sf;
 
+/* Coisas a passar para ficheiro
+
+raioBola
+velocidadeBola
+
+larguraBarra
+alturaBarra
+velocidadeBarra
+
+larguraTijolo
+alturaTijolo
+
+nTijolosX
+nTijolosY
+-> passar para matriz.txt ?!?!
+
+ftStep
+ftSlice
+-> verificar de novo o que estas duas são
+*/
+
+// PROCURAR
+/// Ao criar uma classe, se se pode passar valores ao ser criada
+
+// FAZER
+/// Guardar em ficheiro valores padrão para bola, barra, tijolo, etc
+/// Criar opção no menu para passar jogo para fullscreen
+/// Fazer ecra GameOver tanto para tijolos todos destruidos ou bola bater em baixo
+/// Realizar as verificações de conversão de variaveis de int para double, etc etc etcs
+
+
 using FrameTime = float;
 // Resolução da janela consoante resolução do PC do utilizador
 unsigned int larguraJanela{ VideoMode::getDesktopMode().width }, alturaJanela{ VideoMode::getDesktopMode().height };
@@ -15,9 +46,11 @@ const float larguraBarra{ 100.f * (larguraJanela * 0,03.f) }, alturaBarra{ 18.f 
 const float larguraTijolo{float(round(larguraJanela - larguraJanela*0.922))}, alturaTijolo{float(round(alturaJanela - alturaJanela*0.94))};
 const int nTijolosX{ 11 }, nTijolosY{ 4 };
 const float ftStep{ 1.f }, ftSlice{ 1.f };
-bool fimjogo = false;
-bool jogo_pausado = false;
-int pontuação = 0;
+
+
+bool fimjogo = false; // classe Game (?)
+bool jogo_pausado = false; // classe Game (?)
+int pontuacao = 0; // source.cpp mas passar valor para classe game
 
 class Bola
 {
@@ -142,7 +175,7 @@ void testeColisão(Tijolo& mTijolo, Bola& mbola) noexcept
 {
 	if (!Interseção(mTijolo, mbola)) return;
 	mTijolo.destruido = true;
-	pontuação++;
+	pontuacao++;
 	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
 	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
 	float sobreporCima{ mbola.baixo() - mTijolo.cima() };
@@ -183,7 +216,7 @@ class Game
 		// would be a good idea to have a `newGame()` method that
 		// can be called at any time to restart the Jogo.
 
-		window.setFramerateLimit(240);
+		window.setFramerateLimit(240); // verificar se é necessário, senão remover
 
 		for (int iX{ 0 }; iX < nTijolosX; ++iX)
 			for (int iY{ 0 }; iY < nTijolosY; ++iY)
@@ -344,7 +377,7 @@ class Game
 		mostraPontuacao.setFillColor(Color::White);
 		mostraPontuacao.setCharacterSize(35);
 		mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-		string pont = to_string(pontuação);
+		string pont = to_string(pontuacao);
 		mostraPontuacao.setString(pont);
 
 		//Fim do jogo
