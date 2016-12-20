@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 using namespace sf;
+using FrameTime = float;
 
 /* Coisas a passar para ficheiro
 
@@ -35,7 +36,6 @@ ftSlice
 /// Realizar as verificações de conversão de variaveis de int para double, etc etc etcs
 
 
-using FrameTime = float;
 // Resolução da janela consoante resolução do PC do utilizador
 unsigned int larguraJanela{ VideoMode::getDesktopMode().width }, alturaJanela{ VideoMode::getDesktopMode().height };
 
