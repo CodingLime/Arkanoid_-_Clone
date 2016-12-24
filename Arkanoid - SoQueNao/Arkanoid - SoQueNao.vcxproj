@@ -160,7 +160,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Barra.cpp" />
+    <ClCompile Include="Bola.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Rectangulo.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Tijolo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Barra.h" />
+    <ClInclude Include="Bola.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Rectangulo.h" />
+    <ClInclude Include="Tijolo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
