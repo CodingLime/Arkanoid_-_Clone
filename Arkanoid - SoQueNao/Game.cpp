@@ -1,5 +1,5 @@
 #include "game.h"
-
+extern int pontuacao;
 Game::Game()
 {
 	// On construction, we initialize the window and create
@@ -166,7 +166,7 @@ void Game::drawPhase()
 	mostraPontuacao.setFillColor(Color::White);
 	mostraPontuacao.setCharacterSize(35);
 	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string pont = to_string(tijolo.getPontuacao());
+	string pont = to_string(pontuacao);
 	mostraPontuacao.setString(pont);
 
 	//Fim do jogo

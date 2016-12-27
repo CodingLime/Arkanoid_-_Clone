@@ -1,24 +1,18 @@
 #pragma once
 #include "Barra.h"
 #include "Bola.h"
+
 class Tijolo :
 	public Rectangulo
 {
 public:
-	int pontuacao = 0;
 	bool destruido = false;
 	float larguraTijolo();
 	float alturaTijolo();
 	int nTijolosX();
 	int nTijolosY();
 	Tijolo(float mX, float mY);
-	int getPontuacao();
-	void setPontuacao();
-	
 };
-
-
-
 
 void testeColisão(Barra& mbarra, Bola& mbola);
 
