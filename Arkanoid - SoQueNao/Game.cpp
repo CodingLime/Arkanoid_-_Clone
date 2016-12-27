@@ -124,8 +124,6 @@ void Game::classificacao()
 			Stringjogadores.push_back(novoJogador);
 
 	Text titulo;
-	int nScores; //buscar do ficheiro quantos scores estão lá guardados, mas manter a 10
-	vector<Text> score(nScores); //cria vector do tamanho de quantos scores existem
 
 			//se nao existir placeholder
 			String placeholder;
