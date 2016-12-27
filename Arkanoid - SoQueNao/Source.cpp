@@ -16,7 +16,7 @@ int main()
 	// porra para isto
 	//Jogo.correr();
 
-	//potato
+	//potato ORIGIANL
 	return 0;
 }
 //#include <SFML/Graphics.hpp>
