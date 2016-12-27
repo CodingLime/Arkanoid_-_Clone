@@ -1,6 +1,5 @@
 #include "Game.h"
 
-
 int main()
 {
 	//if (Keyboard::isKeyPressed(Keyboard::Key::P))
