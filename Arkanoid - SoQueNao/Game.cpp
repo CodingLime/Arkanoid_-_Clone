@@ -292,7 +292,7 @@ void Game::drawPhase()
 		window.clear();
 		window.draw(fimdoJogo);
 	}
-  */
+  
 	window.draw(bola.forma_bola);
 	window.draw(barra.forma_req);
 	window.draw(texto);
