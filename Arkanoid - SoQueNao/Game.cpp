@@ -10,7 +10,31 @@ Game::Game()
 	// would be a good idea to have a `newGame()` method that
 	// can be called at any time to restart the Jogo.
 
-	//window.setFramerateLimit(240); // parece n„o ser necessario para funcionar, remover no fim de tudo
+	//window.setFramerateLimit(240); // parece n√£o ser necessario para funcionar, remover no fim de tudo
+
+	font.loadFromFile("black.ttf");
+
+	//Texto de Score
+	texto.setFont(font);
+	texto.setCharacterSize(35);
+	texto.setFillColor(Color::White);
+	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // Posi√ß√£o do score fica consoante o tamanho da janela
+	texto.setString("SCORE:");
+
+	//valor pontuacao
+	mostraPontuacao.setFont(font);
+	mostraPontuacao.setFillColor(Color::White);
+	mostraPontuacao.setCharacterSize(35);
+	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posi√ß√£o do score fica consoante o tamanho da janela
+	string pont = to_string(pontuacao);
+	mostraPontuacao.setString(pont);
+
+	//Fim do jogo
+	fimdoJogo.setFont(font);
+	fimdoJogo.setCharacterSize(20 * (larguraJanela * 0.001));
+	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
+	fimdoJogo.setFillColor(sf::Color::White);
+	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
@@ -83,7 +107,7 @@ void Game::classificacao()
 	window.clear(Color::Black);
 
 	Text titulo;
-	int nScores; //buscar do ficheiro quantos scores est„o l· guardados, mas manter a 10
+	int nScores; //buscar do ficheiro quantos scores est√£o l√° guardados, mas manter a 10
 	vector<Text> score(nScores); //cria vector do tamanho de quantos scores existem
 
 	for (vector<int>::iterator it = score.begin, int i=0; it != score.end; it++, i++)
@@ -163,8 +187,8 @@ void Game::updatePhase()
 	{
 		bola.update(ftStep);
 		barra.update(ftStep);
-		testeColis„o(barra, bola);
-		for (auto& Tijolo : Tijolos) testeColis„o(Tijolo, bola);
+		testeColis√£o(barra, bola);
+		for (auto& Tijolo : Tijolos) testeColis√£o(Tijolo, bola);
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
 			[](const Tijolo& mTijolo)
 		{
@@ -176,58 +200,14 @@ void Game::updatePhase()
 
 void Game::drawPhase()
 {
-	
-	//Texto de Score
-	Text texto;
-	Font font;
-	font.loadFromFile("black.ttf");
-	texto.setFont(font);
-	texto.setCharacterSize(35);
-	texto.setFillColor(Color::White);
-	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // PosiÁ„o do score fica consoante o tamanho da janela
-	texto.setString("SCORE:");
-	//valor pontuacao
-	Text mostraPontuacao;
-	mostraPontuacao.setFont(font);
-	mostraPontuacao.setFillColor(Color::White);
-	mostraPontuacao.setCharacterSize(35);
-	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // PosiÁ„o do score fica consoante o tamanho da janela
-	string pont = to_string(pontuacao);
-	mostraPontuacao.setString(pont);
+/*	if (bola.fimjogo() == true)
 
-
-	//Texto de VelBola
-	Text txtBola;
-	txtBola.setFont(font);
-	txtBola.setCharacterSize(35);
-	txtBola.setFillColor(Color::White);
-	txtBola.setPosition(5, float(alturaJanela) - 50); // PosiÁ„o do score fica consoante o tamanho da janela
-	txtBola.setString("Velocidade:");
-	//valor Velocidade
-	Text mostraVel;
-	mostraVel.setFont(font);
-	mostraVel.setFillColor(Color::White);
-	mostraVel.setCharacterSize(35);
-	mostraVel.setPosition(205, float(alturaJanela) - 50); // PosiÁ„o do score fica consoante o tamanho da janela
-	string vel = to_string(bola.getvelocidadebola());
-	mostraVel.setString(vel);
-	//Fim do jogo
-
-	//losegame http://en.sfml-dev.org/forums/index.php?topic=19353.0
-
-	Text fimdoJogo;
-	fimdoJogo.setFont(font);
-	fimdoJogo.setCharacterSize(20 * (larguraJanela * 0.001));
-	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
-	fimdoJogo.setFillColor(sf::Color::White);
-	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
-	if (bola.fimjogo == true)
 	{
 		jogo_pausado = true;
 		window.clear();
 		window.draw(fimdoJogo);
 	}
-
+  */
 	window.draw(bola.forma_bola);
 	window.draw(barra.forma_req);
 	window.draw(texto);
