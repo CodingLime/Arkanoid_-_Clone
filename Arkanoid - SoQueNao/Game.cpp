@@ -76,7 +76,7 @@ void Game::menu()
 	window.display();
 }
 
-void Game::scoreboard()
+void Game::classificacao()
 {
 	auto timePoint1(chrono::high_resolution_clock::now());
 
