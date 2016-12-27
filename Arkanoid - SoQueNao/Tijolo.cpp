@@ -38,7 +38,7 @@ Tijolo::Tijolo(float mX, float mY)
 
 
 
-void testeColisão(Barra & mbarra, Bola & mbola)
+void testeColisao(Barra & mbarra, Bola & mbola)
 {
 	if (!Interseção(mbarra, mbola)) return;
 

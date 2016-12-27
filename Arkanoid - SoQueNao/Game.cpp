@@ -100,6 +100,7 @@ void Game::menu()
 	window.display();
 }
 
+/*
 void Game::classificacao()
 {
 	auto timePoint1(chrono::high_resolution_clock::now());
@@ -122,7 +123,7 @@ void Game::classificacao()
 	Font font;
 	font.loadFromFile("black.ttf");
 }
-
+*/
 void Game::correr()
 {
 	// The `run()` method is used to start the game and
@@ -187,7 +188,7 @@ void Game::updatePhase()
 	{
 		bola.update(ftStep);
 		barra.update(ftStep);
-		testeColisão(barra, bola);
+		testeColisao(barra, bola);
 		for (auto& Tijolo : Tijolos) testeColisão(Tijolo, bola);
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
 			[](const Tijolo& mTijolo)

@@ -29,7 +29,7 @@ public:
 	Game();
 
 	void menu();
-	void classificacao();
+	//void classificacao();
 	void correr();
 	void inputPhase();
 	void updatePhase();

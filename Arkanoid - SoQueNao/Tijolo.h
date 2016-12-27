@@ -15,7 +15,7 @@ public:
 
 };
 
-void testeColisão(Barra& mbarra, Bola& mbola);
+void testeColisao(Barra& mbarra, Bola& mbola);
 
 void testeColisão(Tijolo& mTijolo, Bola& mbola);
 
