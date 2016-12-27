@@ -1,6 +1,6 @@
 #include "Tijolo.h"
 
-
+int pontuacao = 0;
 
 float Tijolo::larguraTijolo()
 {
@@ -21,15 +21,8 @@ int Tijolo::nTijolosY()
 {
 	return 4;
 }
-int Tijolo::getPontuacao()
-{
-	return pontuacao;
-}
 
-void Tijolo::setPontuacao()
-{
-	pontuacao++;
-}
+
 
 Tijolo::Tijolo(float mX, float mY)
 {
@@ -59,9 +52,9 @@ void testeColisão(Barra & mbarra, Bola & mbola)
 void testeColisão(Tijolo & mTijolo, Bola & mbola)
 {
 	if (!Interseção(mTijolo, mbola)) return;
-	mTijolo.setPontuacao();
+	pontuacao++;
 	mTijolo.destruido = true;
-	printf("%d \n", mTijolo.getPontuacao());
+	printf("%d \n", pontuacao);
 	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
 	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
 	float sobreporCima{ mbola.baixo() - mTijolo.cima() };
