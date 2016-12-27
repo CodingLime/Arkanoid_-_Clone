@@ -40,7 +40,7 @@ Tijolo::Tijolo(float mX, float mY)
 
 void testeColisao(Barra & mbarra, Bola & mbola)
 {
-	if (!Interseção(mbarra, mbola)) return;
+	if (!Intersecao(mbarra, mbola)) return;
 
 	mbola.velocidade.y = -mbola.getvelocidadebola();
 	if (mbola.x() < mbarra.x())
@@ -49,9 +49,9 @@ void testeColisao(Barra & mbarra, Bola & mbola)
 		mbola.velocidade.x = mbola.getvelocidadebola();
 }
 
-void testeColisão(Tijolo & mTijolo, Bola & mbola)
+void testeColisao(Tijolo & mTijolo, Bola & mbola)
 {
-	if (!Interseção(mTijolo, mbola)) return;
+	if (!Intersecao(mTijolo, mbola)) return;
 	
 	
 	pontuacao++;

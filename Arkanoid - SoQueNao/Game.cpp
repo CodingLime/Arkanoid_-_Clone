@@ -100,30 +100,78 @@ void Game::menu()
 	window.display();
 }
 
-/*
 void Game::classificacao()
 {
+
 	auto timePoint1(chrono::high_resolution_clock::now());
 
 	window.clear(Color::Black);
+	vector<pair<Text, int>> Stringjogadores;
+	vector<pair<Text, int>> Stringpontuacao;
+	vector<Int16> inputpontuacaoJogadores;
+	vector<int> pontuacaoJogadores;
+	vector<Text> nomeJogadores;
 
-	Text titulo;
-	int nScores; //buscar do ficheiro quantos scores estão lá guardados, mas manter a 10
-	vector<Text> score(nScores); //cria vector do tamanho de quantos scores existem
-
-	for (vector<int>::iterator it = score.begin, int i=0; it != score.end; it++, i++)
+	for (size_t i = 0; i < nomeJogadores.size(); i++)
 	{
-		(*it) = "nome" += to_string(i);
+		if (Stringjogadores.size() <= i)
+		{
+			pair<Text, int> novoJogador;
+			Text SnovoJogador;
+			SnovoJogador.setString(nomeJogadores[i].getString());
+			SnovoJogador.setCharacterSize(15);
+			novoJogador.first = SnovoJogador;
+			novoJogador.second = inputpontuacaoJogadores[i];
+			Stringjogadores.push_back(novoJogador);
+
+			//se nao existir placeholder
+			String placeholder;
+			placeholder = nomeJogadores[i].getString();
+			if (placeholder.getSize() == 0)
+			{
+				Stringjogadores[i].first.setString("AAAA AAAAA");
+			}
+		}
+		else
+		{
+			Stringjogadores[i].first.setString(nomeJogadores[i].getString());
+			Stringjogadores[i].second = inputpontuacaoJogadores[i];
+
+			//se nao existir placeholder
+			String placeholder;
+			placeholder = nomeJogadores[i].getString();
+			if (placeholder.getSize() == 0)
+			{
+				Stringjogadores[i].first.setString("AAAA AAAAA");
+			}
+		}
 	}
 
-	for (int i = 0; i <= nScores; i++)
+	//pontuacao
+	for (size_t i = 0; i < inputpontuacaoJogadores.size(); i++)
 	{
-		score.push_back(Text("nome"));
+		stringstream ss;
+		ss << inputpontuacaoJogadores[i];
+		
+		pair<Text, int> novaPontuacao;
+		novaPontuacao.first.setString(ss.str());
+		novaPontuacao.first.setCharacterSize(15);
+		novaPontuacao.second = inputpontuacaoJogadores[i];
+
+		if (Stringpontuacao.size() <= i)
+		{
+			pontuacaoJogadores.push_back(inputpontuacaoJogadores[i]);
+			Stringpontuacao.push_back(novaPontuacao);
+		}
+		else {
+			pontuacaoJogadores[i] = inputpontuacaoJogadores[i];
+			Stringpontuacao[i] = novaPontuacao;
+		}
+		
 	}
-	Font font;
-	font.loadFromFile("black.ttf");
 }
-*/
+
+
 void Game::correr()
 {
 	// The `run()` method is used to start the game and
@@ -189,7 +237,7 @@ void Game::updatePhase()
 		bola.update(ftStep);
 		barra.update(ftStep);
 		testeColisao(barra, bola);
-		for (auto& Tijolo : Tijolos) testeColisão(Tijolo, bola);
+		for (auto& Tijolo : Tijolos) testeColisao(Tijolo, bola);
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
 			[](const Tijolo& mTijolo)
 		{
