@@ -21,6 +21,15 @@ int Tijolo::nTijolosY()
 {
 	return 4;
 }
+int Tijolo::getPontuacao()
+{
+	return pontuacao;
+}
+
+void Tijolo::setPontuacao()
+{
+	pontuacao++;
+}
 
 Tijolo::Tijolo(float mX, float mY)
 {
@@ -32,16 +41,15 @@ Tijolo::Tijolo(float mX, float mY)
 	forma_req.setOrigin(larguraTijolo() / 2.f, alturaTijolo() / 2.f);
 }
 
-int Tijolo::pontuacao(int pontos)
-{
-	return pontos;
-}
+
+
+
 
 void testeColisão(Barra & mbarra, Bola & mbola)
 {
 	if (!Interseção(mbarra, mbola)) return;
 
-	mbola.velocidade.y = mbola.velocidadebola();
+	mbola.velocidade.y = -mbola.velocidadebola();
 	if (mbola.x() < mbarra.x())
 		mbola.velocidade.x = -mbola.velocidadebola();
 	else
@@ -51,9 +59,9 @@ void testeColisão(Barra & mbarra, Bola & mbola)
 void testeColisão(Tijolo & mTijolo, Bola & mbola)
 {
 	if (!Interseção(mTijolo, mbola)) return;
-	int pontos = 0;
+	mTijolo.setPontuacao();
 	mTijolo.destruido = true;
-	pontos += mTijolo.pontuacao();
+	printf("%d \n", mTijolo.getPontuacao());
 	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
 	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
 	float sobreporCima{ mbola.baixo() - mTijolo.cima() };

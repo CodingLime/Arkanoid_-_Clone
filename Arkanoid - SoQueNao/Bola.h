@@ -12,7 +12,7 @@ public:
 	CircleShape forma_bola;
 	unsigned int larguraJanela = VideoMode::getDesktopMode().width;
 	unsigned int alturaJanela = VideoMode::getDesktopMode().height;
-	Vector2f velocidade;
+	Vector2f velocidade{ -velocidadebola(), -velocidadebola() };
 	bool fimjogo(bool B_fimjogo=false);
 	//posicao da bola
 	Bola(float mX, float mY);

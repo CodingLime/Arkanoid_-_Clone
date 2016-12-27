@@ -5,7 +5,6 @@
 #include "Barra.h"
 #include "Tijolo.h"
 using namespace sf;
-
 class Game
 {
 public:
