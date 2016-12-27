@@ -15,12 +15,12 @@ public:
 
 };
 
-void testeColisão(Barra& mbarra, Bola& mbola);
+void testeColisao(Barra& mbarra, Bola& mbola);
 
-void testeColisão(Tijolo& mTijolo, Bola& mbola);
+void testeColisao(Tijolo& mTijolo, Bola& mbola);
 
 template<class T1, class T2>
-inline bool Interseção(T1 & mA, T2 & mB)
+inline bool Intersecao(T1 & mA, T2 & mB)
 {
 	return mA.direita() >= mB.esquerda() && mA.esquerda() <= mB.direita() &&
 		mA.baixo() >= mB.cima() && mA.cima() <= mB.baixo();

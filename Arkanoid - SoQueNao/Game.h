@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <sstream>
 #include <chrono>
 #include "Bola.h"
 #include "Barra.h"
@@ -30,8 +31,16 @@ public:
 
 	void menu();
 	void classificacao();
+	void desenharclassificacao(RenderWindow &renderWindow, String Stringjogadores, String Stringpontuacao);
 	void correr();
 	void inputPhase();
 	void updatePhase();
 	void drawPhase();
+
+private:	
+	Text fimdoJogo;
+	Text mostraPontuacao;
+	Text texto;
+	Font font;
+
 };
