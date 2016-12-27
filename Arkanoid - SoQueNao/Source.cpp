@@ -13,6 +13,7 @@ int main()
 		if (Keyboard::isKeyPressed(Keyboard::Key::Q)) break;
 	}
 
+	// teste
 	//Jogo.correr();
 	return 0;
 }
