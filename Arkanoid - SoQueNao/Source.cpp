@@ -14,6 +14,8 @@ int main()
 	}
 
 	//Jogo.correr();
+
+	//potato
 	return 0;
 }
 //#include <SFML/Graphics.hpp>
