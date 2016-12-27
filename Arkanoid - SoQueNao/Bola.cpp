@@ -2,10 +2,18 @@
 
 
 
-bool Bola::fimjogo(bool Val)
+float Bola::getvelocidadebola()
 {
-	return Val;
+	return velocidadebola;
 }
+
+void Bola::setvelocidadebola(float X)
+{
+	if ((X < 0) && (velocidadebola - X <= 0.16f)) return;
+	else	
+		velocidadebola += X;
+}
+
 
 Bola::Bola(float mX, float mY)
 {
@@ -22,16 +30,16 @@ void Bola::update(FrameTime mFT)
 	forma_bola.move(velocidade * mFT);
 
 	if (esquerda() < 0)
-		velocidade.x = velocidadebola();
+		velocidade.x = getvelocidadebola();
 	else if (direita() > larguraJanela)
-		velocidade.x = -velocidadebola();
+		velocidade.x = -getvelocidadebola();
 
 	if (cima() < 0)
-		velocidade.y = velocidadebola();
+		velocidade.y = getvelocidadebola();
 	else if (baixo() > alturaJanela)
 	{
 		//velocidade.y = -velocidadeBola;
-		//fimjogo(true);
+		fimjogo = true;
 	}
 }
 
@@ -65,12 +73,8 @@ float const Bola::baixo()
 	return y() + forma_bola.getRadius();
 }
 
-float const Bola::velocidadebola()
-{
-	return 0.4f * (alturaJanela * 0, 2.f);
-}
 
 float const Bola::raioBola()
 {
-	return 20.f * (larguraJanela * 0, 2.f);
+	return 20.f * (larguraJanela * 0,2.f);
 }

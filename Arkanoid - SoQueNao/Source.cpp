@@ -8,7 +8,8 @@ int main()
 	while (true)
 	{
 		sleep(milliseconds(5));
-		if (Keyboard::isKeyPressed(Keyboard::Key::P)) Jogo.correr();;
+		if (Keyboard::isKeyPressed(Keyboard::Key::P)) Jogo.correr();
+		if (Keyboard::isKeyPressed(Keyboard::Key::S)) Jogo.scoreboard();
 		if (Keyboard::isKeyPressed(Keyboard::Key::Q)) break;
 	}
 

@@ -1,5 +1,8 @@
 #include "game.h"
+#include <vector>
+#include <iostream>
 extern int pontuacao;
+
 Game::Game()
 {
 	// On construction, we initialize the window and create
@@ -7,7 +10,7 @@ Game::Game()
 	// would be a good idea to have a `newGame()` method that
 	// can be called at any time to restart the Jogo.
 
-	window.setFramerateLimit(240);
+	//window.setFramerateLimit(240); // parece não ser necessario para funcionar, remover no fim de tudo
 
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
@@ -73,6 +76,29 @@ void Game::menu()
 	window.display();
 }
 
+void Game::scoreboard()
+{
+	auto timePoint1(chrono::high_resolution_clock::now());
+
+	window.clear(Color::Black);
+
+	Text titulo;
+	int nScores; //buscar do ficheiro quantos scores estão lá guardados, mas manter a 10
+	vector<Text> score(nScores); //cria vector do tamanho de quantos scores existem
+
+	for (vector<int>::iterator it = score.begin, int i=0; it != score.end; it++, i++)
+	{
+		(*it) = "nome" += to_string(i);
+	}
+
+	for (int i = 0; i <= nScores; i++)
+	{
+		score.push_back(Text("nome"));
+	}
+	Font font;
+	font.loadFromFile("black.ttf");
+}
+
 void Game::correr()
 {
 	// The `run()` method is used to start the game and
@@ -95,7 +121,7 @@ void Game::correr()
 		// the code :)
 		inputPhase();
 
-	//	if (jogo_pausado) break;
+		if (jogo_pausado) break;
 
 		updatePhase();
 
@@ -125,7 +151,8 @@ void Game::inputPhase()
 			break;
 		}
 	}
-
+	if (Keyboard::isKeyPressed(Keyboard::Key::O)) bola.setvelocidadebola(0.005f);
+	if (Keyboard::isKeyPressed(Keyboard::Key::I)) bola.setvelocidadebola(-0.005f);
 	if (Keyboard::isKeyPressed(Keyboard::Key::Q)) executando = false;
 }
 
@@ -136,7 +163,6 @@ void Game::updatePhase()
 	{
 		bola.update(ftStep);
 		barra.update(ftStep);
-
 		testeColisão(barra, bola);
 		for (auto& Tijolo : Tijolos) testeColisão(Tijolo, bola);
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
@@ -169,6 +195,22 @@ void Game::drawPhase()
 	string pont = to_string(pontuacao);
 	mostraPontuacao.setString(pont);
 
+
+	//Texto de VelBola
+	Text txtBola;
+	txtBola.setFont(font);
+	txtBola.setCharacterSize(35);
+	txtBola.setFillColor(Color::White);
+	txtBola.setPosition(5, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	txtBola.setString("Velocidade:");
+	//valor Velocidade
+	Text mostraVel;
+	mostraVel.setFont(font);
+	mostraVel.setFillColor(Color::White);
+	mostraVel.setCharacterSize(35);
+	mostraVel.setPosition(205, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	string vel = to_string(bola.getvelocidadebola());
+	mostraVel.setString(vel);
 	//Fim do jogo
 
 	//losegame http://en.sfml-dev.org/forums/index.php?topic=19353.0
@@ -179,17 +221,19 @@ void Game::drawPhase()
 	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
 	fimdoJogo.setFillColor(sf::Color::White);
 	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
-/*	if (bola.fimjogo() == true)
+	if (bola.fimjogo == true)
 	{
 		jogo_pausado = true;
 		window.clear();
 		window.draw(fimdoJogo);
 	}
-	*/
+
 	window.draw(bola.forma_bola);
 	window.draw(barra.forma_req);
 	window.draw(texto);
 	window.draw(mostraPontuacao);
+	window.draw(txtBola);
+	window.draw(mostraVel);
 	for (auto& Tijolo : Tijolos) window.draw(Tijolo.forma_req); // fazer ciclo for "normalmente"
 																//	if (fimjogo = true)
 																//	window.draw(fimdojogo);

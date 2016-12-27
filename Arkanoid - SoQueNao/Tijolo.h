@@ -12,6 +12,7 @@ public:
 	int nTijolosX();
 	int nTijolosY();
 	Tijolo(float mX, float mY);
+
 };
 
 void testeColisão(Barra& mbarra, Bola& mbola);

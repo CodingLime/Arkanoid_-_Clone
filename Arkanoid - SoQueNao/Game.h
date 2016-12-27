@@ -17,7 +17,7 @@ public:
 	// These members are related to the control of the game.
 	RenderWindow window{ { larguraJanela, alturaJanela }, "Arkanoid - Mais Um Clone ?!?!?!?", Style::Fullscreen };
 	FrameTime lastFt{ 0.f }, currentSlice{ 0.f };
-	bool executando =true;
+	bool executando = true;
 
 	// These members are game entities.
 	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 2 };
@@ -29,6 +29,7 @@ public:
 	Game();
 
 	void menu();
+	void scoreboard();
 	void correr();
 	void inputPhase();
 	void updatePhase();
