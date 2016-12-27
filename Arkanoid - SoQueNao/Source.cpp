@@ -13,7 +13,7 @@ int main()
 		if (Keyboard::isKeyPressed(Keyboard::Key::Q)) break;
 	}
 
-	// porra para isto
+	// jikhsfdgjosdfjhklgdfshjkldsfhjkgsdfjkgjknh
 	//Jogo.correr();
 
 	//potato
