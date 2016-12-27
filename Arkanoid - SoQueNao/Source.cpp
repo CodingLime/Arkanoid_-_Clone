@@ -15,6 +15,8 @@ int main()
 
 	// porra para isto
 	//Jogo.correr();
+
+	//potato
 	return 0;
 }
 //#include <SFML/Graphics.hpp>

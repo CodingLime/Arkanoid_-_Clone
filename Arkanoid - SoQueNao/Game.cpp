@@ -125,7 +125,6 @@ void Game::classificacao()
 
 	Text titulo;
 
-
 			//se nao existir placeholder
 			String placeholder;
 			placeholder = nomeJogadores[i].getString();
