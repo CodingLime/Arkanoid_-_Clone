@@ -33,4 +33,11 @@ public:
 	void inputPhase();
 	void updatePhase();
 	void drawPhase();
+
+private:	
+	Text fimdoJogo;
+	Text mostraPontuacao;
+	Text texto;
+	Font font;
+
 };

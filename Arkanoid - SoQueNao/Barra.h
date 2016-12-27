@@ -9,9 +9,8 @@ class Barra :
 {
 public:
 
-
 	Barra(float mX, float mY);
-	 void update(FrameTime mFT);
+	void update(FrameTime mFT);
 	
 private:
 	int pontuacao;

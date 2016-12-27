@@ -9,6 +9,30 @@ Game::Game()
 
 	window.setFramerateLimit(240);
 
+	font.loadFromFile("black.ttf");
+
+	//Texto de Score
+	texto.setFont(font);
+	texto.setCharacterSize(35);
+	texto.setFillColor(Color::White);
+	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	texto.setString("SCORE:");
+
+	//valor pontuacao
+	mostraPontuacao.setFont(font);
+	mostraPontuacao.setFillColor(Color::White);
+	mostraPontuacao.setCharacterSize(35);
+	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	string pont = to_string(pontuacao);
+	mostraPontuacao.setString(pont);
+
+	//Fim do jogo
+	fimdoJogo.setFont(font);
+	fimdoJogo.setCharacterSize(20 * (larguraJanela * 0.001));
+	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
+	fimdoJogo.setFillColor(sf::Color::White);
+	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
+
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 			Tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
@@ -150,35 +174,6 @@ void Game::updatePhase()
 
 void Game::drawPhase()
 {
-	
-	//Texto de Score
-	Text texto;
-	Font font;
-	font.loadFromFile("black.ttf");
-	texto.setFont(font);
-	texto.setCharacterSize(35);
-	texto.setFillColor(Color::White);
-	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	texto.setString("SCORE:");
-	//valor pontuacao
-	Text mostraPontuacao;
-	mostraPontuacao.setFont(font);
-	mostraPontuacao.setFillColor(Color::White);
-	mostraPontuacao.setCharacterSize(35);
-	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string pont = to_string(pontuacao);
-	mostraPontuacao.setString(pont);
-
-	//Fim do jogo
-
-	//losegame http://en.sfml-dev.org/forums/index.php?topic=19353.0
-
-	Text fimdoJogo;
-	fimdoJogo.setFont(font);
-	fimdoJogo.setCharacterSize(20 * (larguraJanela * 0.001));
-	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
-	fimdoJogo.setFillColor(sf::Color::White);
-	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 /*	if (bola.fimjogo() == true)
 	{
 		jogo_pausado = true;
