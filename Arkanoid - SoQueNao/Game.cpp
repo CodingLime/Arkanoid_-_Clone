@@ -1,5 +1,8 @@
 #include "game.h"
+#include <vector>
+#include <iostream>
 extern int pontuacao;
+
 Game::Game()
 {
 	// On construction, we initialize the window and create
@@ -7,7 +10,7 @@ Game::Game()
 	// would be a good idea to have a `newGame()` method that
 	// can be called at any time to restart the Jogo.
 
-	window.setFramerateLimit(240);
+	//window.setFramerateLimit(240); // parece n√£o ser necessario para funcionar, remover no fim de tudo
 
 	font.loadFromFile("black.ttf");
 
@@ -15,14 +18,14 @@ Game::Game()
 	texto.setFont(font);
 	texto.setCharacterSize(35);
 	texto.setFillColor(Color::White);
-	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // PosiÁ„o do score fica consoante o tamanho da janela
+	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // Posi√ß√£o do score fica consoante o tamanho da janela
 	texto.setString("SCORE:");
 
 	//valor pontuacao
 	mostraPontuacao.setFont(font);
 	mostraPontuacao.setFillColor(Color::White);
 	mostraPontuacao.setCharacterSize(35);
-	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // PosiÁ„o do score fica consoante o tamanho da janela
+	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posi√ß√£o do score fica consoante o tamanho da janela
 	string pont = to_string(pontuacao);
 	mostraPontuacao.setString(pont);
 
@@ -97,6 +100,29 @@ void Game::menu()
 	window.display();
 }
 
+void Game::classificacao()
+{
+	auto timePoint1(chrono::high_resolution_clock::now());
+
+	window.clear(Color::Black);
+
+	Text titulo;
+	int nScores; //buscar do ficheiro quantos scores est√£o l√° guardados, mas manter a 10
+	vector<Text> score(nScores); //cria vector do tamanho de quantos scores existem
+
+	for (vector<int>::iterator it = score.begin, int i=0; it != score.end; it++, i++)
+	{
+		(*it) = "nome" += to_string(i);
+	}
+
+	for (int i = 0; i <= nScores; i++)
+	{
+		score.push_back(Text("nome"));
+	}
+	Font font;
+	font.loadFromFile("black.ttf");
+}
+
 void Game::correr()
 {
 	// The `run()` method is used to start the game and
@@ -119,7 +145,7 @@ void Game::correr()
 		// the code :)
 		inputPhase();
 
-	//	if (jogo_pausado) break;
+		if (jogo_pausado) break;
 
 		updatePhase();
 
@@ -149,7 +175,8 @@ void Game::inputPhase()
 			break;
 		}
 	}
-
+	if (Keyboard::isKeyPressed(Keyboard::Key::O)) bola.setvelocidadebola(0.005f);
+	if (Keyboard::isKeyPressed(Keyboard::Key::I)) bola.setvelocidadebola(-0.005f);
 	if (Keyboard::isKeyPressed(Keyboard::Key::Q)) executando = false;
 }
 
@@ -160,9 +187,8 @@ void Game::updatePhase()
 	{
 		bola.update(ftStep);
 		barra.update(ftStep);
-
-		testeColis„o(barra, bola);
-		for (auto& Tijolo : Tijolos) testeColis„o(Tijolo, bola);
+		testeColis√£o(barra, bola);
+		for (auto& Tijolo : Tijolos) testeColis√£o(Tijolo, bola);
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
 			[](const Tijolo& mTijolo)
 		{
@@ -175,16 +201,19 @@ void Game::updatePhase()
 void Game::drawPhase()
 {
 /*	if (bola.fimjogo() == true)
+
 	{
 		jogo_pausado = true;
 		window.clear();
 		window.draw(fimdoJogo);
 	}
-	*/
+  */
 	window.draw(bola.forma_bola);
 	window.draw(barra.forma_req);
 	window.draw(texto);
 	window.draw(mostraPontuacao);
+	window.draw(txtBola);
+	window.draw(mostraVel);
 	for (auto& Tijolo : Tijolos) window.draw(Tijolo.forma_req); // fazer ciclo for "normalmente"
 																//	if (fimjogo = true)
 																//	window.draw(fimdojogo);

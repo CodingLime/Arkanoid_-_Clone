@@ -8,12 +8,15 @@ using FrameTime = float;
 class Bola
 {
 public:
+	float velocidadebola = 0.2f * (alturaJanela * 0, 2.f);
 	//Atribuição da Altura e Largura da Janela do Programa
 	CircleShape forma_bola;
 	unsigned int larguraJanela = VideoMode::getDesktopMode().width;
 	unsigned int alturaJanela = VideoMode::getDesktopMode().height;
-	Vector2f velocidade{ -velocidadebola(), -velocidadebola() };
-	bool fimjogo(bool B_fimjogo=false);
+	float  getvelocidadebola();
+	void setvelocidadebola(float X);
+	Vector2f velocidade { -getvelocidadebola(), -getvelocidadebola() };
+	bool fimjogo = false;
 	//posicao da bola
 	Bola(float mX, float mY);
 	void update(FrameTime mFT);
@@ -23,9 +26,7 @@ public:
 	float const direita();
 	float const cima();
 	float const baixo();
-	float const velocidadebola();
 	float const raioBola();
-
 };
 
 

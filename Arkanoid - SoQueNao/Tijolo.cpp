@@ -42,19 +42,20 @@ void testeColisão(Barra & mbarra, Bola & mbola)
 {
 	if (!Interseção(mbarra, mbola)) return;
 
-	mbola.velocidade.y = -mbola.velocidadebola();
+	mbola.velocidade.y = -mbola.getvelocidadebola();
 	if (mbola.x() < mbarra.x())
-		mbola.velocidade.x = -mbola.velocidadebola();
+		mbola.velocidade.x = -mbola.getvelocidadebola();
 	else
-		mbola.velocidade.x = mbola.velocidadebola();
+		mbola.velocidade.x = mbola.getvelocidadebola();
 }
 
 void testeColisão(Tijolo & mTijolo, Bola & mbola)
 {
 	if (!Interseção(mTijolo, mbola)) return;
+	
+	
 	pontuacao++;
 	mTijolo.destruido = true;
-	printf("%d \n", pontuacao);
 	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
 	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
 	float sobreporCima{ mbola.baixo() - mTijolo.cima() };
@@ -67,7 +68,7 @@ void testeColisão(Tijolo & mTijolo, Bola & mbola)
 	float minsobreporY{ bolaFromcima ? sobreporCima : sobreporBaixo };
 
 	if (abs(minsobreporX) < abs(minsobreporY))
-		mbola.velocidade.x = bolaFromesquerda ? -mbola.velocidadebola() : mbola.velocidadebola();
+		mbola.velocidade.x = bolaFromesquerda ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
 	else
-		mbola.velocidade.y = bolaFromcima ? -mbola.velocidadebola() : mbola.velocidadebola();
+		mbola.velocidade.y = bolaFromcima ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
 }
