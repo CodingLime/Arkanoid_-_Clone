@@ -26,8 +26,6 @@ Game::Game()
 	mostraPontuacao.setFillColor(Color::White);
 	mostraPontuacao.setCharacterSize(35);
 	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string pont = to_string(pontuacao);
-	mostraPontuacao.setString(pont);
 
 	//Fim do jogo
 	fimdoJogo.setFont(font);
@@ -35,6 +33,21 @@ Game::Game()
 	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
 	fimdoJogo.setFillColor(sf::Color::White);
 	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
+
+	//Texto de VelBola
+	txtBola.setFont(font);
+	txtBola.setCharacterSize(35);
+	txtBola.setFillColor(Color::White);
+	txtBola.setPosition(5, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	txtBola.setString("Velocidade:");
+
+	//valor Velocidade
+	mostraVel.setFont(font);
+	mostraVel.setFillColor(Color::White);
+	mostraVel.setCharacterSize(35);
+	mostraVel.setPosition(205, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	string vel = to_string(bola.getvelocidadebola());
+	mostraVel.setString(vel);
 
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
@@ -240,56 +253,61 @@ void Game::updatePhase()
 void Game::drawPhase()
 {
 	
-	//Texto de Score
-	Text texto;
-	Font font;
-	font.loadFromFile("black.ttf");
-	texto.setFont(font);
-	texto.setCharacterSize(35);
-	texto.setFillColor(Color::White);
-	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	texto.setString("SCORE:");
-	//valor pontuacao
-	Text mostraPontuacao;
-	mostraPontuacao.setFont(font);
-	mostraPontuacao.setFillColor(Color::White);
-	mostraPontuacao.setCharacterSize(35);
-	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string pont = to_string(pontuacao);
-	mostraPontuacao.setString(pont);
 
-
-	//Texto de VelBola
-	Text txtBola;
-	txtBola.setFont(font);
-	txtBola.setCharacterSize(35);
-	txtBola.setFillColor(Color::White);
-	txtBola.setPosition(5, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	txtBola.setString("Velocidade:");
-	//valor Velocidade
-	Text mostraVel;
-	mostraVel.setFont(font);
-	mostraVel.setFillColor(Color::White);
-	mostraVel.setCharacterSize(35);
-	mostraVel.setPosition(205, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string vel = to_string(bola.getvelocidadebola());
-	mostraVel.setString(vel);
-	//Fim do jogo
-
-	//losegame http://en.sfml-dev.org/forums/index.php?topic=19353.0
-
-	Text fimdoJogo;
-	fimdoJogo.setFont(font);
-	fimdoJogo.setCharacterSize(20 * (larguraJanela * 0.001));
-	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
-	fimdoJogo.setFillColor(sf::Color::White);
-	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 	if (bola.fimjogo == true)
 	{
 		jogo_pausado = true;
 		window.clear();
-		window.draw(fimdoJogo);
+		//window.draw(fimdoJogo);
+
+		stringstream ss;
+
+		
+		Text gameOverTxt, a, b, c;
+		gameOverTxt.setFont(font);
+		a.setFont(font);
+		b.setFont(font);
+		c.setFont(font);
+
+		gameOverTxt.setString("You are dead");
+		gameOverTxt.setPosition(0 , 200);
+		gameOverTxt.setFillColor(Color::White);
+		window.draw(gameOverTxt);
+
+		ss << "Your score: " << pontuacao;
+		a.setString(ss.str());
+		a.setPosition(0, 300);
+		a.setFillColor(Color::White);
+		window.draw(a);
+
+	
+		b.setString("Try again!");
+		b.setPosition(0, 400);
+		b.setFillColor(Color::White);
+		window.draw(b);
+
+		c.setString("Back to main menu");
+		c.setFillColor(Color::White);
+		c.setPosition(0, 500);
+		window.draw(c);
+
+		window.display();
+
+		while (window.isOpen()) {
+			sf::Event event;
+			while (window.pollEvent(event)) {
+				if (event.type == sf::Event::Closed)
+					window.close();
+				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return) {
+					
+				}
+			}
+		}
 	}
+
+	// define valor do score
+	string pont = to_string(pontuacao);
+	mostraPontuacao.setString(pont);
   
 	window.draw(bola.forma_bola);
 	window.draw(barra.forma_req);

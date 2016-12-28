@@ -13,10 +13,7 @@ int main()
 		if (Keyboard::isKeyPressed(Keyboard::Key::Q)) break;
 	}
 
-	// jikhsfdgjosdfjhklgdfshjkldsfhjkgsdfjkgjknh
 	//Jogo.correr();
-
-	//potato
 	return 0;
 }
 //#include <SFML/Graphics.hpp>

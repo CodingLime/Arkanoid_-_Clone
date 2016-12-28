@@ -38,9 +38,7 @@ public:
 	void drawPhase();
 
 private:	
-	Text fimdoJogo;
-	Text mostraPontuacao;
-	Text texto;
+	Text fimdoJogo, txtBola, mostraVel, mostraPontuacao, texto;
 	Font font;
 
 };
