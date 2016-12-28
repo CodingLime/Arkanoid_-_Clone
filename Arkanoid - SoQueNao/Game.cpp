@@ -10,7 +10,7 @@ Game::Game()
 	// would be a good idea to have a `newGame()` method that
 	// can be called at any time to restart the Jogo.
 
-	//window.setFramerateLimit(240); // parece n�o ser necessario para funcionar, remover no fim de tudo
+	//window.setFramerateLimit(240); // parece nao ser necessario para funcionar, remover no fim de tudo
 
 	font.loadFromFile("black.ttf");
 
@@ -252,6 +252,57 @@ void Game::updatePhase()
 	}
 }
 
+void Game::gameOver()
+{
+
+	stringstream ss;
+
+	for (auto& Tijolo : Tijolos) Tijolo.destruido = true;
+
+	Text gameOverTxt, a, b, c;
+	gameOverTxt.setFont(font);
+	a.setFont(font);
+	b.setFont(font);
+	c.setFont(font);
+
+	gameOverTxt.setString("You are dead");
+	gameOverTxt.setPosition(0, 200);
+	gameOverTxt.setFillColor(Color::White);
+	window.draw(gameOverTxt);
+
+	ss << "Your score: " << pontuacao;
+	a.setString(ss.str());
+	a.setPosition(0, 300);
+	a.setFillColor(Color::White);
+	window.draw(a);
+
+
+	b.setString("Try again!");
+	b.setPosition(0, 400);
+	b.setFillColor(Color::White);
+	window.draw(b);
+
+	c.setString("Back to main menu");
+	c.setFillColor(Color::White);
+	c.setPosition(0, 500);
+	window.draw(c);
+
+	window.display();
+
+
+	Event evento;
+	while (window.pollEvent(evento))
+	{
+		if (evento.type == Event::Closed)
+		{
+			window.close();
+			break;
+		}
+		if (evento.type == Keyboard::isKeyPressed(Keyboard::Key::D))
+			correr();
+	}
+}
+
 void Game::drawPhase()
 {
 	
@@ -260,51 +311,8 @@ void Game::drawPhase()
 	{
 		jogo_pausado = true;
 		window.clear();
-		//window.draw(fimdoJogo);
-
-		stringstream ss;
-
-		
-		Text gameOverTxt, a, b, c;
-		gameOverTxt.setFont(font);
-		a.setFont(font);
-		b.setFont(font);
-		c.setFont(font);
-
-		gameOverTxt.setString("You are dead");
-		gameOverTxt.setPosition(0 , 200);
-		gameOverTxt.setFillColor(Color::White);
-		window.draw(gameOverTxt);
-
-		ss << "Your score: " << pontuacao;
-		a.setString(ss.str());
-		a.setPosition(0, 300);
-		a.setFillColor(Color::White);
-		window.draw(a);
-
-	
-		b.setString("Try again!");
-		b.setPosition(0, 400);
-		b.setFillColor(Color::White);
-		window.draw(b);
-
-		c.setString("Back to main menu");
-		c.setFillColor(Color::White);
-		c.setPosition(0, 500);
-		window.draw(c);
-
-		window.display();
-
-		while (window.isOpen()) {
-			sf::Event event;
-			while (window.pollEvent(event)) {
-				if (event.type == sf::Event::Closed)
-					window.close();
-				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return) {
+		window.draw(fimdoJogo);
 					
-				}
-			}
-		}
 	}
 
 	// define valor do score

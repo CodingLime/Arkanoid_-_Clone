@@ -30,8 +30,9 @@ public:
 	Game();
 
 	void menu();
+	void gameOver();
 	void classificacao();
-	void desenharclassificacao(RenderWindow &renderWindow, String Stringjogadores, String Stringpontuacao);
+	//void desenharclassificacao(RenderWindow &renderWindow, String Stringjogadores, String Stringpontuacao);
 	void correr();
 	void inputPhase();
 	void updatePhase();
