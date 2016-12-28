@@ -8,7 +8,7 @@ using FrameTime = float;
 class Bola
 {
 public:
-	float velocidadebola = 0.2f * (alturaJanela * 0, 2.f);
+	float velocidadebola = 0.4f;
 	//Atribuição da Altura e Largura da Janela do Programa
 	CircleShape forma_bola;
 	unsigned int larguraJanela = VideoMode::getDesktopMode().width;

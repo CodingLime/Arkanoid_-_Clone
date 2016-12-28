@@ -49,13 +49,16 @@ void testeColisao(Barra & mbarra, Bola & mbola)
 		mbola.velocidade.x = mbola.getvelocidadebola();
 }
 
-void testeColisao(Tijolo & mTijolo, Bola & mbola)
+void testeColisao(Tijolo & mTijolo, Bola & mbola, powerup& mpowerup)
 {
 	if (!Intersecao(mTijolo, mbola)) return;
-	
-	
 	pontuacao++;
 	mTijolo.destruido = true;
+	// se bool powerup true alterar velocidade powerup
+	if (mpowerup.Powerup == true)
+	{
+		mpowerup.setVelocidadeP(0, 0.4f);
+	}
 	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
 	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
 	float sobreporCima{ mbola.baixo() - mTijolo.cima() };

@@ -25,6 +25,7 @@ public:
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
 	Tijolo tijolo{ 0, 0 };
 	vector<Tijolo> Tijolos;
+	powerup powerUP{ 0,0 };
 	float ftStep = 1.f;
 	float ftSlice = 1.f;
 	Game();
@@ -33,10 +34,12 @@ public:
 	void classificacao();
 //	void desenharclassificacao(RenderWindow &renderWindow, String Stringjogadores, String Stringpontuacao);
 	void correr();
+	void construir_tijolos();
+	Text criartexto(int tamanholetra, int posX, int posY, char *Texto);
 	void inputPhase();
 	void updatePhase();
 	void drawPhase();
-
+	void restart();
 private:	
 	Text fimdoJogo;
 	Text mostraPontuacao;

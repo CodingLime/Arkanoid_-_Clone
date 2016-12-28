@@ -1,7 +1,7 @@
 #pragma once
 #include "Barra.h"
 #include "Bola.h"
-
+#include "powerup.h"
 class Tijolo :
 	public Rectangulo
 {
@@ -14,10 +14,14 @@ public:
 	Tijolo(float mX, float mY);
 
 };
-
+class powerup;
 void testeColisao(Barra& mbarra, Bola& mbola);
 
-void testeColisao(Tijolo& mTijolo, Bola& mbola);
+void testeColisao(Tijolo& mTijolo, Bola& mbola, powerup& mpowerup);
+
+
+/* IMPLEMENTAR QULQUER DIA
+void testeColisao(powerup& mPower, Barra& mbarra;)*/
 
 template<class T1, class T2>
 inline bool Intersecao(T1 & mA, T2 & mB)

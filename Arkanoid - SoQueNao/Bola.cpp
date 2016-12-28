@@ -76,5 +76,5 @@ float const Bola::baixo()
 
 float const Bola::raioBola()
 {
-	return 20.f * (larguraJanela * 0,2.f);
+	return 20.f * 2.f;
 }
