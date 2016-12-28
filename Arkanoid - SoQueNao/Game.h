@@ -21,7 +21,7 @@ public:
 	bool executando = true;
 
 	// These members are game entities.
-	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 2 };
+	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
 	Tijolo tijolo{ 0, 0 };
 	vector<Tijolo> Tijolos;
@@ -31,7 +31,7 @@ public:
 
 	void menu();
 	void classificacao();
-	void desenharclassificacao(RenderWindow &renderWindow, String Stringjogadores, String Stringpontuacao);
+//	void desenharclassificacao(RenderWindow &renderWindow, String Stringjogadores, String Stringpontuacao);
 	void correr();
 	void inputPhase();
 	void updatePhase();

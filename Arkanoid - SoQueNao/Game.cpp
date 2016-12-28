@@ -47,9 +47,18 @@ void Game::menu()
 
 	window.clear(Color::Black);
 
-	Text play, bot, score, quit;
+	Text play, bot, score, quit, titulo;
 	Font font;
 	font.loadFromFile("black.ttf");
+
+
+	titulo.setFont(font);
+	titulo.setCharacterSize(80 * (larguraJanela * 0.001));
+	titulo.setFillColor(Color::White);
+	titulo.setOutlineColor(Color::Yellow);
+	titulo.setOutlineThickness(2);
+	titulo.setPosition(larguraJanela / 5, alturaJanela / 15 + (alturaJanela * 0.01));
+	titulo.setString("Arkanoid #SQN");
 
 	play.setFont(font);
 	play.setCharacterSize(80 * (larguraJanela * 0.001));
@@ -92,7 +101,7 @@ void Game::menu()
 
 	auto ftSeconds(ft / 1000.f);
 	auto fps(1.f / ftSeconds);
-
+	window.draw(titulo);
 	window.draw(play);
 	window.draw(bot);
 	window.draw(score);
