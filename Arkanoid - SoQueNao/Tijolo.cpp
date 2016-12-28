@@ -55,7 +55,8 @@ void testeColisao(Tijolo & mTijolo, Bola & mbola, powerup& mpowerup)
 	pontuacao++;
 	mTijolo.destruido = true;
 	// se bool powerup true alterar velocidade powerup
-	if (mpowerup.Powerup == true)
+	
+	if (mTijolo.Powerup)
 	{
 		mpowerup.setVelocidadeP(0, 0.4f);
 	}
@@ -74,4 +75,11 @@ void testeColisao(Tijolo & mTijolo, Bola & mbola, powerup& mpowerup)
 		mbola.velocidade.x = bolaFromesquerda ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
 	else
 		mbola.velocidade.y = bolaFromcima ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
+}
+
+void testeColisao(Barra & mbarra, powerup & mPower)
+{
+	if (!Intersecao(mPower, mbarra)) return; //fazer com os outros, verifica primeiro se NAO há colisão, se NAO houver, sai da funcao7
+	
+	printf("COLISAO OMGED!");	
 }

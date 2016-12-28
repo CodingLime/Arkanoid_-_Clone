@@ -36,7 +36,7 @@ Game::Game()
 	fimdoJogo.setFillColor(sf::Color::White);
 	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 
-	construir_tijolos();
+	construir_tijolos(tijolo);
 }
 
 void Game::menu()
@@ -211,19 +211,21 @@ void Game::correr()
 	}
 }
 
-void Game::construir_tijolos()
+void Game::construir_tijolos(Tijolo& mTijolo)
 {
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 		{
-			Tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
+			Tijolos.emplace_back( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) ); //mete no fim do vector
+			cout << tijolo.destruido; cout << endl;
+			
 			// if rand = 1 pega posição, cria lá powerup
-			int valorPW;
-			valorPW = rand() % 14;
-			if (valorPW == 1)
+			int valorPW = rand() % 14;
+			if (valorPW == 1 && tijolo.Powerup == false)
 			{
-				powerUP.setposition((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
-				powerUP.Powerup = true;
+				powerUP.setposition( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) );
+				tijolo.Powerup = true;
+				cout << tijolo.Powerup << endl;
 			}
 		}
 }
@@ -270,7 +272,9 @@ void Game::updatePhase()
 		barra.update(ftStep);
 		powerUP.update(ftStep);
 		testeColisao(barra, bola);
+		testeColisao(barra, powerUP);
 		for (auto& Tijolo : Tijolos) testeColisao(Tijolo, bola, powerUP);
+
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
 			[](const Tijolo& mTijolo)
 		{
@@ -290,7 +294,7 @@ void Game::drawPhase()
 		window.clear();
 		window.draw(criartexto(20 * (larguraJanela * 0.001), alturaJanela / 2, larguraJanela / 2, "Perdeste buahaha, carrega 'R' para Reiniciar!"));
 	}
-  //desenha Bola
+    //desenha Bola
 	window.draw(bola.forma_bola);
 	//desenha Barra
 	window.draw(barra.forma_req);
@@ -309,10 +313,14 @@ void Game::drawPhase()
 	Text mostraVel = criartexto(35, 205, float(alturaJanela)-50, "");
 	mostraVel.setString(to_string(bola.getvelocidadebola()));
 	window.draw(mostraVel);
-
-	for (auto& Tijolo : Tijolos) window.draw(Tijolo.forma_req); // fazer ciclo for "normalmente"
-																//	if (fimjogo = true)
-																//	window.draw(fimdojogo);
+	
+	for (Tijolo& Tijolo : Tijolos) window.draw(Tijolo.forma_req); // fazer ciclo for "normalmente"
+																  //	if (fimjogo = true)
+																  //	window.draw(fimdojogo);
+	/*
+	for em cima é a mesma coisa que:
+	for(int i=0; i< Tijolos.size(); i++) window.draw(Tijolos[i].forma_req)
+	*/
 	window.display();
 }
 

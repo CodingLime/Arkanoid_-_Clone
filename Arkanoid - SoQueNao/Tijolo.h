@@ -7,6 +7,7 @@ class Tijolo :
 {
 public:
 	bool destruido = false;
+	bool Powerup = false;
 	float larguraTijolo();
 	float alturaTijolo();
 	int nTijolosX();
@@ -14,14 +15,12 @@ public:
 	Tijolo(float mX, float mY);
 
 };
-class powerup;
+class powerup; //why the f this
 void testeColisao(Barra& mbarra, Bola& mbola);
 
 void testeColisao(Tijolo& mTijolo, Bola& mbola, powerup& mpowerup);
 
-
-/* IMPLEMENTAR QULQUER DIA
-void testeColisao(powerup& mPower, Barra& mbarra;)*/
+void testeColisao(Barra& mbarra, powerup& mpower);
 
 template<class T1, class T2>
 inline bool Intersecao(T1 & mA, T2 & mB)

@@ -7,12 +7,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Arkanoid - SoQueNao", "Arka
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		AA|x64 = AA|x64
+		AA|x86 = AA|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3545996-B6A3-492E-BD36-9BB2869D910B}.AA|x64.ActiveCfg = AA|x64
+		{B3545996-B6A3-492E-BD36-9BB2869D910B}.AA|x64.Build.0 = AA|x64
+		{B3545996-B6A3-492E-BD36-9BB2869D910B}.AA|x86.ActiveCfg = AA|Win32
+		{B3545996-B6A3-492E-BD36-9BB2869D910B}.AA|x86.Build.0 = AA|Win32
+		{B3545996-B6A3-492E-BD36-9BB2869D910B}.AA|x86.Deploy.0 = AA|Win32
 		{B3545996-B6A3-492E-BD36-9BB2869D910B}.Debug|x64.ActiveCfg = Debug|x64
 		{B3545996-B6A3-492E-BD36-9BB2869D910B}.Debug|x64.Build.0 = Debug|x64
 		{B3545996-B6A3-492E-BD36-9BB2869D910B}.Debug|x86.ActiveCfg = Debug|Win32
@@ -21,6 +28,7 @@ Global
 		{B3545996-B6A3-492E-BD36-9BB2869D910B}.Release|x64.Build.0 = Release|x64
 		{B3545996-B6A3-492E-BD36-9BB2869D910B}.Release|x86.ActiveCfg = Release|Win32
 		{B3545996-B6A3-492E-BD36-9BB2869D910B}.Release|x86.Build.0 = Release|Win32
+		{B3545996-B6A3-492E-BD36-9BB2869D910B}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
