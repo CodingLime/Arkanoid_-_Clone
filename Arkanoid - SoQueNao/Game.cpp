@@ -10,7 +10,7 @@ Game::Game()
 	// would be a good idea to have a `newGame()` method that
 	// can be called at any time to restart the Jogo.
 
-	//window.setFramerateLimit(240); // parece n�o ser necessario para funcionar, remover no fim de tudo
+	//window.setFramerateLimit(240); // parece nao ser necessario para funcionar, remover no fim de tudo
 
 	font.loadFromFile("black.ttf");
 
@@ -26,8 +26,6 @@ Game::Game()
 	mostraPontuacao.setFillColor(Color::White);
 	mostraPontuacao.setCharacterSize(35);
 	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string pont = to_string(pontuacao);
-	mostraPontuacao.setString(pont);
 
 	//Fim do jogo
 	fimdoJogo.setFont(font);
@@ -36,9 +34,22 @@ Game::Game()
 	fimdoJogo.setFillColor(sf::Color::White);
 	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 
-	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
-		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
-			Tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
+	//Texto de VelBola
+	txtBola.setFont(font);
+	txtBola.setCharacterSize(35);
+	txtBola.setFillColor(Color::White);
+	txtBola.setPosition(5, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	txtBola.setString("Velocidade:");
+
+	//valor Velocidade
+	mostraVel.setFont(font);
+	mostraVel.setFillColor(Color::White);
+	mostraVel.setCharacterSize(35);
+	mostraVel.setPosition(205, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	string vel = to_string(bola.getvelocidadebola());
+	mostraVel.setString(vel);
+
+
 }
 
 void Game::menu()
@@ -171,6 +182,10 @@ void Game::correr()
 	// use a boolean variable, `running`.
 	executando = true;
 
+	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
+		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
+			Tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
+
 	while (executando)
 	{
 		auto timePoint1(chrono::high_resolution_clock::now());
@@ -237,59 +252,72 @@ void Game::updatePhase()
 	}
 }
 
+void Game::gameOver()
+{
+
+	stringstream ss;
+
+	for (auto& Tijolo : Tijolos) Tijolo.destruido = true;
+
+	Text gameOverTxt, a, b, c;
+	gameOverTxt.setFont(font);
+	a.setFont(font);
+	b.setFont(font);
+	c.setFont(font);
+
+	gameOverTxt.setString("You are dead");
+	gameOverTxt.setPosition(0, 200);
+	gameOverTxt.setFillColor(Color::White);
+	window.draw(gameOverTxt);
+
+	ss << "Your score: " << pontuacao;
+	a.setString(ss.str());
+	a.setPosition(0, 300);
+	a.setFillColor(Color::White);
+	window.draw(a);
+
+
+	b.setString("Try again!");
+	b.setPosition(0, 400);
+	b.setFillColor(Color::White);
+	window.draw(b);
+
+	c.setString("Back to main menu");
+	c.setFillColor(Color::White);
+	c.setPosition(0, 500);
+	window.draw(c);
+
+	window.display();
+
+
+	Event evento;
+	while (window.pollEvent(evento))
+	{
+		if (evento.type == Event::Closed)
+		{
+			window.close();
+			break;
+		}
+		if (evento.type == Keyboard::isKeyPressed(Keyboard::Key::D))
+			correr();
+	}
+}
+
 void Game::drawPhase()
 {
 	
-	//Texto de Score
-	Text texto;
-	Font font;
-	font.loadFromFile("black.ttf");
-	texto.setFont(font);
-	texto.setCharacterSize(35);
-	texto.setFillColor(Color::White);
-	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	texto.setString("SCORE:");
-	//valor pontuacao
-	Text mostraPontuacao;
-	mostraPontuacao.setFont(font);
-	mostraPontuacao.setFillColor(Color::White);
-	mostraPontuacao.setCharacterSize(35);
-	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string pont = to_string(pontuacao);
-	mostraPontuacao.setString(pont);
 
-
-	//Texto de VelBola
-	Text txtBola;
-	txtBola.setFont(font);
-	txtBola.setCharacterSize(35);
-	txtBola.setFillColor(Color::White);
-	txtBola.setPosition(5, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	txtBola.setString("Velocidade:");
-	//valor Velocidade
-	Text mostraVel;
-	mostraVel.setFont(font);
-	mostraVel.setFillColor(Color::White);
-	mostraVel.setCharacterSize(35);
-	mostraVel.setPosition(205, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string vel = to_string(bola.getvelocidadebola());
-	mostraVel.setString(vel);
-	//Fim do jogo
-
-	//losegame http://en.sfml-dev.org/forums/index.php?topic=19353.0
-
-	Text fimdoJogo;
-	fimdoJogo.setFont(font);
-	fimdoJogo.setCharacterSize(20 * (larguraJanela * 0.001));
-	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
-	fimdoJogo.setFillColor(sf::Color::White);
-	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 	if (bola.fimjogo == true)
 	{
 		jogo_pausado = true;
 		window.clear();
 		window.draw(fimdoJogo);
+					
 	}
+
+	// define valor do score
+	string pont = to_string(pontuacao);
+	mostraPontuacao.setString(pont);
   
 	window.draw(bola.forma_bola);
 	window.draw(barra.forma_req);

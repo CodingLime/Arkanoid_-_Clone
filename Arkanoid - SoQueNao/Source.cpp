@@ -13,10 +13,7 @@ int main()
 		if (Keyboard::isKeyPressed(Keyboard::Key::Q)) break;
 	}
 
-	// porra para isto
 	//Jogo.correr();
-
-	//potato
 	return 0;
 }
 //#include <SFML/Graphics.hpp>
