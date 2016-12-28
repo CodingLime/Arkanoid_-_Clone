@@ -49,9 +49,7 @@ Game::Game()
 	string vel = to_string(bola.getvelocidadebola());
 	mostraVel.setString(vel);
 
-	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
-		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
-			Tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
+
 }
 
 void Game::menu()
@@ -183,6 +181,10 @@ void Game::correr()
 	// Instead of using `break` to stop the game, we will
 	// use a boolean variable, `running`.
 	executando = true;
+
+	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
+		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
+			Tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
 
 	while (executando)
 	{
