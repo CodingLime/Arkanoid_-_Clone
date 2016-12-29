@@ -5,6 +5,8 @@
 #include "Bola.h"
 #include "Barra.h"
 #include "Tijolo.h"
+#include "Pontuacoes.h"
+#include "Gravarpontuacao.h"
 using namespace sf;
 class Game
 {
@@ -28,14 +30,14 @@ public:
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
 	Tijolo tijolo{ 0, 0 }; //why that f this
 	vector<Tijolo> Tijolos;
+	Pontuacoes G_pontuacoes;
+	Gravarpontuacao Gravarpontuacoes;
 	powerup powerUP{ 0,0 };
 	float ftStep = 1.f;
 	float ftSlice = 1.f;
 	Game();
 
 	void menu();
-	void classificacao();
-//	void desenharclassificacao(RenderWindow &renderWindow, String Stringjogadores, String Stringpontuacao);
 	void correr();
 	void construir_tijolos(Tijolo& mTijolo);
 	Text criartexto(int tamanholetra, int posX, int posY, char *Texto);
@@ -43,6 +45,9 @@ public:
 	void updatePhase();
 	void drawPhase();
 	void restart();
+	void topDezEcra();
+	int fimdojogo();
+
 private:	
 	Text fimdoJogo;
 	Text mostraPontuacao;

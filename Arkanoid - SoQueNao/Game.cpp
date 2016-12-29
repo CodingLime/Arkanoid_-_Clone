@@ -1,7 +1,7 @@
 #include "game.h"
 #include <vector>
 #include <iostream>
-extern int pontuacao;
+//extern int pontuacao;
 
 Game::Game()
 {
@@ -26,7 +26,7 @@ Game::Game()
 	mostraPontuacao.setFillColor(Color::White);
 	mostraPontuacao.setCharacterSize(35);
 	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	string pont = to_string(pontuacao);
+	string pont = to_string(G_pontuacoes.getpontuacao());
 	mostraPontuacao.setString(pont);
 
 	//Fim do jogo
@@ -79,7 +79,7 @@ void Game::menu()
 	score.setPosition(larguraJanela / 10, alturaJanela - (alturaJanela * 0.46));
 	//score.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela - (alturaJanela * 0.46));
 
-	score.setString("[S]core - falta");
+	score.setString("[S]core");
 
 	quit.setFont(font);
 	quit.setCharacterSize(80 * (larguraJanela * 0.001));
@@ -217,7 +217,6 @@ void Game::construir_tijolos(Tijolo& mTijolo)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 		{
 			Tijolos.emplace_back( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) ); //mete no fim do vector
-			cout << tijolo.destruido; cout << endl;
 			
 			// if rand = 1 pega posição, cria lá powerup
 			int valorPW = rand() % 14;
@@ -225,7 +224,6 @@ void Game::construir_tijolos(Tijolo& mTijolo)
 			{
 				powerUP.setposition( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) );
 				tijolo.Powerup = true;
-				cout << tijolo.Powerup << endl;
 			}
 		}
 }
@@ -273,7 +271,7 @@ void Game::updatePhase()
 		powerUP.update(ftStep);
 		testeColisao(barra, bola);
 		testeColisao(barra, powerUP);
-		for (auto& Tijolo : Tijolos) testeColisao(Tijolo, bola, powerUP);
+		for (auto& Tijolo : Tijolos) testeColisao(Tijolo, bola, powerUP, G_pontuacoes);
 
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
 			[](const Tijolo& mTijolo)
@@ -290,9 +288,11 @@ void Game::drawPhase()
 	
 	if (bola.fimjogo == true)
 	{
+		/*
 		jogo_pausado = true;
 		window.clear();
-		window.draw(criartexto(20 * (larguraJanela * 0.001), alturaJanela / 2, larguraJanela / 2, "Perdeste buahaha, carrega 'R' para Reiniciar!"));
+		window.draw(criartexto(20 * (larguraJanela * 0.001), alturaJanela / 2, larguraJanela / 2, "Perdeste buahaha, carrega 'R' para Reiniciar!"));*/
+		fimdojogo();
 	}
     //desenha Bola
 	window.draw(bola.forma_bola);
@@ -304,7 +304,7 @@ void Game::drawPhase()
 	window.draw(criartexto(35, float(larguraJanela) - 185, float(alturaJanela) - 50, "SCORE:"));
 	//Desenhar pontuacao
 	Text mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
-	mostraPontuacao.setString(to_string(pontuacao));
+	mostraPontuacao.setString(to_string(G_pontuacoes.getpontuacao()));
 	window.draw(mostraPontuacao);
 
 	//velocidade
@@ -332,6 +332,82 @@ void Game::restart()
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 			Tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
-	pontuacao = 0;
+	G_pontuacoes.resetPontuacao();
 	
 }
+
+void Game::topDezEcra()
+{
+	Text scoreTxt = criartexto(20, 120.f, 420.f, "Pontuacoes");
+
+	stringstream ss;
+	unsigned int scoreDatasize = Gravarpontuacoes.getHighscore().size();
+
+	window.clear(Color(0x9f, 0x6d, 0x47));
+	window.draw(scoreTxt);
+
+	for (unsigned int i = 0; i < 10 && i < scoreDatasize; i++) {
+		//score number
+		ss.str("");
+		ss << "#" << (i + 1);
+		scoreTxt.setString(ss.str());
+		scoreTxt.setPosition(175.f, 110.f + (30*i));
+		window.draw(scoreTxt);
+		//score
+		ss.str("");
+		ss << Gravarpontuacoes.getHighscore().at(i);
+		scoreTxt.setString(ss.str());
+		scoreTxt.setPosition(470.f - scoreTxt.getLocalBounds().width, 110.f + (30 * i));
+		window.draw(scoreTxt);
+	}
+window.display();
+
+while (window.isOpen()) {
+	sf::Event event;
+	while (window.pollEvent(event)) {
+		if (event.type == sf::Event::Closed)
+			window.close();
+		if (event.type == sf::Event::KeyPressed) {
+			window.close();
+			
+		}
+	}
+}
+
+}
+
+int Game::fimdojogo()
+{
+	Text gameoverTxt = criartexto(25,larguraJanela - 2 - gameoverTxt.getLocalBounds().width/2, 160.f, "YOU ARE DEAD");
+
+	stringstream ss;
+
+	ss << "Score: " << G_pontuacoes.getpontuacao();
+	gameoverTxt.setString(ss.str());
+	gameoverTxt.setPosition(larguraJanela / 2 - gameoverTxt.getLocalBounds().width / 2, 190.f);
+	window.draw(gameoverTxt);
+
+	gameoverTxt.setString("Voltar ao menu principal");
+	gameoverTxt.setFillColor(Color::White);
+	gameoverTxt.setPosition(larguraJanela / 2 - gameoverTxt.getLocalBounds().width / 2, 280.f);
+	
+
+	window.display();
+
+	while (window.isOpen()) {
+		Event event;
+		while (window.pollEvent(event)) {
+			if (event.type == Event::Closed)
+				window.close();
+			if (event.type == Event::KeyPressed)
+			{
+				Game::menu();
+				return 0;
+			}
+		}
+	}
+	
+	return -1;
+
+}
+

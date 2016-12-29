@@ -185,6 +185,8 @@
     <ClCompile Include="Barra.cpp" />
     <ClCompile Include="Bola.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Gravarpontuacao.cpp" />
+    <ClCompile Include="Pontuacoes.cpp" />
     <ClCompile Include="powerup.cpp" />
     <ClCompile Include="Rectangulo.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -194,6 +196,8 @@
     <ClInclude Include="Barra.h" />
     <ClInclude Include="Bola.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Gravarpontuacao.h" />
+    <ClInclude Include="Pontuacoes.h" />
     <ClInclude Include="powerup.h" />
     <ClInclude Include="Rectangulo.h" />
     <ClInclude Include="Tijolo.h" />

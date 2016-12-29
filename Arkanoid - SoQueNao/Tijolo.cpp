@@ -1,6 +1,6 @@
 #include "Tijolo.h"
 
-int pontuacao = 0;
+//int pontuacao = 0;
 
 float Tijolo::larguraTijolo()
 {
@@ -49,10 +49,10 @@ void testeColisao(Barra & mbarra, Bola & mbola)
 		mbola.velocidade.x = mbola.getvelocidadebola();
 }
 
-void testeColisao(Tijolo & mTijolo, Bola & mbola, powerup& mpowerup)
+void testeColisao(Tijolo & mTijolo, Bola & mbola, powerup& mpowerup, Pontuacoes& G_pontuacao)
 {
 	if (!Intersecao(mTijolo, mbola)) return;
-	pontuacao++;
+	G_pontuacao.adicionarpontuacao(1);
 	mTijolo.destruido = true;
 	// se bool powerup true alterar velocidade powerup
 	
