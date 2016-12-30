@@ -17,7 +17,9 @@ void powerup::setposition(float mX, float mY)
 
 void powerup::setVelocidadeP(float x, float y)
 {
-	Vector2f velocidade{ x,y };
+	velocidade.x = x;
+	velocidade.y = y;
+
 }
 
 powerup::powerup(float mX, float mY)

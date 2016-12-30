@@ -5,7 +5,7 @@ class powerup
 public:
 	float velocidade_P = 0.2f;
 	CircleShape forma_P;
-	Vector2f velocidade{ 0,0.2f };
+	Vector2f velocidade{ 0,0 };
 	void update(FrameTime mFT);
 	void setposition(float mX, float mY);
 	void setVelocidadeP(float x, float y);

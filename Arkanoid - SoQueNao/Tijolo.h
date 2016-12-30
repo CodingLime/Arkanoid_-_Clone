@@ -9,17 +9,19 @@ class Tijolo :
 public:
 	bool destruido = false;
 	bool Powerup = false;
+
 	float larguraTijolo();
 	float alturaTijolo();
 	int nTijolosX();
 	int nTijolosY();
 	Tijolo(float mX, float mY);
+	void setPowerUp();
 
 };
 class powerup; //why the f this
 void testeColisao(Barra& mbarra, Bola& mbola);
 
-void testeColisao(Tijolo& mTijolo, Bola& mbola, powerup& mpowerup, Pontuacoes& G_pontuacao);
+void testeColisao(Tijolo& mTijolo, Bola& mbola, vector<powerup>& mpowerup, Pontuacoes& G_pontuacao);
 
 void testeColisao(Barra& mbarra, powerup& mpower);
 

@@ -28,25 +28,25 @@ public:
 	//Declaracao de entidades usadas no programa
 	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
-	Tijolo tijolo{ 0, 0 }; //why that f this
+	Tijolo tijolo {0, 0 }; //why that f this
 	vector<Tijolo> Tijolos;
 	Pontuacoes G_pontuacoes;
 	Gravarpontuacao Gravarpontuacoes;
 	powerup powerUP{ 0,0 };
+	vector<powerup> powerups;
 	float ftStep = 1.f;
 	float ftSlice = 1.f;
 	Game();
 
 	void menu();
 	void correr();
-	void construir_tijolos(Tijolo& mTijolo);
+	void construir_tijolos();
 	Text criartexto(int tamanholetra, int posX, int posY, char *Texto);
 	void inputPhase();
 	void updatePhase();
-	void drawPhase();
+	bool drawPhase();
 	void restart();
 	void topDezEcra();
-	int fimdojogo();
 
 private:	
 	Text fimdoJogo;

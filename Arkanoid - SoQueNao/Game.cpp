@@ -36,7 +36,7 @@ Game::Game()
 	fimdoJogo.setFillColor(sf::Color::White);
 	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 
-	construir_tijolos(tijolo);
+	construir_tijolos();
 }
 
 void Game::menu()
@@ -107,66 +107,6 @@ void Game::menu()
 	window.display();
 }
 
-void Game::classificacao()
-{
-	auto timePoint1(chrono::high_resolution_clock::now());
-
-	window.clear(Color::Black);
-	vector<pair<Text, int>> Stringjogadores;
-	vector<pair<Text, int>> Stringpontuacao;
-	vector<Int16> inputpontuacaoJogadores;
-	vector<int> pontuacaoJogadores;
-	vector<Text> nomeJogadores;
-
-	for (size_t i = 0; i < nomeJogadores.size(); i++)
-	{
-		if (Stringjogadores.size() <= i)
-		{
-			pair<Text, int> novoJogador;
-			Text SnovoJogador;
-			SnovoJogador.setString(nomeJogadores[i].getString());
-			SnovoJogador.setCharacterSize(15);
-			novoJogador.first = SnovoJogador;
-			novoJogador.second = inputpontuacaoJogadores[i];
-			Stringjogadores.push_back(novoJogador);
-
-	Text titulo;
-
-			//se nao existir placeholder
-			String placeholder;
-			placeholder = nomeJogadores[i].getString();
-			if (placeholder.getSize() == 0)
-			{
-				Stringjogadores[i].first.setString("AAAA AAAAA");
-			}
-		}
-	}
-
-	//pontuacao
-	for (size_t i = 0; i < inputpontuacaoJogadores.size(); i++)
-	{
-		stringstream ss;
-		ss << inputpontuacaoJogadores[i];
-		
-		pair<Text, int> novaPontuacao;
-		novaPontuacao.first.setString(ss.str());
-		novaPontuacao.first.setCharacterSize(15);
-		novaPontuacao.second = inputpontuacaoJogadores[i];
-
-		if (Stringpontuacao.size() <= i)
-		{
-			pontuacaoJogadores.push_back(inputpontuacaoJogadores[i]);
-			Stringpontuacao.push_back(novaPontuacao);
-		}
-		else {
-			pontuacaoJogadores[i] = inputpontuacaoJogadores[i];
-			Stringpontuacao[i] = novaPontuacao;
-		}
-		
-	}
-	Font font;
-	font.loadFromFile("black.ttf");
-}
 
 
 void Game::correr()
@@ -196,7 +136,7 @@ void Game::correr()
 
 		updatePhase();
 
-		drawPhase();
+		executando = drawPhase();
 
 		auto timePoint2(chrono::high_resolution_clock::now());
 		auto elapsedTime(timePoint2 - timePoint1);
@@ -211,8 +151,9 @@ void Game::correr()
 	}
 }
 
-void Game::construir_tijolos(Tijolo& mTijolo)
+void Game::construir_tijolos()
 {
+
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 		{
@@ -220,10 +161,15 @@ void Game::construir_tijolos(Tijolo& mTijolo)
 			
 			// if rand = 1 pega posição, cria lá powerup
 			int valorPW = rand() % 14;
-			if (valorPW == 1 && tijolo.Powerup == false)
+
+			if (valorPW == 1 && tijolo.Powerup == false )
 			{
 				powerUP.setposition( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) );
-				tijolo.Powerup = true;
+				powerups.emplace_back(powerUP);
+				(*(--Tijolos.end())).setPowerUp();
+				//
+				
+
 			}
 		}
 }
@@ -268,10 +214,11 @@ void Game::updatePhase()
 	{
 		bola.update(ftStep);
 		barra.update(ftStep);
-		powerUP.update(ftStep);
+		for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end(); it++)
+		(*it).update(ftStep);
 		testeColisao(barra, bola);
 		testeColisao(barra, powerUP);
-		for (auto& Tijolo : Tijolos) testeColisao(Tijolo, bola, powerUP, G_pontuacoes);
+		for (auto& Tijolo : Tijolos) testeColisao(Tijolo, bola, powerups, G_pontuacoes);
 
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
 			[](const Tijolo& mTijolo)
@@ -282,7 +229,7 @@ void Game::updatePhase()
 	}
 }
 
-void Game::drawPhase()
+bool Game::drawPhase()
 {
 	
 	
@@ -292,14 +239,17 @@ void Game::drawPhase()
 		jogo_pausado = true;
 		window.clear();
 		window.draw(criartexto(20 * (larguraJanela * 0.001), alturaJanela / 2, larguraJanela / 2, "Perdeste buahaha, carrega 'R' para Reiniciar!"));*/
-		fimdojogo();
+		topDezEcra();
+		bola.fimjogo == false;
+		return false;
 	}
     //desenha Bola
 	window.draw(bola.forma_bola);
 	//desenha Barra
 	window.draw(barra.forma_req);
+	for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end(); it++)
+		window.draw((*it).forma_P);
 
-	window.draw(powerUP.forma_P);
 	//DESENHAR TEXTO SCORE
 	window.draw(criartexto(35, float(larguraJanela) - 185, float(alturaJanela) - 50, "SCORE:"));
 	//Desenhar pontuacao
@@ -322,22 +272,23 @@ void Game::drawPhase()
 	for(int i=0; i< Tijolos.size(); i++) window.draw(Tijolos[i].forma_req)
 	*/
 	window.display();
+
+	return true;
 }
 
 void Game::restart()
 {
 	
 	for (auto& Tijolo : Tijolos) Tijolo.destruido = true;
-
-	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
-		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
-			Tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3));
+	bola.x()
+	construir_tijolos();
 	G_pontuacoes.resetPontuacao();
 	
 }
 
 void Game::topDezEcra()
 {
+
 	Text scoreTxt = criartexto(20, 120.f, 420.f, "Pontuacoes");
 
 	stringstream ss;
@@ -362,52 +313,17 @@ void Game::topDezEcra()
 	}
 window.display();
 
-while (window.isOpen()) {
+while (window.isOpen() && true) {
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed)
 			window.close();
 		if (event.type == sf::Event::KeyPressed) {
-			window.close();
-			
+			if (event.key.code == sf::Keyboard::T)
+				return;
 		}
 	}
 }
-
-}
-
-int Game::fimdojogo()
-{
-	Text gameoverTxt = criartexto(25,larguraJanela - 2 - gameoverTxt.getLocalBounds().width/2, 160.f, "YOU ARE DEAD");
-
-	stringstream ss;
-
-	ss << "Score: " << G_pontuacoes.getpontuacao();
-	gameoverTxt.setString(ss.str());
-	gameoverTxt.setPosition(larguraJanela / 2 - gameoverTxt.getLocalBounds().width / 2, 190.f);
-	window.draw(gameoverTxt);
-
-	gameoverTxt.setString("Voltar ao menu principal");
-	gameoverTxt.setFillColor(Color::White);
-	gameoverTxt.setPosition(larguraJanela / 2 - gameoverTxt.getLocalBounds().width / 2, 280.f);
-	
-
-	window.display();
-
-	while (window.isOpen()) {
-		Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == Event::Closed)
-				window.close();
-			if (event.type == Event::KeyPressed)
-			{
-				Game::menu();
-				return 0;
-			}
-		}
-	}
-	
-	return -1;
 
 }
 
