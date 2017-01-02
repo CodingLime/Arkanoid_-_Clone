@@ -1,8 +1,6 @@
 #include "Barra.h"
 
 
-
-
 Barra::Barra(float mX, float mY)
 {
 	forma_req.setPosition(mX, mY);
