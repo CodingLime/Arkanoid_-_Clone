@@ -14,6 +14,13 @@ void Bola::setvelocidadebola(float X)
 		velocidadebola += X;
 }
 
+void Bola::resetVelocidade()
+{
+	velocidadebola = 0.4f;
+	velocidade.x = -getvelocidadebola();
+	velocidade.y = -getvelocidadebola();
+}
+
 
 Bola::Bola(float mX, float mY)
 {
@@ -22,6 +29,11 @@ Bola::Bola(float mX, float mY)
 	forma_bola.setRadius(raioBola());
 	forma_bola.setFillColor(Color::Magenta);
 	forma_bola.setOrigin(raioBola(), raioBola());
+}
+
+void Bola::resetPosicao(float x, float y)
+{
+	forma_bola.setPosition(x, y);
 }
 
 void Bola::update(FrameTime mFT)
@@ -38,7 +50,6 @@ void Bola::update(FrameTime mFT)
 		velocidade.y = getvelocidadebola();
 	else if (baixo() > alturaJanela)
 	{
-		//velocidade.y = -velocidadeBola;
 		fimjogo = true;
 	}
 }

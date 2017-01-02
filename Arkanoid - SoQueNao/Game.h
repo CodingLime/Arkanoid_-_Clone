@@ -53,5 +53,4 @@ private:
 	Text mostraPontuacao;
 	Text texto;
 	Font font;
-
 };

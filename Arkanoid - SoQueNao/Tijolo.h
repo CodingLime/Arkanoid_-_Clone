@@ -23,7 +23,7 @@ void testeColisao(Barra& mbarra, Bola& mbola);
 
 void testeColisao(Tijolo& mTijolo, Bola& mbola, vector<powerup>& mpowerup, Pontuacoes& G_pontuacao);
 
-void testeColisao(Barra& mbarra, powerup& mpower);
+void testeColisao(Barra& mbarra, powerup& mpower, Pontuacoes& mpontos);
 
 template<class T1, class T2>
 inline bool Intersecao(T1 & mA, T2 & mB)

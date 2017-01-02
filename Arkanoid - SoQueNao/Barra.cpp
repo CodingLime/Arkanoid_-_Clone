@@ -21,3 +21,8 @@ void Barra::update(FrameTime mFT)
 	else
 		velocidade.x = 0;
 }
+
+void Barra::resetPosicao(float mX, float mY)
+{
+	forma_req.setPosition(mX, mY);
+}

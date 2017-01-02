@@ -50,8 +50,8 @@ void Gravarpontuacao::addpontuacao(unsigned int pontos)
 
 void Gravarpontuacao::ecraGameover(RenderWindow &window, int pontuacao)
 {
-window.clear(Color::black)M
-ServiceRender::DrawSprit
+	window.clear(Color::Black);
+	//ServiceRender::DrawSprit;
 }
 
 vector<unsigned int> Gravarpontuacao::getHighscore()

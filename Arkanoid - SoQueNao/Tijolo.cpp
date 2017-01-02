@@ -26,7 +26,6 @@ int Tijolo::nTijolosY()
 void Tijolo::setPowerUp()
 {
 	Powerup = true;
-	cout << "1";
 }
 
 
@@ -64,15 +63,12 @@ void testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpowerup, Pon
 	// se bool powerup true alterar velocidade powerup
 	
 	if (mTijolo.Powerup == true)
-	{
-		
-		
+	{		
 		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo(), mTijolo.alturaTijolo()));
 		// precurer vector mpowerup
 		for(vector<powerup>::iterator it = mpowerup.begin(); it != mpowerup.end() ; it++)
 			if (tBox.contains(Vector2f((*it).x(), (*it).y()))) {
 				(*it).setVelocidadeP(0, 0.4f);
-				cout << "s";
 			}
 	}
 	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
@@ -92,9 +88,9 @@ void testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpowerup, Pon
 		mbola.velocidade.y = bolaFromcima ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
 }
 
-void testeColisao(Barra & mbarra, powerup & mPower)
+void testeColisao(Barra & mbarra, powerup & mPower, Pontuacoes& mpontos)
 {
-	if (!Intersecao(mPower, mbarra)) return; //fazer com os outros, verifica primeiro se NAO há colisão, se NAO houver, sai da funcao7
-	
-	printf("COLISAO OMGED!");	
+	if (!Intersecao(mPower, mbarra)) return;
+
+	mpontos.adicionarpontuacao(mPower.getScore());
 }

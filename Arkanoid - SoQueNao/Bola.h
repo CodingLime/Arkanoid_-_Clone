@@ -15,10 +15,12 @@ public:
 	unsigned int alturaJanela = VideoMode::getDesktopMode().height;
 	float  getvelocidadebola();
 	void setvelocidadebola(float X);
+	void resetVelocidade();
 	Vector2f velocidade { -getvelocidadebola(), -getvelocidadebola() };
 	bool fimjogo = false;
 	//posicao da bola
 	Bola(float mX, float mY);
+	void resetPosicao(float x, float y);
 	void update(FrameTime mFT);
 	float const x();
 	float const y(); 

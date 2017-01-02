@@ -5,13 +5,6 @@
 
 Game::Game()
 {
-	// On construction, we initialize the window and create
-	// the brick wall. On a more serious implementation, it
-	// would be a good idea to have a `newGame()` method that
-	// can be called at any time to restart the Jogo.
-
-	//window.setFramerateLimit(240); // parece n�o ser necessario para funcionar, remover no fim de tudo
-
 	font.loadFromFile("black.ttf");
 
 	//Texto de Score
@@ -105,32 +98,24 @@ void Game::menu()
 	window.draw(score);
 	window.draw(quit);
 	window.display();
+
 }
 
 
 
 void Game::correr()
 {
-	// The `run()` method is used to start the game and
-	// contains the game loop.
+	executando = true;
 
-	// Instead of using `break` to stop the game, we will
-	// use a boolean variable, `running`.
-	
-  executando = true;
-
+	restart();
 	while (executando)
 	{
 		auto timePoint1(chrono::high_resolution_clock::now());
 
 		window.clear(Color::Black);
 
-		// It's not a bad idea to use methods to make the
-		// code more organized. In this case, I've divided
-		// the game loop in "input", "update" and "draw"
-		// phases. It's one of many possible ways of tidying up
-		// the code :)
 		inputPhase();
+		if (!executando) break;
 
 		if (jogo_pausado) break;
 
@@ -153,7 +138,8 @@ void Game::correr()
 
 void Game::construir_tijolos()
 {
-
+	powerups.clear();
+	Tijolos.clear();
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 		{
@@ -167,9 +153,6 @@ void Game::construir_tijolos()
 				powerUP.setposition( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) );
 				powerups.emplace_back(powerUP);
 				(*(--Tijolos.end())).setPowerUp();
-				//
-				
-
 			}
 		}
 }
@@ -203,7 +186,7 @@ void Game::inputPhase()
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Key::O)) bola.setvelocidadebola(0.005f);
 	if (Keyboard::isKeyPressed(Keyboard::Key::I)) bola.setvelocidadebola(-0.005f);
-	if (Keyboard::isKeyPressed(Keyboard::Key::Q)) executando = false;
+	if (Keyboard::isKeyPressed(Keyboard::Key::Escape)) executando = false;
 	if (Keyboard::isKeyPressed(Keyboard::Key::R)) restart();
 }
 
@@ -214,10 +197,12 @@ void Game::updatePhase()
 	{
 		bola.update(ftStep);
 		barra.update(ftStep);
+
 		for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end(); it++)
-		(*it).update(ftStep);
+			(*it).update(ftStep);
+
 		testeColisao(barra, bola);
-		testeColisao(barra, powerUP);
+		testeColisao(barra, powerUP, G_pontuacoes);
 		for (auto& Tijolo : Tijolos) testeColisao(Tijolo, bola, powerups, G_pontuacoes);
 
 		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
@@ -231,16 +216,10 @@ void Game::updatePhase()
 
 bool Game::drawPhase()
 {
-	
-	
 	if (bola.fimjogo == true)
 	{
-		/*
-		jogo_pausado = true;
-		window.clear();
-		window.draw(criartexto(20 * (larguraJanela * 0.001), alturaJanela / 2, larguraJanela / 2, "Perdeste buahaha, carrega 'R' para Reiniciar!"));*/
 		topDezEcra();
-		bola.fimjogo == false;
+		bola.fimjogo = false;
 		return false;
 	}
     //desenha Bola
@@ -279,8 +258,11 @@ bool Game::drawPhase()
 void Game::restart()
 {
 	
-	for (auto& Tijolo : Tijolos) Tijolo.destruido = true;
-	bola.x()
+	for (Tijolo& Tijolo : Tijolos) Tijolo.destruido = true;
+	bola.resetPosicao(float(larguraJanela) / 2, float(alturaJanela) / 1.2);
+	bola.resetVelocidade();
+	bola.fimjogo = false;
+	barra.resetPosicao(float(larguraJanela) / 2, float(alturaJanela) - 50);
 	construir_tijolos();
 	G_pontuacoes.resetPontuacao();
 	
@@ -294,7 +276,7 @@ void Game::topDezEcra()
 	stringstream ss;
 	unsigned int scoreDatasize = Gravarpontuacoes.getHighscore().size();
 
-	window.clear(Color(0x9f, 0x6d, 0x47));
+	window.clear(Color::Black);
 	window.draw(scoreTxt);
 
 	for (unsigned int i = 0; i < 10 && i < scoreDatasize; i++) {
@@ -311,18 +293,18 @@ void Game::topDezEcra()
 		scoreTxt.setPosition(470.f - scoreTxt.getLocalBounds().width, 110.f + (30 * i));
 		window.draw(scoreTxt);
 	}
-window.display();
+	window.display();
 
-while (window.isOpen() && true) {
-	sf::Event event;
-	while (window.pollEvent(event)) {
-		if (event.type == sf::Event::Closed)
-			window.close();
-		if (event.type == sf::Event::KeyPressed) {
-			if (event.key.code == sf::Keyboard::T)
-				return;
+	while (window.isOpen() && true) {
+		sf::Event event;
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed)
+				window.close();
+			if (event.type == sf::Event::KeyPressed) {
+				if (event.key.code == sf::Keyboard::Escape)
+					return;
+			}
 		}
 	}
-}
 
 }

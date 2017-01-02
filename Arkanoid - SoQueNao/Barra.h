@@ -11,6 +11,7 @@ public:
 
 	Barra(float mX, float mY);
 	void update(FrameTime mFT);
+	void resetPosicao(float mX, float mY);
 	
 private:
 	int pontuacao;
