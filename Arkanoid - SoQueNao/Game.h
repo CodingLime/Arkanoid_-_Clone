@@ -5,41 +5,53 @@
 #include "Bola.h"
 #include "Barra.h"
 #include "Tijolo.h"
+#include "Pontuacoes.h"
+#include "Gravarpontuacao.h"
 using namespace sf;
 class Game
 {
 public:
 	bool jogo_pausado = false;
-	//Atribuição da Altura e Largura da Janela do Programa
+	//altura e largura da janela, vai buscar resolucao do monitor a ser usado
 	unsigned int larguraJanela = VideoMode::getDesktopMode().width;
 	unsigned int alturaJanela = VideoMode::getDesktopMode().height;
 	//using FrameTime = float;
 	
-	// These members are related to the control of the game.
+	//faz render da janela do jogo, define altura, largura, nome e stilo da janela
 	RenderWindow window{ { larguraJanela, alturaJanela }, "Arkanoid - Mais Um Clone ?!?!?!?", Style::Fullscreen };
+	//variaveis usadas por causa da libraria SFML
 	FrameTime lastFt{ 0.f }, currentSlice{ 0.f };
+	
+	//variavel usada para controlar
 	bool executando = true;
 
-	// These members are game entities.
-	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 2 };
+	//Declaracao de entidades usadas no programa
+	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
-	Tijolo tijolo{ 0, 0 };
+	Tijolo tijolo {0, 0 }; //why that f this
 	vector<Tijolo> Tijolos;
+	Pontuacoes G_pontuacoes;
+	Gravarpontuacao Gravarpontuacoes;
+	powerup powerUP{ 0,0 };
+	vector<powerup> powerups;
 	float ftStep = 1.f;
 	float ftSlice = 1.f;
 	Game();
 
 	void menu();
-	void gameOver();
-	void classificacao();
-	//void desenharclassificacao(RenderWindow &renderWindow, String Stringjogadores, String Stringpontuacao);
 	void correr();
+	void construir_tijolos();
+	Text criartexto(int tamanholetra, int posX, int posY, char *Texto);
 	void inputPhase();
 	void updatePhase();
-	void drawPhase();
+	bool drawPhase();
+	void restart();
+	void topDezEcra();
 
 private:	
-	Text fimdoJogo, txtBola, mostraVel, mostraPontuacao, texto;
+	Text fimdoJogo;
+	Text mostraPontuacao;
+	Text texto;
 	Font font;
 
 };

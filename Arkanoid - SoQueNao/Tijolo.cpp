@@ -1,6 +1,7 @@
 #include "Tijolo.h"
+#include <iostream>
 
-int pontuacao = 0;
+//int pontuacao = 0;
 
 float Tijolo::larguraTijolo()
 {
@@ -20,6 +21,12 @@ int Tijolo::nTijolosX()
 int Tijolo::nTijolosY()
 {
 	return 4;
+}
+
+void Tijolo::setPowerUp()
+{
+	Powerup = true;
+	cout << "1";
 }
 
 
@@ -49,13 +56,25 @@ void testeColisao(Barra & mbarra, Bola & mbola)
 		mbola.velocidade.x = mbola.getvelocidadebola();
 }
 
-void testeColisao(Tijolo & mTijolo, Bola & mbola)
+void testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpowerup, Pontuacoes& G_pontuacao)
 {
 	if (!Intersecao(mTijolo, mbola)) return;
-	
-	
-	pontuacao++;
+	G_pontuacao.adicionarpontuacao(1);
 	mTijolo.destruido = true;
+	// se bool powerup true alterar velocidade powerup
+	
+	if (mTijolo.Powerup == true)
+	{
+		
+		
+		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo(), mTijolo.alturaTijolo()));
+		// precurer vector mpowerup
+		for(vector<powerup>::iterator it = mpowerup.begin(); it != mpowerup.end() ; it++)
+			if (tBox.contains(Vector2f((*it).x(), (*it).y()))) {
+				(*it).setVelocidadeP(0, 0.4f);
+				cout << "s";
+			}
+	}
 	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
 	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
 	float sobreporCima{ mbola.baixo() - mTijolo.cima() };
@@ -71,4 +90,11 @@ void testeColisao(Tijolo & mTijolo, Bola & mbola)
 		mbola.velocidade.x = bolaFromesquerda ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
 	else
 		mbola.velocidade.y = bolaFromcima ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
+}
+
+void testeColisao(Barra & mbarra, powerup & mPower)
+{
+	if (!Intersecao(mPower, mbarra)) return; //fazer com os outros, verifica primeiro se NAO há colisão, se NAO houver, sai da funcao7
+	
+	printf("COLISAO OMGED!");	
 }
