@@ -48,6 +48,12 @@ void Gravarpontuacao::addpontuacao(unsigned int pontos)
 	sort(pontuacao.begin(), pontuacao.end(), [](unsigned int x, unsigned int y) { return x > y; });
 }
 
+void Gravarpontuacao::ecraGameover(RenderWindow &window, int pontuacao)
+{
+window.clear(Color::black)M
+ServiceRender::DrawSprit
+}
+
 vector<unsigned int> Gravarpontuacao::getHighscore()
 {
 	return pontuacao;
