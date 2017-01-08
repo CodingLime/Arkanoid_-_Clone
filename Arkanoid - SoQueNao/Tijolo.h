@@ -7,7 +7,6 @@ class Tijolo :
 	public Rectangulo
 {
 public:
-	bool destruido = false;
 	bool Powerup = false;
 
 	float larguraTijolo();
@@ -15,19 +14,7 @@ public:
 	int nTijolosX();
 	int nTijolosY();
 	Tijolo(float mX, float mY);
+	// falta destrutor
 	void setPowerUp();
 
 };
-class powerup; //why the f this
-void testeColisao(Barra& mbarra, Bola& mbola);
-
-void testeColisao(Tijolo& mTijolo, Bola& mbola, vector<powerup>& mpowerup, Pontuacoes& G_pontuacao);
-
-void testeColisao(Barra& mbarra, powerup& mpower, Pontuacoes& mpontos);
-
-template<class T1, class T2>
-inline bool Intersecao(T1 & mA, T2 & mB)
-{
-	return mA.direita() >= mB.esquerda() && mA.esquerda() <= mB.direita() &&
-		mA.baixo() >= mB.cima() && mA.cima() <= mB.baixo();
-}

@@ -20,6 +20,7 @@ public:
 	bool fimjogo = false;
 	//posicao da bola
 	Bola(float mX, float mY);
+	// falta destrutor
 	void resetPosicao(float x, float y);
 	void update(FrameTime mFT);
 	float const x();

@@ -10,6 +10,7 @@ class Barra :
 public:
 
 	Barra(float mX, float mY);
+	// falta destrutor
 	void update(FrameTime mFT);
 	void resetPosicao(float mX, float mY);
 	

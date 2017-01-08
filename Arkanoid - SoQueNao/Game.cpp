@@ -203,14 +203,12 @@ void Game::updatePhase()
 
 		testeColisao(barra, bola);
 		testeColisao(barra, powerUP, G_pontuacoes);
-		for (auto& Tijolo : Tijolos) testeColisao(Tijolo, bola, powerups, G_pontuacoes);
-
-		Tijolos.erase(remove_if(begin(Tijolos), end(Tijolos),
-			[](const Tijolo& mTijolo)
-		{
-			return mTijolo.destruido;
-		}),
-			end(Tijolos));
+		
+		for (vector<Tijolo>::iterator it = Tijolos.begin(); it != Tijolos.end();)
+			if (testeColisao((*it), bola, powerups, G_pontuacoes) == true)
+				it = Tijolos.erase(it);
+			else
+				it++;
 	}
 }
 
@@ -258,7 +256,6 @@ bool Game::drawPhase()
 void Game::restart()
 {
 	
-	for (Tijolo& Tijolo : Tijolos) Tijolo.destruido = true;
 	bola.resetPosicao(float(larguraJanela) / 2, float(alturaJanela) / 1.2);
 	bola.resetVelocidade();
 	bola.fimjogo = false;
@@ -307,4 +304,55 @@ void Game::topDezEcra()
 		}
 	}
 
+}
+
+void Game::testeColisao(Barra & mbarra, Bola & mbola)
+{
+	if (!Intersecao(mbarra, mbola)) return;
+
+	mbola.velocidade.y = -mbola.getvelocidadebola();
+	if (mbola.x() < mbarra.x())
+		mbola.velocidade.x = -mbola.getvelocidadebola();
+	else
+		mbola.velocidade.x = mbola.getvelocidadebola();
+}
+
+bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpowerup, Pontuacoes& G_pontuacao)
+{
+	if (!Intersecao(mTijolo, mbola)) return false;
+	G_pontuacao.adicionarpontuacao(1);
+
+	if (mTijolo.Powerup == true)
+	{
+		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo(), mTijolo.alturaTijolo()));
+		// precurer vector mpowerup
+		for (vector<powerup>::iterator it = mpowerup.begin(); it != mpowerup.end(); it++)
+			if (tBox.contains(Vector2f((*it).x(), (*it).y()))) {
+				(*it).setVelocidadeP(0, 0.4f);
+			}
+	}
+	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
+	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
+	float sobreporCima{ mbola.baixo() - mTijolo.cima() };
+	float sobreporBaixo{ mTijolo.baixo() - mbola.cima() };
+
+	bool bolaFromesquerda(abs(sobreporEsquerda) < abs(sobreporDireita));
+	bool bolaFromcima(abs(sobreporCima) < abs(sobreporBaixo));
+
+	float minsobreporX{ bolaFromesquerda ? sobreporEsquerda : sobreporDireita };
+	float minsobreporY{ bolaFromcima ? sobreporCima : sobreporBaixo };
+
+	if (abs(minsobreporX) < abs(minsobreporY))
+		mbola.velocidade.x = bolaFromesquerda ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
+	else
+		mbola.velocidade.y = bolaFromcima ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
+
+	return true;
+}
+
+void Game::testeColisao(Barra & mbarra, powerup & mPower, Pontuacoes& mpontos)
+{
+	if (!Intersecao(mPower, mbarra)) return;
+
+	mpontos.adicionarpontuacao(mPower.getScore());
 }

@@ -37,6 +37,7 @@ public:
 	float ftStep = 1.f;
 	float ftSlice = 1.f;
 	Game();
+	// falta destrutor
 
 	void menu();
 	void correr();
@@ -53,4 +54,17 @@ private:
 	Text mostraPontuacao;
 	Text texto;
 	Font font;
+
+	void testeColisao(Barra& mbarra, Bola& mbola);
+
+	bool testeColisao(Tijolo& mTijolo, Bola& mbola, vector<powerup>& mpowerup, Pontuacoes& G_pontuacao);
+
+	void testeColisao(Barra& mbarra, powerup& mpower, Pontuacoes& mpontos);
+
+	template<class T1, class T2>
+	inline bool Intersecao(T1 & mA, T2 & mB)
+	{
+		return mA.direita() >= mB.esquerda() && mA.esquerda() <= mB.direita() &&
+			mA.baixo() >= mB.cima() && mA.cima() <= mB.baixo();
+	}
 };
