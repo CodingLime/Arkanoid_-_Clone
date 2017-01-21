@@ -184,6 +184,7 @@
   <ItemGroup>
     <ClCompile Include="Barra.cpp" />
     <ClCompile Include="Bola.cpp" />
+    <ClCompile Include="Circulo.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gravarpontuacao.cpp" />
     <ClCompile Include="Pontuacoes.cpp" />
@@ -195,6 +196,7 @@
   <ItemGroup>
     <ClInclude Include="Barra.h" />
     <ClInclude Include="Bola.h" />
+    <ClInclude Include="Circulo.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gravarpontuacao.h" />
     <ClInclude Include="Pontuacoes.h" />

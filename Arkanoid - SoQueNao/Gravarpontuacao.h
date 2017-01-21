@@ -14,5 +14,3 @@ public:
 private:
 	vector<unsigned int> pontuacao;
 };
-
-

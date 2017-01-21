@@ -40,7 +40,7 @@ void Bola::update(FrameTime mFT)
 {
 	
 	forma_bola.move(velocidade * mFT);
-
+	
 	if (esquerda() < 0)
 		velocidade.x = getvelocidadebola();
 	else if (direita() > larguraJanela)
@@ -53,37 +53,6 @@ void Bola::update(FrameTime mFT)
 		fimjogo = true;
 	}
 }
-
-float const Bola::x() 
-{
- return forma_bola.getPosition().x;
-}
-
-float const Bola::y()
-{
-	return forma_bola.getPosition().y;
-}
-
-float const Bola::esquerda()
-{
-	 return x() - forma_bola.getRadius();
-}
-
-float const Bola::direita()
-{
-	return x() + forma_bola.getRadius();
-}
-
-float  const Bola::cima()
-{
-	return y() - forma_bola.getRadius();
-}
-
-float const Bola::baixo()
-{
-	return y() + forma_bola.getRadius();
-}
-
 
 float const Bola::raioBola()
 {

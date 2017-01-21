@@ -43,6 +43,7 @@ void Gravarpontuacao::Gravar()
 
 void Gravarpontuacao::addpontuacao(unsigned int pontos)
 {
+	// perceber o que está aqui
 	pontuacao.push_back(pontos);
 
 	sort(pontuacao.begin(), pontuacao.end(), [](unsigned int x, unsigned int y) { return x > y; });

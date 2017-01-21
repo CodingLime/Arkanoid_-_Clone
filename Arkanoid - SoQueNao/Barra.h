@@ -9,13 +9,18 @@ class Barra :
 {
 public:
 
+	/* ### TO-DO ###
+	# variáveis: passaram a ser recebidas por uma class "gestor"
+
+	*/
+
 	Barra(float mX, float mY);
 	// falta destrutor
 	void update(FrameTime mFT);
 	void resetPosicao(float mX, float mY);
 	
 private:
-	int pontuacao;
+	int pontuacao; //procurar onde ist é usado, pois parece que não é usado
 	float larguraBarra = 100.f * (larguraJanela * 0, 03.f);
 	float alturaBarra = 18.f * (alturaJanela * 0, 02.f);
 	float velocidadeBarra = 1.0f * (alturaJanela * 0, 01.f);

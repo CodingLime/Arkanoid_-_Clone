@@ -225,7 +225,7 @@ bool Game::drawPhase()
 	//desenha Barra
 	window.draw(barra.forma_req);
 	for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end(); it++)
-		window.draw((*it).forma_P);
+		window.draw((*it).forma_bola);
 
 	//DESENHAR TEXTO SCORE
 	window.draw(criartexto(35, float(larguraJanela) - 185, float(alturaJanela) - 50, "SCORE:"));

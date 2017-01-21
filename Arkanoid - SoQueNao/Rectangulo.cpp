@@ -1,5 +1,14 @@
 #include "Rectangulo.h"
 
+Rectangulo::Rectangulo()
+{
+}
+
+
+Rectangulo::~Rectangulo()
+{
+}
+
 float Rectangulo::x()
 {
 	return forma_req.getPosition().x;

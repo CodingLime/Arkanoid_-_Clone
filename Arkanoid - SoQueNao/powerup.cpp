@@ -3,31 +3,30 @@
 
 void powerup::update(FrameTime mFT)
 {
-	forma_P.move(velocidade * mFT);
+	forma_bola.move(velocidade * mFT);
 
 }
 
 void powerup::setposition(float mX, float mY)
 {
-	forma_P.setPosition(mX, mY);
+	forma_bola.setPosition(mX, mY);
 }
 
 void powerup::setVelocidadeP(float x, float y)
 {
 	velocidade.x = x;
 	velocidade.y = y;
-
 }
 
 void powerup::randCor()
 {
 	int i = rand() % 2;
-	forma_P.setFillColor((i == 0) ? Color::Yellow : Color::Green);
+	forma_bola.setFillColor((i == 0) ? Color::Yellow : Color::Green);
 }
 
 float powerup::getScore()
 {
-	if (forma_P.getFillColor() == Color::Yellow)
+	if (forma_bola.getFillColor() == Color::Yellow)
 		return -5.f;
 	else 
 		return 10.0f;
@@ -35,40 +34,10 @@ float powerup::getScore()
 
 powerup::powerup(float mX, float mY)
 {
-	forma_P.setPosition(mX, mY);
-	forma_P.setRadius(10.f);
-	forma_P.setFillColor(Color::Yellow);
-	forma_P.setOrigin(10.f, 10.f);
-}
-
-float const powerup::x()
-{
-	return forma_P.getPosition().x;
-}
-
-float const powerup::y()
-{
-	return forma_P.getPosition().y;
-}
-
-float const powerup::esquerda()
-{
-	return x() - forma_P.getRadius();
-}
-
-float const powerup::direita()
-{
-	return x() + forma_P.getRadius();
-}
-
-float  const powerup::cima()
-{
-	return y() - forma_P.getRadius();
-}
-
-float const powerup::baixo()
-{
-	return y() + forma_P.getRadius();
+	forma_bola.setPosition(mX, mY);
+	forma_bola.setRadius(10.f);
+	forma_bola.setFillColor(Color::Yellow);
+	forma_bola.setOrigin(10.f, 10.f);
 }
 
 powerup::~powerup()

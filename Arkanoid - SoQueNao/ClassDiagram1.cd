@@ -8,52 +8,59 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Bola">
-    <Position X="5.25" Y="0.5" Width="1.5" />
+    <Position X="4" Y="4.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAgEAAIAAAEBAABCAYAAgAEAAAAAACAAABgAAAUQEA=</HashCode>
+      <HashCode>AAAAEAAIAAAEAAABAAYAAgAEAAAAAAAAAAAAAAAEQAA=</HashCode>
       <FileName>Bola.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Game">
-    <Position X="10.5" Y="0.5" Width="1.5" />
+    <Position X="10" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAoIAhAACAgkBAAAgEEBQQjAEAgAAICIFAAgAAAQAEA=</HashCode>
+      <HashCode>AAoIChAACIgkBAAAgEEBQQjAEAgAAICIFAAgAAAQAEA=</HashCode>
       <FileName>Game.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Gravarpontuacao">
-    <Position X="8.75" Y="0.5" Width="1.5" />
+    <Position X="8" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAJBAAQAAAAIAA=</HashCode>
       <FileName>Gravarpontuacao.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Pontuacoes">
-    <Position X="5.25" Y="5.5" Width="1.5" />
+    <Position X="8" Y="3" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAABABAAAAAAAAA=</HashCode>
       <FileName>Pontuacoes.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="powerup">
-    <Position X="7" Y="0.5" Width="1.5" />
+    <Position X="6" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAgAAAAAAAAAQQACAhAAgAAAAIAAgCAAABgAAIEAEA=</HashCode>
+      <HashCode>EAAAAAAAAAAAAQQAAABAAgAAAAIAAgCAAAAAAAIEAAA=</HashCode>
       <FileName>powerup.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Rectangulo">
-    <Position X="1.75" Y="0.5" Width="1.5" />
+    <Position X="1.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgAAQAAAAABAAACAAAAAAAAAAAAAAAAABgAAAQAEA=</HashCode>
+      <HashCode>AAAgAAQAAAAABAAACAACAACAAAAAAAAAAABgAAAQAEA=</HashCode>
       <FileName>Rectangulo.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Tijolo">
-    <Position X="3.25" Y="4.25" Width="1.5" />
+    <Position X="2.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAABAAABAAAAAABAAAAAAgAAAAAAAAAAAAQAABA=</HashCode>
+      <HashCode>AAAAEAABAAABAAAAAAAAAAAAAgAAAAAAAAAAAAQAABA=</HashCode>
       <FileName>Tijolo.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Circulo">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIgAAAAAAAABAAACAAAAgAAAAAAAACAAABgAAAQAEA=</HashCode>
+      <FileName>Circulo.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

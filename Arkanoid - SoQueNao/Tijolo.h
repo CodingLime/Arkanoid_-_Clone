@@ -13,7 +13,7 @@ public:
 	float alturaTijolo();
 	int nTijolosX();
 	int nTijolosY();
-	Tijolo(float mX, float mY);
+	Tijolo(float mX = 0.f, float mY = 0.f);
 	// falta destrutor
 	void setPowerUp();
 

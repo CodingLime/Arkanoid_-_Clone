@@ -28,7 +28,7 @@ public:
 	//Declaracao de entidades usadas no programa
 	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
-	Tijolo tijolo {0, 0 }; //why that f this
+	Tijolo tijolo;
 	vector<Tijolo> Tijolos;
 	Pontuacoes G_pontuacoes;
 	Gravarpontuacao Gravarpontuacoes;
