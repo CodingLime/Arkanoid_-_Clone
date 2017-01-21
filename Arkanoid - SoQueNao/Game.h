@@ -61,6 +61,8 @@ private:
 
 	void testeColisao(Barra& mbarra, powerup& mpower, Pontuacoes& mpontos);
 
+
+	bool testeColisao(powerup & mpowerup, Barra & mbarra);
 	template<class T1, class T2>
 	inline bool Intersecao(T1 & mA, T2 & mB)
 	{

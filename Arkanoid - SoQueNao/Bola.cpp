@@ -27,7 +27,7 @@ Bola::Bola(float mX, float mY)
 
 	forma_bola.setPosition(mX, mY);
 	forma_bola.setRadius(raioBola());
-	forma_bola.setFillColor(Color::Magenta);
+	forma_bola.setFillColor(Color::Color(255,204, 0));
 	forma_bola.setOrigin(raioBola(), raioBola());
 }
 

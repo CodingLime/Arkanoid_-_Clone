@@ -209,6 +209,12 @@ void Game::updatePhase()
 				it = Tijolos.erase(it);
 			else
 				it++;
+	
+		for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end();)
+			if (testeColisao( (*it) , barra ) == true)
+				it = powerups.erase(it);
+			else
+				it++;
 	}
 }
 
@@ -321,7 +327,6 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 {
 	if (!Intersecao(mTijolo, mbola)) return false;
 	G_pontuacao.adicionarpontuacao(1);
-
 	if (mTijolo.Powerup == true)
 	{
 		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo(), mTijolo.alturaTijolo()));
@@ -353,6 +358,12 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 void Game::testeColisao(Barra & mbarra, powerup & mPower, Pontuacoes& mpontos)
 {
 	if (!Intersecao(mPower, mbarra)) return;
-
 	mpontos.adicionarpontuacao(mPower.getScore());
+}
+
+bool Game::testeColisao(powerup & mpowerup, Barra & mbarra)
+{
+	if (!Intersecao(mbarra, mpowerup)) return false;
+	mbarra.alterartamanho();
+	return true;
 }

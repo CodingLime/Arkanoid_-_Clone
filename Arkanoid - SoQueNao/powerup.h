@@ -7,6 +7,7 @@ class powerup :
 	public Circulo
 {
 public:
+	void usarPower();
 	float velocidade_P{ 0.2f };
 	bool destruido{ false };
 	Vector2f velocidade{ 0,0 };

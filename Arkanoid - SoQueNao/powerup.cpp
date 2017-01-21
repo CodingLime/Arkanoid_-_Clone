@@ -1,6 +1,11 @@
 #include "powerup.h"
 
 
+void powerup::usarPower()
+{
+
+}
+
 void powerup::update(FrameTime mFT)
 {
 	forma_bola.move(velocidade * mFT);
@@ -42,4 +47,5 @@ powerup::powerup(float mX, float mY)
 
 powerup::~powerup()
 {
+	
 }
