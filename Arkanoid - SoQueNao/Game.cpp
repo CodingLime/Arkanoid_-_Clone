@@ -2,10 +2,8 @@
 #include <vector>
 #include <iostream>
 //extern int pontuacao;
-
 Game::Game()
 {
-	
 	//SCORE
 	Text Score = criartexto(35, (float(larguraJanela) - 185), (float(alturaJanela) - 50), "TESTE");
 
