@@ -1,6 +1,11 @@
 #include "powerup.h"
 
 
+void powerup::usarPower()
+{
+
+}
+
 void powerup::update(FrameTime mFT)
 {
 	forma_bola.move(velocidade * mFT);
@@ -34,7 +39,6 @@ float powerup::getScore()
 
 powerup::powerup(float mX, float mY)
 {
-	cout << "PASSEI NO CONSTRUTOR" << endl;
 	forma_bola.setPosition(mX, mY);
 	forma_bola.setRadius(10.f);
 	forma_bola.setFillColor(Color::Yellow);
@@ -43,5 +47,4 @@ powerup::powerup(float mX, float mY)
 
 powerup::~powerup()
 {
-	cout << "PASSEI NO DESTRUTOR" << endl;
 }

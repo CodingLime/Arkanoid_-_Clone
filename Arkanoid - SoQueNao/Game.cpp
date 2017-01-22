@@ -5,30 +5,20 @@
 
 Game::Game()
 {
-	font.loadFromFile("black.ttf");
-
-	//Texto de Score
-	texto.setFont(font);
-	texto.setCharacterSize(35);
-	texto.setFillColor(Color::White);
-	texto.setPosition(float(larguraJanela) - 185, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
-	texto.setString("SCORE:");
+	
+	//SCORE
+	Text Score = criartexto(35, (float(larguraJanela) - 185), (float(alturaJanela) - 50), "TESTE");
 
 	//valor pontuacao
-	mostraPontuacao.setFont(font);
-	mostraPontuacao.setFillColor(Color::White);
-	mostraPontuacao.setCharacterSize(35);
-	mostraPontuacao.setPosition(float(larguraJanela) - 55, float(alturaJanela) - 50); // Posição do score fica consoante o tamanho da janela
+	mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
 	string pont = to_string(G_pontuacoes.getpontuacao());
 	mostraPontuacao.setString(pont);
 
-	//Fim do jogo
-	fimdoJogo.setFont(font);
-	fimdoJogo.setCharacterSize(20 * (larguraJanela * 0.001));
-	fimdoJogo.setPosition(alturaJanela / 2, larguraJanela / 2);
-	fimdoJogo.setFillColor(sf::Color::White);
-	fimdoJogo.setString("Perdeste buahaha, carrega 'Q' para fechar");
 
+	//Fim do jogo
+	fimdoJogo = criartexto(20 * (larguraJanela * 0.001), alturaJanela / 2, larguraJanela / 2, "Perdeste buahaha, carrega 'Q' para fechar");
+
+	//construir tijolos
 	construir_tijolos();
 }
 
@@ -39,48 +29,24 @@ void Game::menu()
 	window.clear(Color::Black);
 
 	Text play, bot, score, quit, titulo;
-	Font font;
-	font.loadFromFile("black.ttf");
 
-
-	titulo.setFont(font);
-	titulo.setCharacterSize(80 * (larguraJanela * 0.001));
-	titulo.setFillColor(Color::White);
+	//Texto Titulo Menu Iniciar
+	titulo = criartexto(80 * (larguraJanela * 0.001), larguraJanela / 5, 15 + (alturaJanela * 0.01), "Arkanoid #SQN");
 	titulo.setOutlineColor(Color::Yellow);
 	titulo.setOutlineThickness(2);
-	titulo.setPosition(larguraJanela / 5, alturaJanela / 15 + (alturaJanela * 0.01));
-	titulo.setString("Arkanoid #SQN");
+	
+	//Texto Play Menu Iniciar
+	play = criartexto(80 * (larguraJanela * 0.001), larguraJanela / 10, alturaJanela / 4 + (alturaJanela * 0.01), "[P]lay");
 
-	play.setFont(font);
-	play.setCharacterSize(80 * (larguraJanela * 0.001));
-	play.setFillColor(Color::White);
-	play.setPosition(larguraJanela / 10, alturaJanela / 4 + (alturaJanela * 0.01));
-	//play.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela / 4 + (alturaJanela * 0.01));
-	play.setString("[P]lay");
+	//Texto bot Menu Iniciar
+	bot = criartexto(80 * (larguraJanela * 0.001), (larguraJanela / 10) , alturaJanela / 2 - (alturaJanela * 0.1), "[B]ot - falta");
 
-	bot.setFont(font);
-	bot.setCharacterSize(80 * (larguraJanela * 0.001));
-	bot.setFillColor(Color::White);
-	bot.setPosition(larguraJanela / 10, alturaJanela / 2 - (alturaJanela * 0.1));
-	//bot.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela / 2 - (alturaJanela * 0.1));
+	//Texto Score Menu Iniciar
+	score = criartexto(80 * (larguraJanela * 0.001), larguraJanela / 10, alturaJanela - (alturaJanela * 0.46), "[S]core");
 
-	bot.setString("[B]ot - falta");
+	//Texto Quit Menu Iniciar
+	quit = criartexto(80 * (larguraJanela * 0.001), larguraJanela / 10, alturaJanela - (alturaJanela * 0.2), "[Q]uit");
 
-	score.setFont(font);
-	score.setCharacterSize(80 * (larguraJanela * 0.001));
-	score.setFillColor(Color::White);
-	score.setPosition(larguraJanela / 10, alturaJanela - (alturaJanela * 0.46));
-	//score.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela - (alturaJanela * 0.46));
-
-	score.setString("[S]core");
-
-	quit.setFont(font);
-	quit.setCharacterSize(80 * (larguraJanela * 0.001));
-	quit.setFillColor(Color::White);
-	quit.setPosition(larguraJanela / 10, alturaJanela - (alturaJanela * 0.2));
-	//quit.setPosition(larguraJanela / 2 - (larguraJanela * 0.1), alturaJanela - (alturaJanela * 0.2));
-
-	quit.setString("[Q]uit");
 
 	auto timePoint2(chrono::high_resolution_clock::now());
 	auto elapsedTime(timePoint2 - timePoint1);
@@ -92,6 +58,8 @@ void Game::menu()
 
 	auto ftSeconds(ft / 1000.f);
 	auto fps(1.f / ftSeconds);
+
+	//Desenhar caixas de texto
 	window.draw(titulo);
 	window.draw(play);
 	window.draw(bot);
@@ -163,11 +131,10 @@ Text Game::criartexto(int tamanholetra, int posX, int posY, char *Texto)
 {
 	font.loadFromFile("black.ttf");
 	Text nome;
-	//Texto de Score
 	nome.setFont(font);
 	nome.setCharacterSize(tamanholetra);
 	nome.setFillColor(Color::White);
-	nome.setPosition(posX, posY); // Posição do score fica consoante o tamanho da janela
+	nome.setPosition(posX, posY);
 	nome.setString(Texto);
 	
 	return nome;
@@ -184,6 +151,7 @@ void Game::inputPhase()
 			break;
 		}
 	}
+	// Verificador de teclas pressionadas 
 	if (Keyboard::isKeyPressed(Keyboard::Key::O)) bola.setvelocidadebola(0.005f);
 	if (Keyboard::isKeyPressed(Keyboard::Key::I)) bola.setvelocidadebola(-0.005f);
 	if (Keyboard::isKeyPressed(Keyboard::Key::Escape)) executando = false;
@@ -209,6 +177,12 @@ void Game::updatePhase()
 				it = Tijolos.erase(it);
 			else
 				it++;
+	
+		for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end();)
+			if (testeColisao( (*it) , barra ) == true)
+				it = powerups.erase(it);
+			else
+				it++;
 	}
 }
 
@@ -228,7 +202,8 @@ bool Game::drawPhase()
 		window.draw((*it).forma_bola);
 
 	//DESENHAR TEXTO SCORE
-	window.draw(criartexto(35, float(larguraJanela) - 185, float(alturaJanela) - 50, "SCORE:"));
+
+	window.draw(Texto);
 	//Desenhar pontuacao
 	Text mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
 	mostraPontuacao.setString(to_string(G_pontuacoes.getpontuacao()));
@@ -321,7 +296,6 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 {
 	if (!Intersecao(mTijolo, mbola)) return false;
 	G_pontuacao.adicionarpontuacao(1);
-
 	if (mTijolo.Powerup == true)
 	{
 		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo(), mTijolo.alturaTijolo()));
@@ -353,6 +327,12 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 void Game::testeColisao(Barra & mbarra, powerup & mPower, Pontuacoes& mpontos)
 {
 	if (!Intersecao(mPower, mbarra)) return;
-
 	mpontos.adicionarpontuacao(mPower.getScore());
+}
+
+bool Game::testeColisao(powerup & mpowerup, Barra & mbarra)
+{
+	if (!Intersecao(mbarra, mpowerup)) return false;
+	mbarra.alterartamanho();
+	return true;
 }
