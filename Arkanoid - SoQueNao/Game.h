@@ -52,7 +52,7 @@ public:
 private:	
 	Text fimdoJogo;
 	Text mostraPontuacao;
-	Text texto;
+	Text Texto;
 	Font font;
 
 	void testeColisao(Barra& mbarra, Bola& mbola);
