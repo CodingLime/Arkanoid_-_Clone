@@ -1,7 +1,7 @@
 #pragma once
 #include "Barra.h"
 #include "Bola.h"
-#include "powerup.h"
+#include "Powerup.h"
 #include "Pontuacoes.h"
 class Tijolo :
 	public Rectangulo

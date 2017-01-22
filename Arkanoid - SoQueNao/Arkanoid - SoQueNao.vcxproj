@@ -189,7 +189,7 @@
     <ClCompile Include="Gestor.cpp" />
     <ClCompile Include="Gravarpontuacao.cpp" />
     <ClCompile Include="Pontuacoes.cpp" />
-    <ClCompile Include="powerup.cpp" />
+    <ClCompile Include="Powerup.cpp" />
     <ClCompile Include="Rectangulo.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Tijolo.cpp" />
@@ -202,7 +202,7 @@
     <ClInclude Include="Gestor.h" />
     <ClInclude Include="Gravarpontuacao.h" />
     <ClInclude Include="Pontuacoes.h" />
-    <ClInclude Include="powerup.h" />
+    <ClInclude Include="Powerup.h" />
     <ClInclude Include="Rectangulo.h" />
     <ClInclude Include="Tijolo.h" />
   </ItemGroup>
