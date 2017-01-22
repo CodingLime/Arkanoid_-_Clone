@@ -7,12 +7,10 @@ class Gravarpontuacao
 {
 public:
 	Gravarpontuacao();
-	void Gravar();
-	void addpontuacao(unsigned int pontuacao);
+	void Gravar(); // esta
+	void addpontuacao(unsigned int pontuacao); // esta
 	void ecraGameover(RenderWindow &window, int pontuacao);
-	vector<unsigned int> getHighscore();
+	vector<unsigned int> getHighscore(); // esta
 private:
-	vector<unsigned int> pontuacao;
+	vector<unsigned int> pontuacao; // esta
 };
-
-

@@ -5,23 +5,21 @@
 using namespace std;
 using namespace sf;
 
-class Rectangulo
+class Circulo
 {
 public:
 
-	Rectangulo();
-	~Rectangulo();
+	Circulo();
+	~Circulo();
 
-	using FrameTime = float;
-	//Atribuição da Altura e Largura da Janela do Programa
 	unsigned int larguraJanela = VideoMode::getDesktopMode().width;
 	unsigned int alturaJanela = VideoMode::getDesktopMode().height;
-	RectangleShape forma_req;
+	CircleShape forma_bola;
 	float x();
 	float y();
-	float esquerda(); 
-	float direita(); 
-	float cima(); 
+	float esquerda();
+	float direita();
+	float cima();
 	float baixo();
-
 };
+
