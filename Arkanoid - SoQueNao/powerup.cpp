@@ -1,4 +1,4 @@
-#include "Powerup.h"
+#include "powerup.h"
 
 
 void powerup::usarPower()
