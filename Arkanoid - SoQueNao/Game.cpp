@@ -11,7 +11,7 @@ Game::Game()
 
 	//valor pontuacao
 	mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
-	string pont = to_string(G_pontuacoes.getpontuacao());
+	string pont = to_string(Gestor::getPontos());
 	mostraPontuacao.setString(pont);
 
 
@@ -107,11 +107,11 @@ void Game::correr()
 void Game::construir_tijolos()
 {
 	powerups.clear();
-	Tijolos.clear();
+	tijolos.clear();
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 		{
-			Tijolos.emplace_back( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) ); //mete no fim do vector
+			tijolos.emplace_back( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) ); //mete no fim do vector
 			
 			// if rand = 1 pega posição, cria lá powerup
 			int valorPW = rand() % 14;
@@ -120,7 +120,7 @@ void Game::construir_tijolos()
 			{
 				powerUP.setposition( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) );
 				powerups.emplace_back(powerUP);
-				(*(--Tijolos.end())).setPowerUp();
+				(*(--tijolos.end())).setPowerUp();
 			}
 		}
 }
@@ -170,11 +170,11 @@ void Game::updatePhase()
 			(*it).update(ftStep);
 
 		testeColisao(barra, bola);
-		testeColisao(barra, powerUP, G_pontuacoes);
+		testeColisao(barra, powerUP); //temos de mudar isto
 		
-		for (vector<Tijolo>::iterator it = Tijolos.begin(); it != Tijolos.end();)
-			if (testeColisao((*it), bola, powerups, G_pontuacoes) == true)
-				it = Tijolos.erase(it);
+		for (vector<Tijolo>::iterator it = tijolos.begin(); it != tijolos.end();)
+			if (testeColisao((*it), bola, powerups) == true)
+				it = tijolos.erase(it);
 			else
 				it++;
 	
@@ -202,11 +202,10 @@ bool Game::drawPhase()
 		window.draw((*it).forma_bola);
 
 	//DESENHAR TEXTO SCORE
-
 	window.draw(Texto);
 	//Desenhar pontuacao
 	Text mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
-	mostraPontuacao.setString(to_string(G_pontuacoes.getpontuacao()));
+	mostraPontuacao.setString(to_string(getPontos()));
 	window.draw(mostraPontuacao);
 
 	//velocidade
@@ -216,12 +215,12 @@ bool Game::drawPhase()
 	mostraVel.setString(to_string(bola.getvelocidadebola()));
 	window.draw(mostraVel);
 	
-	for (Tijolo& Tijolo : Tijolos) window.draw(Tijolo.forma_req); // fazer ciclo for "normalmente"
+	for (Tijolo& Tijolo : tijolos) window.draw(Tijolo.forma_req); // fazer ciclo for "normalmente"
 																  //	if (fimjogo = true)
 																  //	window.draw(fimdojogo);
 	/*
 	for em cima é a mesma coisa que:
-	for(int i=0; i< Tijolos.size(); i++) window.draw(Tijolos[i].forma_req)
+	for(int i=0; i< tijolos.size(); i++) window.draw(tijolos[i].forma_req)
 	*/
 	window.display();
 
@@ -236,7 +235,7 @@ void Game::restart()
 	bola.fimjogo = false;
 	barra.resetPosicao(float(larguraJanela) / 2, float(alturaJanela) - 50);
 	construir_tijolos();
-	G_pontuacoes.resetPontuacao();
+	resetPontos();
 	
 }
 
@@ -246,7 +245,7 @@ void Game::topDezEcra()
 	Text scoreTxt = criartexto(20, 120.f, 420.f, "Pontuacoes");
 
 	stringstream ss;
-	unsigned int scoreDatasize = Gravarpontuacoes.getHighscore().size();
+	unsigned int scoreDatasize = getTop10().size();
 
 	window.clear(Color::Black);
 	window.draw(scoreTxt);
@@ -260,7 +259,7 @@ void Game::topDezEcra()
 		window.draw(scoreTxt);
 		//score
 		ss.str("");
-		ss << Gravarpontuacoes.getHighscore().at(i);
+		ss << getTop10().at(i);
 		scoreTxt.setString(ss.str());
 		scoreTxt.setPosition(470.f - scoreTxt.getLocalBounds().width, 110.f + (30 * i));
 		window.draw(scoreTxt);
@@ -292,10 +291,10 @@ void Game::testeColisao(Barra & mbarra, Bola & mbola)
 		mbola.velocidade.x = mbola.getvelocidadebola();
 }
 
-bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpowerup, Pontuacoes& G_pontuacao)
+bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpowerup)
 {
 	if (!Intersecao(mTijolo, mbola)) return false;
-	G_pontuacao.adicionarpontuacao(1);
+	addPontos(1);
 	if (mTijolo.Powerup == true)
 	{
 		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo(), mTijolo.alturaTijolo()));
@@ -324,10 +323,10 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 	return true;
 }
 
-void Game::testeColisao(Barra & mbarra, powerup & mPower, Pontuacoes& mpontos)
+void Game::testeColisao(Barra & mbarra, powerup & mPower)
 {
 	if (!Intersecao(mPower, mbarra)) return;
-	mpontos.adicionarpontuacao(mPower.getScore());
+	addPontos(mPower.getScore());
 }
 
 bool Game::testeColisao(powerup & mpowerup, Barra & mbarra)
