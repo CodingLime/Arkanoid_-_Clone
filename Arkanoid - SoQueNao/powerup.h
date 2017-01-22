@@ -1,6 +1,7 @@
 #pragma once
 #include "Tijolo.h"
 #include "Circulo.h"
+#include <iostream>
 
 
 class powerup :

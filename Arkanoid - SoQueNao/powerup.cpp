@@ -47,5 +47,4 @@ powerup::powerup(float mX, float mY)
 
 powerup::~powerup()
 {
-	
 }

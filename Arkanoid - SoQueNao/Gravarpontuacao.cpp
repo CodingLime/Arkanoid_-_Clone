@@ -2,11 +2,6 @@
 #include <fstream>
 #include <algorithm>
 
-using std::ifstream;
-using std::ofstream;
-using std::ios;
-
-
 Gravarpontuacao::Gravarpontuacao()
 {
 	ifstream f("pontuacao.txt", ios::binary | ios::in);
