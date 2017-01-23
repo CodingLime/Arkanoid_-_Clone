@@ -33,19 +33,13 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="powerup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Pontuacoes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Gravarpontuacao.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Circulo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Gestor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="powerup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,19 +59,13 @@
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="powerup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pontuacoes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Gravarpontuacao.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Circulo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Gestor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="powerup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

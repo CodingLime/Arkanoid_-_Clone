@@ -32,4 +32,3 @@ void Barra::alterartamanho()
 	larguraBarra /= 2;
 	forma_req.setSize({ larguraBarra, alturaBarra });
 }
-
