@@ -32,6 +32,10 @@ public:
 	void lerTop10();
 	void addTop10(unsigned int pontuacao);
 
+	bool gravarxml();
+	bool carregarNivel();
+
+
 	/* ORIGINAL - Game.h -- APAGAR
 	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
@@ -52,6 +56,7 @@ public:
 	vector<powerup> powerups;
 	float ftStep = 1.f;
 	float ftSlice = 1.f;
+
 
 	Gestor();
 	~Gestor();

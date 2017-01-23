@@ -1,5 +1,5 @@
 #include "Gestor.h"
-
+#include <iostream>
 
 void Gestor::addPontos(unsigned int n)
 {
@@ -57,6 +57,65 @@ void Gestor::addTop10(unsigned int pontuacao)
 {
 	top10.push_back(pontuacao);
 	sort(top10.begin(), top10.end(), [](unsigned int x, unsigned int y) { return x > y; });
+}
+
+bool Gestor::gravarxml()
+{
+	cout << "passei aqui gravar" << endl;
+	ofstream ficheiro;
+	ficheiro.open("dados/config.xml", fstream::in);
+	if (!ficheiro)
+	{
+		cout << "Ficheiro nao encontrado! ira ser criado um novo!" << endl;
+		ficheiro.open("dados/config.xml", fstream::in | fstream::trunc);
+	}
+	ficheiro << "<ConfigJanela>" << endl;
+	ficheiro << "Largura_Janela " << larguraJanela << endl;
+	ficheiro << "Altura_Janela " << alturaJanela << endl;
+	ficheiro << "</ConfigJanela>" << endl;
+
+	ficheiro << "<Barra>" << endl;
+	//ficheiro << "Velocidade_Barra" << velocidade_barra < endl;
+	ficheiro << "</Barra>" << endl;
+	
+	ficheiro << "<Bola>" << endl;
+	//ficheiro << "Velocidade_Bola" << velocidade_bola << endl;
+	ficheiro << "</Bola>" << endl;
+
+	ficheiro << "<PowerUp>" << endl;
+	//ficheiro << "Velocidade_powerUp" << velocidade_powerup << endl;
+	ficheiro << "</PowerUp>" << endl;
+
+	ficheiro.close();
+	return true;
+}
+
+bool Gestor::carregarNivel()
+{
+	ifstream ficheiro;
+	string linha;
+	ficheiro.open("dados/nivel1.xml");
+
+	while (getline(ficheiro, linha))
+	{
+		size_t vericador1 = linha.find("<");
+		size_t vericador2 = linha.find(">");
+		size_t vericador3 = linha.find("</");
+
+		if (vericador1 != std::string::npos && vericador2 != std::string::npos && vericador3 != std::string::npos) {
+
+			if (vericador1 == 0)
+			{
+				cout << "AQUI" << endl;
+				string valor = linha.substr(vericador3 + 2, vericador2 - vericador3 - 2);
+				cout << valor << endl;
+				if (valor == "Ntijolos_X") {
+					
+				}
+			}
+		}
+	}
+	return false;
 }
 
 

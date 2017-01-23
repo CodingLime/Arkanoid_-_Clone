@@ -2,7 +2,6 @@
 #include <vector>
 #include <iostream>
 //extern int pontuacao;
-
 Game::Game()
 {
 	//SCORE
@@ -19,6 +18,7 @@ Game::Game()
 
 	//construir tijolos
 	construir_tijolos();
+	gestor.gravarxml();
 }
 
 void Game::menu()
@@ -238,20 +238,21 @@ void Game::restart()
 void Game::topDezEcra()
 {
 
-	Text scoreTxt = criartexto(20, 120.f, 420.f, "Pontuacoes");
+	Text scoreTxt = criartexto(20, 120.f, 420.f, "");
+
 
 	stringstream ss;
 	unsigned int scoreDatasize = getTop10().size();
 
-	window.clear(Color::Black);
-	window.draw(scoreTxt);
 
+	window.clear(Color::Black);
+	/*
 	for (unsigned int i = 0; i < 10 && i < scoreDatasize; i++) {
 		//score number
 		ss.str("");
 		ss << "#" << (i + 1);
 		scoreTxt.setString(ss.str());
-		scoreTxt.setPosition(175.f, 110.f + (30*i));
+		scoreTxt.setPosition(175.f, 110.f + (30 * i));
 		window.draw(scoreTxt);
 		//score
 		ss.str("");
@@ -260,22 +261,46 @@ void Game::topDezEcra()
 		scoreTxt.setPosition(470.f - scoreTxt.getLocalBounds().width, 110.f + (30 * i));
 		window.draw(scoreTxt);
 	}
-	window.display();
+	*/
 
-	while (window.isOpen() && true) {
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
-				window.close();
-			if (event.type == sf::Event::KeyPressed) {
-				if (event.key.code == sf::Keyboard::Escape)
-					return;
+	//ESTA MERDA NAO FUNCIONA PORQUE APARECE SEMPRE QUE SE CARREGA NUMA TECLA O WINDOW ANTERIOR
+
+	RenderWindow janela(VideoMode(800, 600), "", Style::None);
+	while (janela.isOpen()) {
+		Event event;
+		string playerInput;
+		while (janela.pollEvent(event))
+		{
+			switch (event.type)
+			{
+			case Event::Closed:
+				janela.close();
+				break;
+
+			case Event::TextEntered:
+				if (event.text.unicode < 128)
+				{
+					playerInput = scoreTxt.getString();
+					if (event.text.unicode == 13)
+					{
+						cout << "#1 : " << playerInput << endl;
+					}
+					else if (event.text.unicode == 8) {
+						if (playerInput.size() > 0) playerInput.resize(playerInput.size() - 1);
+					}
+					else {
+						playerInput += static_cast<char>(event.text.unicode);
+					}
+					scoreTxt.setString(playerInput);
+
+				}
+				break;
 			}
+			janela.display();
+			janela.draw(scoreTxt);
 		}
 	}
-
 }
-
 void Game::testeColisao(Barra & mbarra, Bola & mbola)
 {
 	if (!Intersecao(mbarra, mbola)) return;
