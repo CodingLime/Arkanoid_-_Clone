@@ -32,12 +32,12 @@ public:
 	void lerTop10();
 	void addTop10(unsigned int pontuacao);
 
-	/* ORIGINAL - Game.h
+	/* ORIGINAL - Game.h -- APAGAR
 	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
 	Tijolo tijolo;
 	vector<Tijolo> Tijolos;
-	Pontuacoes G_pontuacoes;
+	Pontuacoes G_pontuacoes; <- removido
 	Gravarpontuacao Gravarpontuacoes; <- removido
 	powerup powerUP{ 0,0 };
 	vector<powerup> powerups;
@@ -46,7 +46,7 @@ public:
 	*/
 	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
-	Tijolo tijolo;
+	Tijolo tijolo{alturaJanela, larguraJanela};
 	vector<Tijolo> tijolos;
 	powerup powerUP{ 0,0 };
 	vector<powerup> powerups;

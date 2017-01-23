@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-#include "Rectangulo.h"
 #include "Circulo.h"
 
 using namespace sf;

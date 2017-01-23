@@ -5,13 +5,12 @@
 
 Game::Game()
 {
-	
 	//SCORE
 	Text Score = criartexto(35, (float(larguraJanela) - 185), (float(alturaJanela) - 50), "TESTE");
 
 	//valor pontuacao
 	mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
-	string pont = to_string(Gestor::getPontos());
+	string pont = to_string(getPontos());
 	mostraPontuacao.setString(pont);
 
 
@@ -47,7 +46,6 @@ void Game::menu()
 	//Texto Quit Menu Iniciar
 	quit = criartexto(80 * (larguraJanela * 0.001), larguraJanela / 10, alturaJanela - (alturaJanela * 0.2), "[Q]uit");
 
-
 	auto timePoint2(chrono::high_resolution_clock::now());
 	auto elapsedTime(timePoint2 - timePoint1);
 	FrameTime ft{ chrono::duration_cast<chrono::duration<float, milli>>(
@@ -66,7 +64,6 @@ void Game::menu()
 	window.draw(score);
 	window.draw(quit);
 	window.display();
-
 }
 
 
@@ -111,14 +108,13 @@ void Game::construir_tijolos()
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 		{
-			tijolos.emplace_back( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) ); //mete no fim do vector
-			
+			tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo + 3) + 22, (iY + 2) * (tijolo.alturaTijolo + 3) ); //mete no fim do vector
 			// if rand = 1 pega posição, cria lá powerup
 			int valorPW = rand() % 14;
 
 			if (valorPW == 1 && tijolo.Powerup == false )
 			{
-				powerUP.setposition( (iX + 1) * (tijolo.larguraTijolo() + 3) + 22, (iY + 2) * (tijolo.alturaTijolo() + 3) );
+				powerUP.setposition( (iX + 1) * (tijolo.larguraTijolo + 3) + 22, (iY + 2) * (tijolo.alturaTijolo + 3) );
 				powerups.emplace_back(powerUP);
 				(*(--tijolos.end())).setPowerUp();
 			}
@@ -297,7 +293,7 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 	addPontos(1);
 	if (mTijolo.Powerup == true)
 	{
-		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo(), mTijolo.alturaTijolo()));
+		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo, mTijolo.alturaTijolo));
 		// precurer vector mpowerup
 		for (vector<powerup>::iterator it = mpowerup.begin(); it != mpowerup.end(); it++)
 			if (tBox.contains(Vector2f((*it).x(), (*it).y()))) {
