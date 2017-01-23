@@ -2,14 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <chrono>
-#include "Bola.h"
-#include "Barra.h"
-#include "Tijolo.h"
-#include "Pontuacoes.h"
-#include "Gravarpontuacao.h"
 #include "Gestor.h"
+
 using namespace sf;
-class Game
+
+class Game : 
+	public Gestor
 {
 public:
 	bool jogo_pausado = false;
@@ -26,18 +24,6 @@ public:
 	//variavel usada para controlar
 	bool executando = true;
 
-	//Declaracao de entidades usadas no programa
-	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
-	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
-	Tijolo tijolo;
-	vector<Tijolo> Tijolos;
-	Pontuacoes G_pontuacoes;
-	Gravarpontuacao Gravarpontuacoes;
-	Gestor gestor;
-	powerup powerUP{ 0,0 };
-	vector<powerup> powerups;
-	float ftStep = 1.f;
-	float ftSlice = 1.f;
 	Game();
 	// falta destrutor
 
@@ -59,9 +45,9 @@ private:
 
 	void testeColisao(Barra& mbarra, Bola& mbola);
 
-	bool testeColisao(Tijolo& mTijolo, Bola& mbola, vector<powerup>& mpowerup, Pontuacoes& G_pontuacao);
+	bool testeColisao(Tijolo& mTijolo, Bola& mbola, vector<powerup>& mpowerup);
 
-	void testeColisao(Barra& mbarra, powerup& mpower, Pontuacoes& mpontos);
+	void testeColisao(Barra& mbarra, powerup& mpower);
 
 
 	bool testeColisao(powerup & mpowerup, Barra & mbarra);
