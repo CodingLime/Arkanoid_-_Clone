@@ -7,6 +7,7 @@
 #include "Tijolo.h"
 #include "Pontuacoes.h"
 #include "Gravarpontuacao.h"
+#include "Gestor.h"
 using namespace sf;
 class Game
 {
@@ -32,6 +33,7 @@ public:
 	vector<Tijolo> Tijolos;
 	Pontuacoes G_pontuacoes;
 	Gravarpontuacao Gravarpontuacoes;
+	Gestor gestor;
 	powerup powerUP{ 0,0 };
 	vector<powerup> powerups;
 	float ftStep = 1.f;

@@ -26,7 +26,8 @@ public:
 	void gravarTop10();
 	void lerTop10();
 	void addTop10(unsigned int pontuacao);
-
+	bool gravarxml();
+	bool carregarNivel();
 	Gestor();
 	~Gestor();
 };
