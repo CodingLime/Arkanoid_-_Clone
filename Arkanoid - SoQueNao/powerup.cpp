@@ -29,12 +29,9 @@ void powerup::randCor()
 	forma_bola.setFillColor((i == 0) ? Color::Yellow : Color::Green);
 }
 
-float powerup::getScore()
+int powerup::getScore()
 {
-	if (forma_bola.getFillColor() == Color::Yellow)
-		return -5.f;
-	else 
-		return 10.0f;
+		return -5;
 }
 
 powerup::powerup(float mX, float mY)

@@ -16,52 +16,93 @@ void Gestor::resetPontos()
 	pontos = 0;
 }
 
-vector<unsigned int> Gestor::getTop10()
-{
-	return top10;
-}
-
 void Gestor::gravarTop10()
 {
-	ofstream os("TOP10.txt", ios::binary | ios::out);
-
-	if (os) {
-		for (unsigned int i = 0; i < 10 && i < top10.size(); ++i)
-			os.write((char*)&top10[i], sizeof(unsigned int));
-
-		os.close();
+	
+	ofstream ficheiro;
+	ficheiro.open("dados/TOP10.xml", fstream::in);
+	if (!ficheiro)
+	{
+		cout << "Ficheiro nao encontrado! ira ser criado um novo!" << endl;
+		ficheiro.open("dados/TOP10.xml", fstream::in | fstream::trunc);
 	}
+	int i = 1;
+	ficheiro << "<TOP10>" << endl;
+	for (vector<jogador>::iterator it = jogadores.begin(); it != jogadores.end(); it++)
+	{ 	
+		ficheiro << "<#" << i << ">" << endl;
+		ficheiro << "<Nome>" << (*it).nome << "</Nome>" << endl;
+		ficheiro << "<Pontuacao>" << (*it).score << "</Pontuacao>" << endl;
+		ficheiro << "</#" << i << ">" << endl;
+		i++;
+	}
+	ficheiro << "</TOP10>" << endl;
+
+	ficheiro.close();
 }
 
 void Gestor::lerTop10()
 {
-	ifstream f("TOP10.txt", ios::binary | ios::in);
-
-	if (f) {
-		unsigned int aux;
-
-		for (int i = 0; i < 10; ++i) {
-			f.read((char*)&aux, sizeof(unsigned int));
-			top10.push_back(aux);
+	ifstream ficheiro;
+		ficheiro.open("dados/TOP10.xml");
+		jogador jogadorexistente;
+		if (!ficheiro)
+		{
+			cout << "ficheiro nao existe!" << endl;
 		}
+		else{
 
-		f.close();
-	}
-	else {
-		for (unsigned int i = 0; i < 10; ++i)
-			top10.push_back(0);
-	}
+		string linha;
+		string valor;
+		while (getline(ficheiro, linha))
+		{
+		
+			size_t vericador1 = linha.find("<");
+			size_t vericador2 = linha.find(">");
+			size_t vericador3 = linha.find("</");
+
+			if (vericador1 != std::string::npos && vericador2 != std::string::npos && vericador3 != std::string::npos) {
+
+				if (vericador3 == 0)
+				{
+					valor = linha.substr(vericador3 + 2, vericador2 - vericador3 - 2);
+				}
+				else {
+					string nome = linha.substr(vericador1 + 1, vericador2 - vericador1 - 1);
+				
+
+					string valor = linha.substr(vericador2 + 1, vericador3 - vericador2 - 1);
+					
+					if (nome == "Nome") {
+					
+						jogadorexistente.setname(valor);
+
+					}
+					if (nome == "Pontuacao")
+					{
+						
+						jogadorexistente.setscore(atoi(valor.c_str()));
+						jogadores.push_back(jogadorexistente);
+					}
+				}
+			}
+			if (valor == "TOP10")
+				break;
+		}
+		}
+		
+		ficheiro.close();
 }
 
-void Gestor::addTop10(unsigned int pontuacao)
+void Gestor::addTop10(jogador novo)
 {
-	top10.push_back(pontuacao);
-	sort(top10.begin(), top10.end(), [](unsigned int x, unsigned int y) { return x > y; });
+	jogadores.push_back(novo);
+	sort(jogadores.begin(), jogadores.end(), [](jogador x, jogador y) { return x.score > y.score; });
 }
-
+//NAO IMPLEMENTADO NAO IMPLELETAR
 bool Gestor::gravarxml()
 {
-	cout << "passei aqui gravar" << endl;
+
 	ofstream ficheiro;
 	ficheiro.open("dados/config.xml", fstream::in);
 	if (!ficheiro)
@@ -89,7 +130,7 @@ bool Gestor::gravarxml()
 	ficheiro.close();
 	return true;
 }
-
+//NAO IMPLEMENTADO!
 bool Gestor::carregarNivel()
 {
 	ifstream ficheiro;
@@ -127,4 +168,14 @@ Gestor::Gestor()
 
 Gestor::~Gestor()
 {
+}
+
+void Gestor::jogador::setname(string str)
+{
+	nome = str;
+}
+
+void Gestor::jogador::setscore(int ponts)
+{
+	score = ponts;
 }

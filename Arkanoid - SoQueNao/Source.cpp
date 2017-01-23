@@ -10,7 +10,7 @@ int main()
 		sleep(milliseconds(5));
 		//while (window.pollEvent(event));
 		if (Keyboard::isKeyPressed(Keyboard::Key::P)) Jogo.correr();
-		if (Keyboard::isKeyPressed(Keyboard::Key::S)) Jogo.topDezEcra();
+		if (Keyboard::isKeyPressed(Keyboard::Key::S)) Jogo.Top10Ecra();
 		if (Keyboard::isKeyPressed(Keyboard::Key::Q)) break;
 	}
 

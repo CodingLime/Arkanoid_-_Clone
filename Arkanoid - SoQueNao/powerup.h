@@ -16,7 +16,7 @@ public:
 	void setposition(float mX, float mY);
 	void setVelocidadeP(float x, float y);
 	void randCor();
-	float getScore();
+	int getScore();
 	powerup(float mX, float mY);
 	~powerup();
 };

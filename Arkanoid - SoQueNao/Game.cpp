@@ -16,9 +16,8 @@ Game::Game()
 	//Fim do jogo
 	fimdoJogo = criartexto(20 * (larguraJanela * 0.001), alturaJanela / 2, larguraJanela / 2, "Perdeste buahaha, carrega 'Q' para fechar");
 
-	//construir tijolos
-	construir_tijolos();
-	gestor.gravarxml();
+
+	Gestor::lerTop10();
 }
 
 void Game::menu()
@@ -70,6 +69,9 @@ void Game::menu()
 
 void Game::correr()
 {
+	//construir tijolos
+	construir_tijolos();
+
 	executando = true;
 
 	restart();
@@ -186,7 +188,7 @@ bool Game::drawPhase()
 {
 	if (bola.fimjogo == true)
 	{
-		topDezEcra();
+		InserirnomeEcra();
 		bola.fimjogo = false;
 		return false;
 	}
@@ -198,7 +200,9 @@ bool Game::drawPhase()
 		window.draw((*it).forma_bola);
 
 	//DESENHAR TEXTO SCORE
-	window.draw(Texto);
+	Text txtpontuacao = criartexto(35, float(larguraJanela) - 185, float(alturaJanela) - 50, "SCORE:");
+	window.draw(txtpontuacao);
+
 	//Desenhar pontuacao
 	Text mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
 	mostraPontuacao.setString(to_string(getPontos()));
@@ -235,37 +239,23 @@ void Game::restart()
 	
 }
 
-void Game::topDezEcra()
+void Game::InserirnomeEcra()
 {
 
-	Text scoreTxt = criartexto(20, 120.f, 420.f, "");
+	Text txtGameover = criartexto(50, larguraJanela / 2.7, 15 + (alturaJanela * 0.05), "__Game Over__ ");
+	txtGameover.setOutlineColor(Color::Yellow);
+	txtGameover.setOutlineThickness(2);
+	Text Pontuacao = criartexto(20, larguraJanela / 2.7, 15 + (alturaJanela * 0.25), "Pontuacao: ");
+	Text score= criartexto(20, larguraJanela / 2.25, 15 + (alturaJanela * 0.25), "");
+	score.setString(to_string(getPontos()));
+	Text txtNome = criartexto(25, larguraJanela / 2.7, 15 + (alturaJanela * 0.50), "Insira o seu nome! : ");
 
-
+	Text nomejogador = criartexto(20, larguraJanela / 2.7, 15 + (alturaJanela * 0.55), "");
 	stringstream ss;
-	unsigned int scoreDatasize = getTop10().size();
+	//unsigned int scoreDatasize = getTop10().size();
 
 
-	window.clear(Color::Black);
-	/*
-	for (unsigned int i = 0; i < 10 && i < scoreDatasize; i++) {
-		//score number
-		ss.str("");
-		ss << "#" << (i + 1);
-		scoreTxt.setString(ss.str());
-		scoreTxt.setPosition(175.f, 110.f + (30 * i));
-		window.draw(scoreTxt);
-		//score
-		ss.str("");
-		ss << getTop10().at(i);
-		scoreTxt.setString(ss.str());
-		scoreTxt.setPosition(470.f - scoreTxt.getLocalBounds().width, 110.f + (30 * i));
-		window.draw(scoreTxt);
-	}
-	*/
-
-	//ESTA MERDA NAO FUNCIONA PORQUE APARECE SEMPRE QUE SE CARREGA NUMA TECLA O WINDOW ANTERIOR
-
-	RenderWindow janela(VideoMode(800, 600), "", Style::None);
+	RenderWindow janela(VideoMode(larguraJanela, alturaJanela), "", Style::None);
 	while (janela.isOpen()) {
 		Event event;
 		string playerInput;
@@ -280,24 +270,68 @@ void Game::topDezEcra()
 			case Event::TextEntered:
 				if (event.text.unicode < 128)
 				{
-					playerInput = scoreTxt.getString();
+					playerInput = nomejogador.getString();
 					if (event.text.unicode == 13)
 					{
-						cout << "#1 : " << playerInput << endl;
+						jogador fimjogo;
+						fimjogo.setname(playerInput);
+						fimjogo.setscore(getPontos());
+						addTop10(fimjogo);
+						gravarTop10();
 						janela.close();
 					}
 					else if (event.text.unicode == 8) {
 						if (playerInput.size() > 0) playerInput.resize(playerInput.size() - 1);
+						janela.clear();
 					}
 					else {
 						playerInput += static_cast<char>(event.text.unicode);
 					}
-					scoreTxt.setString(playerInput);
+					nomejogador.setString(playerInput);
 
 				}
 				break;
 			}
 			janela.display();
+			janela.draw(txtGameover);
+			janela.draw(Pontuacao);
+			janela.draw(score);
+			janela.draw(txtNome);
+			janela.draw(nomejogador);
+		}
+	}
+}
+void Game::Top10Ecra()
+{
+
+
+	RenderWindow janela(VideoMode(larguraJanela, alturaJanela), "", Style::None);
+	while (janela.isOpen()) {
+		stringstream ss;
+		Text txtTop10 = criartexto(80, larguraJanela / 2.4, 15 + (alturaJanela * 0.05), " # TOP 10 ");
+		txtTop10.setOutlineColor(Color::Yellow);
+		txtTop10.setOutlineThickness(2);
+		Text txtNome = criartexto(50, larguraJanela / 2.7, 15 + (alturaJanela * 0.25), "Melhores Jogadores : ");
+		Text scoreTxt = criartexto(35, larguraJanela / 2.8, 15 + (alturaJanela * 0.40), "");
+		int i = 1;
+		for (vector<jogador>::iterator it = jogadores.begin(); it != jogadores.end() && i <= 10; it++, i++)
+		{
+			ss << "  #"<<i << "  "<< (*it).nome << "          "<< "Pontuacao: " << (*it).score << endl;
+			scoreTxt.setString(ss.str());
+		}
+
+
+		Event event;
+		string playerInput;
+		while (janela.pollEvent(event))
+		{
+			if (Keyboard::isKeyPressed(Keyboard::Key::Q))
+			{
+				janela.close();
+			}
+			janela.display();
+			janela.draw(txtTop10);
+			janela.draw(txtNome);
 			janela.draw(scoreTxt);
 		}
 	}
@@ -344,7 +378,7 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 
 	return true;
 }
-
+//APAGAR
 void Game::testeColisao(Barra & mbarra, powerup & mPower)
 {
 	if (!Intersecao(mPower, mbarra)) return;
@@ -355,5 +389,6 @@ bool Game::testeColisao(powerup & mpowerup, Barra & mbarra)
 {
 	if (!Intersecao(mbarra, mpowerup)) return false;
 	mbarra.alterartamanho();
+	addPontos(mpowerup.getScore());
 	return true;
 }

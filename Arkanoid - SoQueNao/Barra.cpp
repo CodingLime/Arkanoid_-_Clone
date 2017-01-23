@@ -25,6 +25,8 @@ void Barra::update(FrameTime mFT)
 void Barra::resetPosicao(float mX, float mY)
 {
 	forma_req.setPosition(mX, mY);
+	larguraBarra = 100.f * (larguraJanela * 0, 03.f);
+	forma_req.setSize({ larguraBarra, alturaBarra });
 }
 
 void Barra::alterartamanho()

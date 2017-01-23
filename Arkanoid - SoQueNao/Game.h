@@ -35,7 +35,8 @@ public:
 	void updatePhase();
 	bool drawPhase();
 	void restart();
-	void topDezEcra();
+	void InserirnomeEcra();
+	void Top10Ecra();
 
 private:	
 	Text fimdoJogo;

@@ -12,6 +12,17 @@ using namespace sf; // tem a ver com a biblioteca SFML
 class Gestor
 {
 public:
+
+	struct jogador {
+		string nome;
+		int score;
+		void setname(string str);
+		void setscore(int ponts);
+};
+
+	vector<jogador>jogadores;
+	
+
 	// TAMANHO JANELA
 	/// altura e largura da janela do jogo
 	unsigned int larguraJanela = VideoMode::getDesktopMode().width;
@@ -26,11 +37,9 @@ public:
 
 	// TOP10 + LER e GRAVAR 
 	/// parte relativa ao ecra fim de jogo/gameover que mostra top 10 scores
-	vector<unsigned int> top10;
-	vector<unsigned int> getTop10();
 	void gravarTop10();
 	void lerTop10();
-	void addTop10(unsigned int pontuacao);
+	void addTop10(jogador novo);
 
 	bool gravarxml();
 	bool carregarNivel();
