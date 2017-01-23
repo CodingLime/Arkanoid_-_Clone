@@ -186,7 +186,8 @@ void Game::updatePhase()
 
 bool Game::drawPhase()
 {
-	if (bola.fimjogo == true)
+
+	if (bola.fimjogo == true || totaltijolos == 44)
 	{
 		InserirnomeEcra();
 		bola.fimjogo = false;
@@ -351,6 +352,8 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 {
 	if (!Intersecao(mTijolo, mbola)) return false;
 	addPontos(1);
+	totaltijolos++;
+	cout << "ntijolos" << totaltijolos << endl;
 	if (mTijolo.Powerup == true)
 	{
 		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo, mTijolo.alturaTijolo));

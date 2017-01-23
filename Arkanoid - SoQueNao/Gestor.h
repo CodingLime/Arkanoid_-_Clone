@@ -44,7 +44,7 @@ public:
 	bool gravarxml();
 	bool carregarNivel();
 
-
+	int totaltijolos = 0;
 	/* ORIGINAL - Game.h -- APAGAR
 	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
