@@ -37,7 +37,7 @@ void Game::menu()
 	play = criartexto(80 * (larguraJanela * 0.001), larguraJanela / 10, alturaJanela / 4 + (alturaJanela * 0.01), "[P]lay");
 
 	//Texto bot Menu Iniciar
-	bot = criartexto(80 * (larguraJanela * 0.001), (larguraJanela / 10) , alturaJanela / 2 - (alturaJanela * 0.1), "[B]ot - falta");
+	bot = criartexto(80 * (larguraJanela * 0.001), (larguraJanela / 10) , alturaJanela / 2 - (alturaJanela * 0.1), "[B]ot");
 
 	//Texto Score Menu Iniciar
 	score = criartexto(80 * (larguraJanela * 0.001), larguraJanela / 10, alturaJanela - (alturaJanela * 0.46), "[S]core");
@@ -67,7 +67,7 @@ void Game::menu()
 
 
 
-void Game::correr()
+void Game::correr(bool bot)
 {
 	//construir tijolos
 	construir_tijolos();
@@ -86,7 +86,7 @@ void Game::correr()
 
 		if (jogo_pausado) break;
 
-		updatePhase();
+		updatePhase(bot);
 
 		executando = drawPhase();
 
@@ -156,14 +156,14 @@ void Game::inputPhase()
 	if (Keyboard::isKeyPressed(Keyboard::Key::R)) restart();
 }
 
-void Game::updatePhase()
+void Game::updatePhase(bool bot)
 {
 	currentSlice += lastFt;
 	for (; currentSlice >= ftSlice; currentSlice -= ftSlice)
 	{
 		bola.update(ftStep);
-		barra.update(ftStep);
-
+		barra.update(ftStep,bot, bola);
+		
 		for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end(); it++)
 			(*it).update(ftStep);
 
@@ -243,18 +243,18 @@ void Game::restart()
 void Game::InserirnomeEcra()
 {
 
+	//unsigned int scoreDatasize = getTop10().size();
+
+
 	Text txtGameover = criartexto(50, larguraJanela / 2.7, 15 + (alturaJanela * 0.05), "__Game Over__ ");
 	txtGameover.setOutlineColor(Color::Yellow);
 	txtGameover.setOutlineThickness(2);
 	Text Pontuacao = criartexto(20, larguraJanela / 2.7, 15 + (alturaJanela * 0.25), "Pontuacao: ");
-	Text score= criartexto(20, larguraJanela / 2.25, 15 + (alturaJanela * 0.25), "");
+	Text score = criartexto(20, larguraJanela / 2.25, 15 + (alturaJanela * 0.25), "");
 	score.setString(to_string(getPontos()));
 	Text txtNome = criartexto(25, larguraJanela / 2.7, 15 + (alturaJanela * 0.50), "Insira o seu nome! : ");
-
 	Text nomejogador = criartexto(20, larguraJanela / 2.7, 15 + (alturaJanela * 0.55), "");
 	stringstream ss;
-	//unsigned int scoreDatasize = getTop10().size();
-
 
 	RenderWindow janela(VideoMode(larguraJanela, alturaJanela), "", Style::None);
 	while (janela.isOpen()) {
@@ -353,7 +353,6 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 	if (!Intersecao(mTijolo, mbola)) return false;
 	addPontos(1);
 	totaltijolos++;
-	cout << "ntijolos" << totaltijolos << endl;
 	if (mTijolo.Powerup == true)
 	{
 		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo, mTijolo.alturaTijolo));

@@ -1,4 +1,5 @@
 #pragma once
+#include "Bola.h"
 #include "Rectangulo.h"
 #include <SFML\Graphics.hpp>
 using namespace sf;
@@ -15,7 +16,7 @@ public:
 
 	Barra(float mX, float mY);
 	// falta destrutor
-	void update(FrameTime mFT);
+	void update(FrameTime mFT, bool bot, Bola bola);
 	void resetPosicao(float mX, float mY);
 	void alterartamanho();
 };

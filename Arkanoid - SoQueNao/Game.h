@@ -17,7 +17,7 @@ public:
 	//using FrameTime = float;
 	
 	//faz render da janela do jogo, define altura, largura, nome e stilo da janela
-	RenderWindow window{ { larguraJanela, alturaJanela }, "Arkanoid - Mais Um Clone ?!?!?!?", Style::Fullscreen };
+	RenderWindow window{ { larguraJanela, alturaJanela }, "Arkanoid - #SQN", Style::Fullscreen };
 	//variaveis usadas por causa da libraria SFML
 	FrameTime lastFt{ 0.f }, currentSlice{ 0.f };
 	
@@ -28,11 +28,11 @@ public:
 	// falta destrutor
 
 	void menu();
-	void correr();
+	void correr(bool bot);
 	void construir_tijolos();
 	Text criartexto(int tamanholetra, int posX, int posY, char *Texto);
 	void inputPhase();
-	void updatePhase();
+	void updatePhase(bool bot);
 	bool drawPhase();
 	void restart();
 	void InserirnomeEcra();
