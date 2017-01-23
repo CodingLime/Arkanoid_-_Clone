@@ -284,6 +284,7 @@ void Game::topDezEcra()
 					if (event.text.unicode == 13)
 					{
 						cout << "#1 : " << playerInput << endl;
+						janela.close();
 					}
 					else if (event.text.unicode == 8) {
 						if (playerInput.size() > 0) playerInput.resize(playerInput.size() - 1);
