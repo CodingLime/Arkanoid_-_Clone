@@ -1,0 +1,10 @@
+<Nivel1>
+<Numero_tijolos>
+N_tijolos_X 11
+N_tijolos_Y 4
+</Numero_tijolos>
+<tamanho_tijolos>
+Altura_tijolo round(larguraJanela - larguraJanela*0.922)
+Largura_tijolo round(alturaJanela - alturaJanela*0.94)
+</tamanho_tijolos>
+</Nivel1>

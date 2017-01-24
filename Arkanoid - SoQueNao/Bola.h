@@ -3,7 +3,6 @@
 #include "Circulo.h"
 
 using namespace sf;
-
 using FrameTime = float;
 
 class Bola :
@@ -12,14 +11,16 @@ class Bola :
 public:
 
 	float velocidadebola = 0.4f;
+	Vector2f velocidade { -getvelocidadebola(), -getvelocidadebola() };
+	bool fimjogo = false;
+
 	float getvelocidadebola();
 	void setvelocidadebola(float X);
 	void resetVelocidade();
-	Vector2f velocidade { -getvelocidadebola(), -getvelocidadebola() };
-	bool fimjogo = false;
-	//posicao da bola
+	
 	Bola(float mX, float mY);
-	// falta destrutor
+	~Bola();
+	
 	void resetPosicao(float x, float y);
 	void update(FrameTime mFT);
 	float const raioBola();

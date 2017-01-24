@@ -1,40 +1,29 @@
 #include "Rectangulo.h"
 
-Rectangulo::Rectangulo()
-{
-}
+Rectangulo::Rectangulo() {}
 
+Rectangulo::~Rectangulo() {}
 
-Rectangulo::~Rectangulo()
-{
-}
-
-float Rectangulo::x()
-{
+float Rectangulo::x() {
 	return forma_req.getPosition().x;
 }
 
-float Rectangulo::y()
-{
+float Rectangulo::y() {
 	return forma_req.getPosition().y;
 }
 
-float Rectangulo::esquerda()
-{
+float Rectangulo::esquerda() {
 	return x() - forma_req.getSize().x / 2.f;
 }
 
-float Rectangulo::direita()
-{
+float Rectangulo::direita() {
 	return x() + forma_req.getSize().x / 2.f;
 }
 
-float Rectangulo::cima()
-{
+float Rectangulo::cima() {
 	return y() - forma_req.getSize().y / 2.f;
 }
 
-float Rectangulo::baixo()
-{
+float Rectangulo::baixo() {
 	return y() + forma_req.getSize().y / 2.f;
 }
