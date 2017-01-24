@@ -8,11 +8,17 @@
 #include <SFML/Graphics.hpp>
 
 using namespace std;
-using namespace sf; // tem a ver com a biblioteca SFML
+using namespace sf; // Biblioteca SFML
+
 class Gestor
 {
 public:
 
+	/* Estrutura usada para guardar dados de cada jogador
+	  nome : Nome do jogador
+	  score: Pontuacao do jogador
+	  setname:  atribui nome do utilizador a variavel
+	  setscore: atribui pontuacao do jogador a variavel */
 	struct jogador {
 		string nome;
 		int score;
@@ -21,7 +27,6 @@ public:
 };
 
 	vector<jogador>jogadores;
-	
 
 	// TAMANHO JANELA
 	/// altura e largura da janela do jogo
@@ -41,28 +46,16 @@ public:
 	void lerTop10();
 	void addTop10(jogador novo);
 
-	bool gravarxml();
-	bool carregarNivel();
-
 	int totaltijolos = 0;
-	/* ORIGINAL - Game.h -- APAGAR
-	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
-	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
-	Tijolo tijolo;
-	vector<Tijolo> Tijolos;
-	Pontuacoes G_pontuacoes; <- removido
-	Gravarpontuacao Gravarpontuacoes; <- removido
-	powerup powerUP{ 0,0 };
-	vector<powerup> powerups;
-	float ftStep = 1.f;
-	float ftSlice = 1.f;
-	*/
+
 	Bola bola{ float(larguraJanela) / 2, float(alturaJanela) / 1.2 };
 	Barra barra{ float(larguraJanela) / 2, float(alturaJanela) - 50 };
 	Tijolo tijolo{alturaJanela, larguraJanela};
 	vector<Tijolo> tijolos;
 	powerup powerUP{ 0,0 };
 	vector<powerup> powerups;
+
+	// Variaveis do SFML
 	float ftStep = 1.f;
 	float ftSlice = 1.f;
 

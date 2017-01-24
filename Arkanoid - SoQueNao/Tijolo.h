@@ -14,7 +14,7 @@ public:
 	int nTijolosX();
 	int nTijolosY();
 	Tijolo(float mX = 0.f, float mY = 0.f);
-	// falta destrutor
+	~Tijolo();
 	void setPowerUp();
 
 };

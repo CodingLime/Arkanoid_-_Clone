@@ -1,23 +1,15 @@
 #include "game.h"
 #include <vector>
 #include <iostream>
-//extern int pontuacao;
+
 Game::Game()
 {
-	//SCORE
-	Text Score = criartexto(35, (float(larguraJanela) - 185), (float(alturaJanela) - 50), "TESTE");
-
-	//valor pontuacao
-	mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
-	string pont = to_string(getPontos());
-	mostraPontuacao.setString(pont);
-
-
-	//Fim do jogo
-	fimdoJogo = criartexto(20 * (larguraJanela * 0.001), alturaJanela / 2, larguraJanela / 2, "Perdeste buahaha, carrega 'Q' para fechar");
-
-
+	//Carrega o TOP10 para a memoria
 	Gestor::lerTop10();
+}
+
+Game::~Game()
+{
 }
 
 void Game::menu()
@@ -27,7 +19,6 @@ void Game::menu()
 	window.clear(Color::Black);
 
 	Text play, bot, score, quit, titulo;
-
 	//Texto Titulo Menu Iniciar
 	titulo = criartexto(80 * (larguraJanela * 0.001), larguraJanela / 5, 15 + (alturaJanela * 0.01), "Arkanoid #SQN");
 	titulo.setOutlineColor(Color::Yellow);
@@ -47,12 +38,8 @@ void Game::menu()
 
 	auto timePoint2(chrono::high_resolution_clock::now());
 	auto elapsedTime(timePoint2 - timePoint1);
-	FrameTime ft{ chrono::duration_cast<chrono::duration<float, milli>>(
-		elapsedTime)
-		.count() };
-
+	FrameTime ft{ chrono::duration_cast<chrono::duration<float, milli>>(elapsedTime).count() };
 	lastFt = ft;
-
 	auto ftSeconds(ft / 1000.f);
 	auto fps(1.f / ftSeconds);
 
@@ -69,12 +56,12 @@ void Game::menu()
 
 void Game::correr(bool bot)
 {
-	//construir tijolos
 	construir_tijolos();
-
 	executando = true;
 
+	//Varias são repostas no valor padrão
 	restart();
+
 	while (executando)
 	{
 		auto timePoint1(chrono::high_resolution_clock::now());
@@ -92,12 +79,8 @@ void Game::correr(bool bot)
 
 		auto timePoint2(chrono::high_resolution_clock::now());
 		auto elapsedTime(timePoint2 - timePoint1);
-		FrameTime ft{ chrono::duration_cast<chrono::duration<float, milli>>(
-			elapsedTime)
-			.count() };
-
+		FrameTime ft{ chrono::duration_cast<chrono::duration<float, milli>>(elapsedTime).count() };
 		lastFt = ft;
-
 		auto ftSeconds(ft / 1000.f);
 		auto fps(1.f / ftSeconds);
 	}
@@ -110,10 +93,10 @@ void Game::construir_tijolos()
 	for (int iX{ 0 }; iX < tijolo.nTijolosX(); ++iX)
 		for (int iY{ 0 }; iY < tijolo.nTijolosY(); ++iY)
 		{
-			tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo + 3) + 22, (iY + 2) * (tijolo.alturaTijolo + 3) ); //mete no fim do vector
-			// if rand = 1 pega posição, cria lá powerup
-			int valorPW = rand() % 14;
+			tijolos.emplace_back((iX + 1) * (tijolo.larguraTijolo + 3) + 22, (iY + 2) * (tijolo.alturaTijolo + 3) ); 
 
+			// if rand = 1 pega posição, cria lá o powerup
+			int valorPW = rand() % 14;
 			if (valorPW == 1 && tijolo.Powerup == false )
 			{
 				powerUP.setposition( (iX + 1) * (tijolo.larguraTijolo + 3) + 22, (iY + 2) * (tijolo.alturaTijolo + 3) );
@@ -124,7 +107,12 @@ void Game::construir_tijolos()
 }
 
 
-
+/* Metodo para criar automaticamente caixas de texto
+   tamanholetra : Tamanho da fonte
+   posX			: Posicao Horizontal
+   posY			: Posicao Vertical
+   Texto		: Conteudo da caixa de texto 
+   retorna uma variavel do tipo Text */
 Text Game::criartexto(int tamanholetra, int posX, int posY, char *Texto)
 {
 	font.loadFromFile("black.ttf");
@@ -149,7 +137,7 @@ void Game::inputPhase()
 			break;
 		}
 	}
-	// Verificador de teclas pressionadas 
+	// Verifica teclas pressionadas 
 	if (Keyboard::isKeyPressed(Keyboard::Key::O)) bola.setvelocidadebola(0.005f);
 	if (Keyboard::isKeyPressed(Keyboard::Key::I)) bola.setvelocidadebola(-0.005f);
 	if (Keyboard::isKeyPressed(Keyboard::Key::Escape)) executando = false;
@@ -161,21 +149,28 @@ void Game::updatePhase(bool bot)
 	currentSlice += lastFt;
 	for (; currentSlice >= ftSlice; currentSlice -= ftSlice)
 	{
+		//Atualização da posição da bola
 		bola.update(ftStep);
+		//Atualização da posição da Barra
 		barra.update(ftStep,bot, bola);
 		
+		//Atualiza todos os powerups
 		for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end(); it++)
 			(*it).update(ftStep);
 
+		//Verificação se existe colisao entre a barra do jogador e a bola
 		testeColisao(barra, bola);
-		testeColisao(barra, powerUP); //temos de mudar isto
-		
+
+		/*Verifica se existe colisão entre a bola e todos os tijolos
+		  Se existir powerup no tijolo destruido, o powerup passa a ativo */
 		for (vector<Tijolo>::iterator it = tijolos.begin(); it != tijolos.end();)
 			if (testeColisao((*it), bola, powerups) == true)
 				it = tijolos.erase(it);
 			else
 				it++;
-	
+
+		/*Verifica se existe colisão entre o powerup e a barra do jogador
+		  Ao existir colisão o powerup desaparece */
 		for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end();)
 			if (testeColisao( (*it) , barra ) == true)
 				it = powerups.erase(it);
@@ -186,7 +181,7 @@ void Game::updatePhase(bool bot)
 
 bool Game::drawPhase()
 {
-
+	//Se o utilizador destruir todos os Tijolos acaba o jogo
 	if (bola.fimjogo == true || totaltijolos == 44)
 	{
 		InserirnomeEcra();
@@ -200,62 +195,60 @@ bool Game::drawPhase()
 	for (vector<powerup>::iterator it = powerups.begin(); it != powerups.end(); it++)
 		window.draw((*it).forma_bola);
 
-	//DESENHAR TEXTO SCORE
+	//Desenha Texto Score
 	Text txtpontuacao = criartexto(35, float(larguraJanela) - 185, float(alturaJanela) - 50, "SCORE:");
 	window.draw(txtpontuacao);
 
-	//Desenhar pontuacao
+	//Desenhar pontuacao atual do jogador
 	Text mostraPontuacao = criartexto(35, float(larguraJanela) - 55, float(alturaJanela) - 50, "");
 	mostraPontuacao.setString(to_string(getPontos()));
 	window.draw(mostraPontuacao);
 
-	//velocidade
+	//Desenha texto velocidade da bola
 	window.draw(criartexto(35, 5, float(alturaJanela)-50, "Velocidade:"));
-	//valor velocidade
+	//Desenha o valor da velocidade da bola
 	Text mostraVel = criartexto(35, 205, float(alturaJanela)-50, "");
 	mostraVel.setString(to_string(bola.getvelocidadebola()));
 	window.draw(mostraVel);
 	
-	for (Tijolo& Tijolo : tijolos) window.draw(Tijolo.forma_req); // fazer ciclo for "normalmente"
-																  //	if (fimjogo = true)
-																  //	window.draw(fimdojogo);
-	/*
-	for em cima é a mesma coisa que:
-	for(int i=0; i< tijolos.size(); i++) window.draw(tijolos[i].forma_req)
-	*/
+	//Desenha todos os Tijolos
+	for (Tijolo& Tijolo : tijolos) window.draw(Tijolo.forma_req); 
+	
 	window.display();
-
 	return true;
 }
 
+
+/*  Metodo para Reniciar todas as variaveis
+	A posição da bola, barra e tijolos são restauradas para as definicoes de inicio do jogo */
 void Game::restart()
 {
-	
 	bola.resetPosicao(float(larguraJanela) / 2, float(alturaJanela) / 1.2);
 	bola.resetVelocidade();
 	bola.fimjogo = false;
 	barra.resetPosicao(float(larguraJanela) / 2, float(alturaJanela) - 50);
 	construir_tijolos();
 	resetPontos();
-	
 }
 
 void Game::InserirnomeEcra()
 {
-
-	//unsigned int scoreDatasize = getTop10().size();
-
-
+	//Texto Gameover
 	Text txtGameover = criartexto(50, larguraJanela / 2.7, 15 + (alturaJanela * 0.05), "__Game Over__ ");
 	txtGameover.setOutlineColor(Color::Yellow);
 	txtGameover.setOutlineThickness(2);
+	//Texto Pontuacao
 	Text Pontuacao = criartexto(20, larguraJanela / 2.7, 15 + (alturaJanela * 0.25), "Pontuacao: ");
+	//Texto score
 	Text score = criartexto(20, larguraJanela / 2.25, 15 + (alturaJanela * 0.25), "");
 	score.setString(to_string(getPontos()));
+	//Texto Nome
 	Text txtNome = criartexto(25, larguraJanela / 2.7, 15 + (alturaJanela * 0.50), "Insira o seu nome! : ");
+	//Texto NomeJogador
 	Text nomejogador = criartexto(20, larguraJanela / 2.7, 15 + (alturaJanela * 0.55), "");
 	stringstream ss;
-
+	
+	//Desenha uma nova janela para apresentar a identificação do jogador
 	RenderWindow janela(VideoMode(larguraJanela, alturaJanela), "", Style::None);
 	while (janela.isOpen()) {
 		Event event;
@@ -272,7 +265,7 @@ void Game::InserirnomeEcra()
 				if (event.text.unicode < 128)
 				{
 					playerInput = nomejogador.getString();
-					if (event.text.unicode == 13)
+					if (event.text.unicode == 13) //(13 - Tecla Enter
 					{
 						jogador fimjogo;
 						fimjogo.setname(playerInput);
@@ -281,18 +274,21 @@ void Game::InserirnomeEcra()
 						gravarTop10();
 						janela.close();
 					}
-					else if (event.text.unicode == 8) {
+					else if (event.text.unicode == 8) //(8) - Tecla Backspace 
+					{
+						//Ao pressionar a tecla backspace vai ser apagado o ultimo caracter introduzido
 						if (playerInput.size() > 0) playerInput.resize(playerInput.size() - 1);
 						janela.clear();
 					}
 					else {
+						//Adiciona a string todos os caracters pressionados
 						playerInput += static_cast<char>(event.text.unicode);
 					}
 					nomejogador.setString(playerInput);
-
 				}
 				break;
 			}
+			//Desenhar Elementos no ecrã
 			janela.display();
 			janela.draw(txtGameover);
 			janela.draw(Pontuacao);
@@ -302,26 +298,29 @@ void Game::InserirnomeEcra()
 		}
 	}
 }
+
 void Game::Top10Ecra()
 {
-
-
+	//Criação de uma nova janela para apresentar TOP10
 	RenderWindow janela(VideoMode(larguraJanela, alturaJanela), "", Style::None);
 	while (janela.isOpen()) {
 		stringstream ss;
+		//Texto Titulo TOP10
 		Text txtTop10 = criartexto(80, larguraJanela / 2.4, 15 + (alturaJanela * 0.05), " # TOP 10 ");
 		txtTop10.setOutlineColor(Color::Yellow);
 		txtTop10.setOutlineThickness(2);
+		//Texto Melhores Jogadores
 		Text txtNome = criartexto(50, larguraJanela / 2.7, 15 + (alturaJanela * 0.25), "Melhores Jogadores : ");
+		//Texto Jogador
 		Text scoreTxt = criartexto(35, larguraJanela / 2.8, 15 + (alturaJanela * 0.40), "");
 		int i = 1;
+
+		//Metodo pecorre os 10 primeiros jogadores da lista de jogadores disponiveis
 		for (vector<jogador>::iterator it = jogadores.begin(); it != jogadores.end() && i <= 10; it++, i++)
 		{
 			ss << "  #"<<i << "  "<< (*it).nome << "          "<< "Pontuacao: " << (*it).score << endl;
 			scoreTxt.setString(ss.str());
 		}
-
-
 		Event event;
 		string playerInput;
 		while (janela.pollEvent(event))
@@ -330,6 +329,8 @@ void Game::Top10Ecra()
 			{
 				janela.close();
 			}
+
+			//Desenha todas os elementos na janela
 			janela.display();
 			janela.draw(txtTop10);
 			janela.draw(txtNome);
@@ -337,6 +338,11 @@ void Game::Top10Ecra()
 		}
 	}
 }
+
+/* Teste Colisao entre a barra e a bola
+ Se existir interseção entre os 2 elementos, 
+ a bola muda de direção consoante se acertar no lado esquerdo
+ ou direito da barra */
 void Game::testeColisao(Barra & mbarra, Bola & mbola)
 {
 	if (!Intersecao(mbarra, mbola)) return;
@@ -348,6 +354,12 @@ void Game::testeColisao(Barra & mbarra, Bola & mbola)
 		mbola.velocidade.x = mbola.getvelocidadebola();
 }
 
+/* Teste Colisao entre a barra e a bola e o powerup
+A bola ao intersetar o tijolo ele será eliminado, e incrementado 1 ponto 
+na pontuação do jogador e incrementa-se o numero de tijolos destruidos pelo
+jogador.
+Se o tijolo desruido contiver um powerup, esse será libertado 
+e entrará num estado de movimento caindo do tijolo*/
 bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpowerup)
 {
 	if (!Intersecao(mTijolo, mbola)) return false;
@@ -356,37 +368,35 @@ bool Game::testeColisao(Tijolo & mTijolo, Bola & mbola, vector<powerup>& mpoweru
 	if (mTijolo.Powerup == true)
 	{
 		FloatRect tBox = FloatRect(Vector2f(mTijolo.x(), mTijolo.y()), Vector2f(mTijolo.larguraTijolo, mTijolo.alturaTijolo));
-		// precurer vector mpowerup
 		for (vector<powerup>::iterator it = mpowerup.begin(); it != mpowerup.end(); it++)
 			if (tBox.contains(Vector2f((*it).x(), (*it).y()))) {
 				(*it).setVelocidadeP(0, 0.4f);
 			}
 	}
+	/* Se a bola se sobrepor a Esquerda/direita/cima/baixo do tijolo é trocada a direção da bola*/
 	float sobreporEsquerda{ mbola.direita() - mTijolo.esquerda() };
 	float sobreporDireita{ mTijolo.direita() - mbola.esquerda() };
 	float sobreporCima{ mbola.baixo() - mTijolo.cima() };
 	float sobreporBaixo{ mTijolo.baixo() - mbola.cima() };
 
-	bool bolaFromesquerda(abs(sobreporEsquerda) < abs(sobreporDireita));
-	bool bolaFromcima(abs(sobreporCima) < abs(sobreporBaixo));
+	bool bolaVemdaesquerda(abs(sobreporEsquerda) < abs(sobreporDireita));
+	bool bolaVemdeCima(abs(sobreporCima) < abs(sobreporBaixo));
 
-	float minsobreporX{ bolaFromesquerda ? sobreporEsquerda : sobreporDireita };
-	float minsobreporY{ bolaFromcima ? sobreporCima : sobreporBaixo };
+	float minsobreporX{ bolaVemdaesquerda ? sobreporEsquerda : sobreporDireita };
+	float minsobreporY{ bolaVemdeCima ? sobreporCima : sobreporBaixo };
 
 	if (abs(minsobreporX) < abs(minsobreporY))
-		mbola.velocidade.x = bolaFromesquerda ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
+		mbola.velocidade.x = bolaVemdaesquerda ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
 	else
-		mbola.velocidade.y = bolaFromcima ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
+		mbola.velocidade.y = bolaVemdeCima ? -mbola.getvelocidadebola() : mbola.getvelocidadebola();
 
 	return true;
 }
-//APAGAR
-void Game::testeColisao(Barra & mbarra, powerup & mPower)
-{
-	if (!Intersecao(mPower, mbarra)) return;
-	addPontos(mPower.getScore());
-}
 
+/*Teste de colisao do powerup com a barra do jogador
+	Ao existir colisão a barra diminui de tamanho
+	e o jogador perde pontos.
+*/
 bool Game::testeColisao(powerup & mpowerup, Barra & mbarra)
 {
 	if (!Intersecao(mbarra, mpowerup)) return false;

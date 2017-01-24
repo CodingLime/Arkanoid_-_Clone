@@ -1,7 +1,5 @@
 #include "bola.h"
 
-
-
 float Bola::getvelocidadebola()
 {
 	return velocidadebola;
@@ -24,11 +22,14 @@ void Bola::resetVelocidade()
 
 Bola::Bola(float mX, float mY)
 {
-
 	forma_bola.setPosition(mX, mY);
 	forma_bola.setRadius(raioBola());
 	forma_bola.setFillColor(Color::Color(255,204, 0));
 	forma_bola.setOrigin(raioBola(), raioBola());
+}
+
+Bola::~Bola()
+{
 }
 
 void Bola::resetPosicao(float x, float y)
@@ -38,16 +39,18 @@ void Bola::resetPosicao(float x, float y)
 
 void Bola::update(FrameTime mFT)
 {
-	
 	forma_bola.move(velocidade * mFT);
-	
+	// Não deixa a bola chegar ao limite esquerdo do ecrã
 	if (esquerda() < 0)
 		velocidade.x = getvelocidadebola();
+	// Não deixa a bola chegar ao limite direito do ecrã
 	else if (direita() > larguraJanela)
 		velocidade.x = -getvelocidadebola();
-
+	// Não deixa a bola chegar ao limite superior do ecrã
 	if (cima() < 0)
 		velocidade.y = getvelocidadebola();
+	/* Ao chegar ao limite inferior do ecrã
+	   acaba o jogo */
 	else if (baixo() > alturaJanela)
 	{
 		fimjogo = true;

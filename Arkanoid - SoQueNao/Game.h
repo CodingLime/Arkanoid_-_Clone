@@ -14,18 +14,17 @@ public:
 	//altura e largura da janela, vai buscar resolucao do monitor a ser usado
 	unsigned int larguraJanela = VideoMode::getDesktopMode().width;
 	unsigned int alturaJanela = VideoMode::getDesktopMode().height;
-	//using FrameTime = float;
-	
+
 	//faz render da janela do jogo, define altura, largura, nome e stilo da janela
 	RenderWindow window{ { larguraJanela, alturaJanela }, "Arkanoid - #SQN", Style::Fullscreen };
-	//variaveis usadas por causa da libraria SFML
+	//variaveis usadas por causa da Biblioteca SFML
 	FrameTime lastFt{ 0.f }, currentSlice{ 0.f };
 	
-	//variavel usada para controlar
+	//variavel usada para controlar o estado de execução do jogo
 	bool executando = true;
 
 	Game();
-	// falta destrutor
+	~Game();
 
 	void menu();
 	void correr(bool bot);
@@ -47,9 +46,6 @@ private:
 	void testeColisao(Barra& mbarra, Bola& mbola);
 
 	bool testeColisao(Tijolo& mTijolo, Bola& mbola, vector<powerup>& mpowerup);
-
-	void testeColisao(Barra& mbarra, powerup& mpower);
-
 
 	bool testeColisao(powerup & mpowerup, Barra & mbarra);
 	template<class T1, class T2>

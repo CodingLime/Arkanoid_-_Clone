@@ -1,15 +1,8 @@
 #include "powerup.h"
 
-
-void powerup::usarPower()
-{
-
-}
-
 void powerup::update(FrameTime mFT)
 {
 	forma_bola.move(velocidade * mFT);
-
 }
 
 void powerup::setposition(float mX, float mY)
@@ -23,15 +16,9 @@ void powerup::setVelocidadeP(float x, float y)
 	velocidade.y = y;
 }
 
-void powerup::randCor()
-{
-	int i = rand() % 2;
-	forma_bola.setFillColor((i == 0) ? Color::Yellow : Color::Green);
-}
-
 int powerup::getScore()
 {
-		return -5;
+	return -5;
 }
 
 powerup::powerup(float mX, float mY)
