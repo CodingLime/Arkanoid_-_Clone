@@ -32,8 +32,8 @@ or [@tenico] .
 
 [//]: # (Links used in the text)
 
-[SFML]: <http://www.sfml-dev.org/>
-[SFML Tutorials]: <http://www.sfml-dev.org/tutorials>
-[Visual Studio Community]: <https://www.visualstudio.com/vs/community/>
-[@CodingLime]: <www.twitter.com/codinglime>
-[@tenico]: <www.twitter.com/tenico_david>
+[SFML]: http://www.sfml-dev.org/
+[SFML Tutorials]: http://www.sfml-dev.org/tutorials
+[Visual Studio Community]: https://www.visualstudio.com/vs/community/
+[@CodingLime]: www.twitter.com/codinglime
+[@tenico]: www.twitter.com/tenico_david
