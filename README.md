@@ -26,7 +26,7 @@ Like it's said on the top, it's kinda incomplete, here is the list of what's mis
 
 For any questions, contact me [@CodingLime] on twitter.
 
-[//]: # Links used
+[//]: # (Links used in the text)
 
 [SFML]: <http://www.sfml-dev.org/>
 [SFML Tutorials]: <http://www.sfml-dev.org/tutorials>
