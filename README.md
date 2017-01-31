@@ -1,4 +1,4 @@
-# Arkanoid -- #SQN
+# Arkanoid - #SQN
 This is a working Arkanoid/DxBall Clone project (unfinished, more about it at the end) . 
 
 It's in C++ and uses the [SFML](http://www.sfml-dev.org/) library (Simple and Fast Multimedia Library) to draw the objects (version 2.4) .
