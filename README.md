@@ -27,7 +27,8 @@ Like it's said on the top, it's kinda incomplete, here is the list of what's mis
 * Verify everything that is allocated and de-allocate respectively (some missing)
 * Clean the code itself at the end
 
-For any questions, contact me [@CodingLime] on twitter.
+For any questions, contact me [@CodingLime] on twitter
+or [@tenico] .
 
 [//]: # (Links used in the text)
 
@@ -35,4 +36,4 @@ For any questions, contact me [@CodingLime] on twitter.
 [SFML Tutorials]: <http://www.sfml-dev.org/tutorials>
 [Visual Studio Community]: <https://www.visualstudio.com/vs/community/>
 [@CodingLime]: <www.twitter.com/codinglime>
-[@tenico] : <www.twitter.com/tenico_david>
+[@tenico]: <www.twitter.com/tenico_david>
