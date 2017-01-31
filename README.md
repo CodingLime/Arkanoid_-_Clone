@@ -1,9 +1,12 @@
 # Arkanoid -- #SQN
 This is a working Arkanoid/DxBall Clone project (unfinished, more about it at the end) . 
+
 It's in C++ and uses the [SFML] library (Simple and Fast Multimedia Library) to draw the objects (version 2.4) .
 
 How to get started with SFML: [SFML Tutorials] .
+
 [Visual Studio Community] was used for this project, and we recommend it (it's free) .
+
 The code itself has comments, but are all in Portuguese (Portugal), that will be changed in the future(maybe) .
 ***
 
